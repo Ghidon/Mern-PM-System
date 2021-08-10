@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { register, autoLogin } from "./UserFunctions";
 
 const initialState = {
   first_name: "",
@@ -84,26 +85,28 @@ export default class Register extends Component {
         email: this.state.email,
         password: this.state.password,
       };
-      console.log(newUser);
+      // console.log(newUser);
 
-      //   register(
-      //     newUser,
-      //     this.showErrorMessage.bind(this),
-      //     this.hideErrorMessage.bind(this)
-      //   ).then((res) => {
-      //     if (res === undefined) {
-      //       console.log("error: Registration failed");
-      //     } else {
-      //       const user = {
-      //         email: this.state.email,
-      //         password: this.state.password,
-      //       };
-      //       autoLogin(user).then((res) => {
-      //         this.props.history.push(`/profile`);
-      //       });
-      //     }
-      //   });
-      // this.setState(initialState);
+      register(
+        newUser,
+        this.showErrorMessage.bind(this),
+        this.hideErrorMessage.bind(this)
+      ).then((res) => {
+        if (res === undefined) {
+          console.log("error: Registration failed");
+        } else {
+          const user = {
+            email: res.data.email,
+            password: res.data.password,
+          };
+          console.log(user);
+          autoLogin(user).then((res) => {
+            this.props.history.push(`/home`);
+          });
+        }
+      });
+
+      this.setState(initialState);
     }
   }
 

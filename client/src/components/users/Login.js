@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { login } from "./UserFunctions";
 import { NavLink } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
@@ -44,17 +46,18 @@ export default class Login extends Component {
     };
     console.log(user);
 
-    // login(
-    //   user,
-    //   this.showErrorMessage.bind(this),
-    //   this.hideErrorMessage.bind(this)
-    // ).then((res) => {
-    //   if (res) {
-    //     this.props.history.push(`/profile`);
-    //   } else {
-    //     console.log("error: Login Failed");
-    //   }
-    // });
+    login(
+      user,
+      this.showErrorMessage.bind(this),
+      this.hideErrorMessage.bind(this)
+    ).then((res) => {
+      if (res) {
+        this.props.history.push(`/home`);
+      } else {
+        console.log("error: Login Failed");
+        console.log(res);
+      }
+    });
   }
 
   render() {
@@ -111,3 +114,4 @@ export default class Login extends Component {
     );
   }
 }
+export default withRouter(Login);
