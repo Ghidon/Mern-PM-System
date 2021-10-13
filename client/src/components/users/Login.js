@@ -67,6 +67,7 @@ class Login extends Component {
       <div className="container">
         <div className="row">
           <div className="col-md-6 mt-5 mx-auto">
+            <p>Da riformattare con hooks</p>
             <form noValidate onSubmit={this.onSubmit}>
               <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
               <div className="form-group">
@@ -81,7 +82,7 @@ class Login extends Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="password">Password </label>
+                <label htmlFor="password">Password</label>
                 <input
                   type="password"
                   className="form-control"
@@ -105,8 +106,8 @@ class Login extends Component {
               </div> //May add a link to Login page from here if error
             )}
             <p>
-              If you don't have an account,
-              <NavLink to="/register">Register</NavLink>
+              If you don't have an account, please
+              <NavLink to="/register"> Register</NavLink>
             </p>
           </div>
         </div>

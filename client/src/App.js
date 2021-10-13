@@ -1,22 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 // We use Route in order to define the different routes of our application
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+
+// We import an action
+import { getProjects } from "./actions/projects";
 
 // We import all the components we need in our app
 import Navbar from "./components/Navbar";
-import NewProject from "./components/NewProject";
+import Form from "./components/ProjectForm/Form";
 import NewUser from "./components/NewUser";
-import ViewProjects from "./components/ViewProjects";
+import Projects from "./components/Projects/Projects";
 import ViewArchived from "./components/ViewArchived";
 import Home from "./components/Home";
 import Login from "./components/users/Login";
 import Register from "./components/users/Register";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProjects());
+  }, [dispatch]);
   return (
-    <Router>
+    <BrowserRouter>
       <div className="container-fluid">
         <Navbar />
 
@@ -36,21 +45,11 @@ const App = () => {
                   to="/create/user"
                   role="tab"
                   aria-controls="v-pills-home"
-                  aria-selected="true"
-                >
-                  Register new User
-                </NavLink>
-                <NavLink
-                  className="nav-link"
-                  id="v-pills-profile-tab"
-                  data-toggle="pill"
-                  to="/create/project"
-                  role="tab"
-                  aria-controls="v-pills-profile"
                   aria-selected="false"
                 >
-                  Create New Project
+                  Add new User
                 </NavLink>
+
                 <NavLink
                   className="nav-link"
                   id="v-pills-messages-tab"
@@ -60,7 +59,7 @@ const App = () => {
                   aria-controls="v-pills-messages"
                   aria-selected="false"
                 >
-                  Current Projects
+                  Active Projects
                 </NavLink>
                 <NavLink
                   className="nav-link"
@@ -90,10 +89,10 @@ const App = () => {
                   <NewUser />
                 </Route>
                 <Route exact path="/create/project">
-                  <NewProject />
+                  <Form />
                 </Route>
                 <Route exact path="/read/projects">
-                  <ViewProjects />
+                  <Projects />
                 </Route>
                 <Route exact path="/read/archived">
                   <ViewArchived />
@@ -103,7 +102,7 @@ const App = () => {
           </div>
         </div>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 };
 

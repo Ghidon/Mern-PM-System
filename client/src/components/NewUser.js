@@ -1,7 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class NewUser extends Component {
-  render() {
-    return <div>Create user</div>;
-  }
-}
+const NewUser = () => {
+  return (
+    <div>
+      Create user (Admin Only).
+      <p>Adds a new user and permissions to open/handle tasks/projects/etc</p>
+      <p>Da non confondere con Register new User</p>
+    </div>
+  );
+};
+
+export default NewUser;
