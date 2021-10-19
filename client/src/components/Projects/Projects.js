@@ -1,18 +1,37 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProjects } from "../../actions/projects";
 
 import Form from "../ProjectForm/Form";
-import Project from "./Project/Project.js";
+import ProjectPreview from "./ProjectPreview/ProjectPreview.js";
 
-const Projects = () => {
+const Projects = ({ setProjectId }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(getProjects());
+    })();
+  }, [dispatch]);
   const projects = useSelector((state) => state.projects);
 
-  console.log(projects);
   return (
     <div>
       <h1> Active projects </h1>
       <Form />
-      <Project />
+      {!projects.length ? (
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      ) : (
+        <div className="d-flex flex-wrap">
+          {projects.map((project) => (
+            <div className="d-flex   align-self-stretch p-2" key={project._id}>
+              <ProjectPreview project={project} setProjectId={setProjectId} />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

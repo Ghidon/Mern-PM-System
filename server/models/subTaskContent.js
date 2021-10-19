@@ -1,9 +1,12 @@
 import mongoose from "mongoose";
 
 const subTaskSchema = mongoose.Schema({
+  projectId: Number,
+  taskId: Number,
+  creator: String,
   title: String,
   description: String,
-  creator: String,
+  active: Boolean,
   selectedFile: String,
   createdAt: {
     type: Date,

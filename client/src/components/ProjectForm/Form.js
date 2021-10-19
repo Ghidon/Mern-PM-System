@@ -8,6 +8,7 @@ const Form = () => {
     creator: "",
     title: "",
     description: "",
+    active: true,
     selectedFile: "",
   });
   const dispatch = useDispatch();
@@ -17,8 +18,6 @@ const Form = () => {
 
     dispatch(createProject(projectData));
   };
-
-  const clear = () => {};
 
   return (
     <div className="input-group input-group-sm mb-3">
@@ -86,10 +85,12 @@ const Form = () => {
           <button type="submit" className="btn btn-primary">
             Create New Project
           </button>
+        </div>
+        {/* <div>
           <button onClick={clear} className="btn btn-link">
             Clear
           </button>
-        </div>
+        </div> */}
       </form>
     </div>
   );

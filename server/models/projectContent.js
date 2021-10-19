@@ -4,6 +4,7 @@ const projectSchema = mongoose.Schema({
   creator: String,
   title: String,
   description: String,
+  active: Boolean,
   selectedFile: String,
   createdAt: {
     type: Date,

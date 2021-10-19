@@ -1,6 +1,17 @@
 import axios from "axios";
 
-const url = "http://localhost:5000/projects";
+const projectsUrl = "http://localhost:5000/projects";
+const tasksUrl = "http://localhost:5000/tasks";
 
-export const fetchProjects = () => axios.get(url);
-export const createProject = (newProject) => axios.post(url, newProject);
+//Projects requests
+export const fetchProjects = () => axios.get(projectsUrl);
+export const createProject = (newProject) =>
+  axios.post(projectsUrl, newProject);
+export const updateProject = (id, updatedProject) =>
+  axios.patch(`${projectsUrl}/${id}`, updatedProject);
+export const getProject = (id) => axios.get(`${projectsUrl}/${id}`);
+export const deleteProject = (id) => axios.delete(`${projectsUrl}/${id}`);
+
+//Tasks requests
+export const fetchTasks = () => axios.get(tasksUrl);
+export const createTask = (newTask) => axios.post(tasksUrl, newTask);

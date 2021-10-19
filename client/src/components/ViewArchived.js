@@ -8,10 +8,10 @@ const ViewArchived = () => {
         This page show only projects that have been archived once completed or
         closed for any reason.
       </p>
-      <text>
+      <span>
         Projects here are only for historycal reference, and consultation, they
         should not be allowed to be reopened.
-      </text>
+      </span>
     </div>
   );
 };

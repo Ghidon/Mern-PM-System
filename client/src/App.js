@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 // We use Route in order to define the different routes of our application
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-// We import an action
-import { getProjects } from "./actions/projects";
-
 // We import all the components we need in our app
 import Navbar from "./components/Navbar";
-import Form from "./components/ProjectForm/Form";
+import Project from "./components/Projects/Project/Project";
 import NewUser from "./components/NewUser";
 import Projects from "./components/Projects/Projects";
 import ViewArchived from "./components/ViewArchived";
@@ -19,19 +15,15 @@ import Login from "./components/users/Login";
 import Register from "./components/users/Register";
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getProjects());
-  }, [dispatch]);
+  const [projectId, setProjectId] = useState(null);
   return (
     <BrowserRouter>
-      <div className="container-fluid">
+      <div className="">
         <Navbar />
 
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-3">
+          <div className="row col-12">
+            <div className="col-auto">
               <div
                 className="nav flex-column nav-pills"
                 id="v-pills-tab"
@@ -74,7 +66,7 @@ const App = () => {
                 </NavLink>
               </div>
             </div>
-            <div className="col-9">
+            <div className="col-auto">
               <div className="container-fluid">
                 <Route exact path="/">
                   <Login />
@@ -88,11 +80,11 @@ const App = () => {
                 <Route exact path="/create/user">
                   <NewUser />
                 </Route>
-                <Route exact path="/create/project">
-                  <Form />
+                <Route exact path="/view/project/:id">
+                  <Project />
                 </Route>
                 <Route exact path="/read/projects">
-                  <Projects />
+                  <Projects setProjectId={setProjectId} />
                 </Route>
                 <Route exact path="/read/archived">
                   <ViewArchived />
