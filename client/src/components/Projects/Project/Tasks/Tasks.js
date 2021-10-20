@@ -19,10 +19,9 @@ const Tasks = ({ projectId }) => {
 
   return (
     <div className="d-flex flex-wrap d-flex justify-content-between">
-      <div>
-        <Form projectId={projectId} />
-      </div>
-      <div className="col-auto">
+      <Form projectId={projectId} />
+
+      <div className="col col-md-9 ps-2 pe-2">
         <table className="table">
           <thead>
             <tr>
@@ -33,7 +32,7 @@ const Tasks = ({ projectId }) => {
             </tr>
           </thead>
           {!tasks.length ? (
-            <div className="col-9">
+            <div className="col col-md-9">
               <div className="spinner-border text-primary" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>

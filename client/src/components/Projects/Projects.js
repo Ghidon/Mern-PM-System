@@ -26,7 +26,10 @@ const Projects = ({ setProjectId }) => {
       ) : (
         <div className="d-flex flex-wrap">
           {projects.map((project) => (
-            <div className="d-flex   align-self-stretch p-2" key={project._id}>
+            <div
+              className="d-flex   align-self-stretch me-3 mb-3"
+              key={project._id}
+            >
               <ProjectPreview project={project} setProjectId={setProjectId} />
             </div>
           ))}

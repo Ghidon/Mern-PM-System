@@ -113,7 +113,7 @@ const Project = () => {
               </div>
             </fieldset>
           </form>
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between mb-3">
             <div>
               <button
                 className="btn btn-secondary"

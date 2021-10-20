@@ -19,7 +19,7 @@ const Form = ({ projectId }) => {
   };
 
   return (
-    <div className="input-group input-group-sm mb-3">
+    <div className="col col-md-3 input-group-sm mb-3">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <div>
           <label htmlFor="inputCreator" className="form-label-sm">

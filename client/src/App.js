@@ -22,8 +22,8 @@ const App = () => {
         <Navbar />
 
         <div className="container-fluid">
-          <div className="row col-12">
-            <div className="col-auto">
+          <div className="row">
+            <div className="col-12 col-sm-4 col-md-3 col-xl-2">
               <div
                 className="nav flex-column nav-pills"
                 id="v-pills-tab"
@@ -66,30 +66,28 @@ const App = () => {
                 </NavLink>
               </div>
             </div>
-            <div className="col-auto">
-              <div className="container-fluid">
-                <Route exact path="/">
-                  <Login />
-                </Route>
-                <Route exact path="/register">
-                  <Register />
-                </Route>
-                <Route exact path="/home">
-                  <Home />
-                </Route>
-                <Route exact path="/create/user">
-                  <NewUser />
-                </Route>
-                <Route exact path="/view/project/:id">
-                  <Project />
-                </Route>
-                <Route exact path="/read/projects">
-                  <Projects setProjectId={setProjectId} />
-                </Route>
-                <Route exact path="/read/archived">
-                  <ViewArchived />
-                </Route>
-              </div>
+            <div className="col-12 col-sm-7 col-md-6 col-xl-9">
+              <Route exact path="/">
+                <Login />
+              </Route>
+              <Route exact path="/register">
+                <Register />
+              </Route>
+              <Route exact path="/home">
+                <Home />
+              </Route>
+              <Route exact path="/create/user">
+                <NewUser />
+              </Route>
+              <Route exact path="/view/project/:id">
+                <Project />
+              </Route>
+              <Route exact path="/read/projects">
+                <Projects setProjectId={setProjectId} />
+              </Route>
+              <Route exact path="/read/archived">
+                <ViewArchived />
+              </Route>
             </div>
           </div>
         </div>

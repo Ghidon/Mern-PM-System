@@ -7,7 +7,7 @@ import "./Styles.css";
 const Project = ({ project, setProjectId }) => {
   const history = useHistory();
   return (
-    <div className="card" style={{ width: "15rem" }}>
+    <div className="card" style={{ width: "22rem" }}>
       {!project.selectedFile ? (
         <div className="header">{project.creator[0]}</div>
       ) : (
