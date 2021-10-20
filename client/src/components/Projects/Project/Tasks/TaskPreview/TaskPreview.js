@@ -10,6 +10,17 @@ const TaskPreview = ({ task }) => {
       <td>{task.description}</td>
       <td>{task.creator}</td>
       <td>{moment(task.createdAt).fromNow()}</td>
+      {/* <td>
+        <button
+          className="btn btn-primary mt-auto align-self-start"
+          onClick={() => {
+            let path = `/view/task/${task._id}`;
+            history.push(path);
+          }}
+        >
+          open
+        </button>
+      </td> */}
     </>
   );
 };

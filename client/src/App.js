@@ -66,7 +66,7 @@ const App = () => {
                 </NavLink>
               </div>
             </div>
-            <div className="col-12 col-sm-7 col-md-6 col-xl-9">
+            <div className="col-12 col-sm-7 col-md-6 col-lg-9">
               <Route exact path="/">
                 <Login />
               </Route>

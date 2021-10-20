@@ -21,8 +21,8 @@ const Tasks = ({ projectId }) => {
     <div className="d-flex flex-wrap d-flex justify-content-between">
       <Form projectId={projectId} />
 
-      <div className="col col-md-9 ps-2 pe-2">
-        <table className="table">
+      <div className="col col-sm-12 col-md-12 col-lg-7 col-xl-8 ps-2 pe-2">
+        <table className="table table-light table-striped mt-4">
           <thead>
             <tr>
               <th scope="col">Title</th>
