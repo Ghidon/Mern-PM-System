@@ -1,26 +1,22 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import moment from "moment";
 
-const TaskPreview = ({ task }) => {
-  const history = useHistory();
+const TaskPreview = ({ task, projectId }) => {
   return (
     <>
-      <td>{task.title}</td>
+      <td className="col-2">{task.title}</td>
       <td>{task.description}</td>
       <td>{task.creator}</td>
       <td>{moment(task.createdAt).fromNow()}</td>
-      {/* <td>
-        <button
-          className="btn btn-primary mt-auto align-self-start"
-          onClick={() => {
-            let path = `/view/task/${task._id}`;
-            history.push(path);
-          }}
+      <td>
+        <Link
+          className=""
+          to={{ pathname: `/view/project/${projectId}/task/${task._id}` }}
         >
-          open
-        </button>
-      </td> */}
+          ...
+        </Link>
+      </td>
     </>
   );
 };

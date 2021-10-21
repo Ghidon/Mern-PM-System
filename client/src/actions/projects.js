@@ -38,7 +38,7 @@ export const getProject = (id) => async (dispatch) => {
   try {
     const { data } = await api.getProject(id);
 
-    dispatch({ type: "FETCH_ONE", payload: data });
+    dispatch({ type: "FETCH_ONE_PROJECT", payload: data });
   } catch (error) {
     console.log(error.message);
   }

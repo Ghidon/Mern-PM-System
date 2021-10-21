@@ -29,23 +29,24 @@ const Tasks = ({ projectId }) => {
               <th scope="col">Description</th>
               <th scope="col">Creator</th>
               <th scope="col">Created</th>
+              <th scope="col"></th>
             </tr>
           </thead>
-          {!tasks.length ? (
+          {/* {!tasks.length ? (
             <div className="col col-md-9">
               <div className="spinner-border text-primary" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
-          ) : (
-            <tbody>
-              {ProjectTasks.map((task) => (
-                <tr key={task._id}>
-                  <TaskPreview task={task} />
-                </tr>
-              ))}
-            </tbody>
-          )}
+          ) : ( */}
+          <tbody>
+            {ProjectTasks.map((task) => (
+              <tr key={task._id}>
+                <TaskPreview task={task} projectId={projectId} />
+              </tr>
+            ))}
+          </tbody>
+          {/* )} */}
         </table>
       </div>
     </div>

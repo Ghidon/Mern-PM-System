@@ -13,6 +13,7 @@ import ViewArchived from "./components/ViewArchived";
 import Home from "./components/Home";
 import Login from "./components/users/Login";
 import Register from "./components/users/Register";
+import Task from "./components/Projects/Project/Tasks/Task/Task";
 
 const App = () => {
   const [projectId, setProjectId] = useState(null);
@@ -79,8 +80,11 @@ const App = () => {
               <Route exact path="/create/user">
                 <NewUser />
               </Route>
-              <Route exact path="/view/project/:id">
+              <Route exact path="/view/project/:projectId">
                 <Project />
+              </Route>
+              <Route exact path="/view/project/:projectId/task/:taskId">
+                <Task />
               </Route>
               <Route exact path="/read/projects">
                 <Projects setProjectId={setProjectId} />

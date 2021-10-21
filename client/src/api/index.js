@@ -15,3 +15,7 @@ export const deleteProject = (id) => axios.delete(`${projectsUrl}/${id}`);
 //Tasks requests
 export const fetchTasks = () => axios.get(tasksUrl);
 export const createTask = (newTask) => axios.post(tasksUrl, newTask);
+export const updateTask = (id, updatedTask) =>
+  axios.patch(`${tasksUrl}/${id}`, updatedTask);
+export const getTask = (id) => axios.get(`${tasksUrl}/${id}`);
+export const deleteTask = (id) => axios.delete(`${tasksUrl}/${id}`);

@@ -16,6 +16,14 @@ const Form = ({ projectId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createTask(taskData));
+    setTaskData({
+      projectId: projectId,
+      creator: "",
+      title: "",
+      description: "",
+      active: true,
+      selectedFile: "",
+    });
   };
 
   return (

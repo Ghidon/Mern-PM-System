@@ -17,6 +17,13 @@ const Form = () => {
     e.preventDefault();
 
     dispatch(createProject(projectData));
+    setProjectData({
+      creator: "",
+      title: "",
+      description: "",
+      active: true,
+      selectedFile: "",
+    });
   };
 
   return (

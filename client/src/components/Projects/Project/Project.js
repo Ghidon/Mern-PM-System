@@ -22,7 +22,6 @@ const Project = () => {
 
   const history = useHistory();
   const projects = useSelector((state) => state.projects);
-  console.log(projects);
 
   useEffect(() => {
     (async () => {
@@ -30,12 +29,14 @@ const Project = () => {
     })();
   }, [dispatch]);
 
-  let { id } = useParams();
+  let { projectId } = useParams();
 
-  const project = projects.find((x) => x._id === id);
+  const project = projects.find((x) => x._id === projectId);
 
   const handleSubmit = () => {
-    dispatch(updateProject(id, projectData));
+    dispatch(updateProject(projectId, projectData));
+    document.getElementById("projectForm").disabled = true;
+    document.getElementById("saveButton").classList.add("invisible");
   };
 
   return (
@@ -141,7 +142,7 @@ const Project = () => {
             <button
               className="btn btn-danger"
               onClick={() => {
-                dispatch(deleteProject(id));
+                dispatch(deleteProject(projectId));
                 history.push("/read/projects");
               }}
             >
@@ -150,7 +151,7 @@ const Project = () => {
           </div>
         </div>
       )}
-      <Tasks projectId={id} />
+      <Tasks projectId={projectId} />
     </div>
   );
 };
