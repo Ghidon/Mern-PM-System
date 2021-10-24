@@ -1,18 +1,9 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getProjects } from "../../actions/projects";
-
+import React from "react";
+import { useSelector } from "react-redux";
 import Form from "../ProjectForm/Form";
 import ProjectPreview from "./ProjectPreview/ProjectPreview.js";
 
-const Projects = ({ setProjectId }) => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    (async () => {
-      await dispatch(getProjects());
-    })();
-  }, [dispatch]);
+const Projects = () => {
   const projects = useSelector((state) => state.projects);
 
   return (
@@ -30,7 +21,7 @@ const Projects = ({ setProjectId }) => {
               className="d-flex   align-self-stretch me-3 mb-3"
               key={project._id}
             >
-              <ProjectPreview project={project} setProjectId={setProjectId} />
+              <ProjectPreview project={project} />
             </div>
           ))}
         </div>

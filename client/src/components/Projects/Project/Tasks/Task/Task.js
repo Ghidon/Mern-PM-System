@@ -4,36 +4,47 @@ import { useParams, useHistory } from "react-router-dom";
 import FileBase from "react-file-base64";
 
 // import SubTasks from "./SubTasks/SubTasks.js";
-import { getTasks, deleteTask, updateTask } from "../../../../../actions/tasks";
+import { deleteTask, updateTask } from "../../../../../actions/tasks";
 
 const Task = () => {
+  let { taskId } = useParams();
+  let { projectId } = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const tasks = useSelector((state) => state.tasks);
+  const task = tasks.find((x) => x._id === taskId);
+
   const [taskData, setTaskData] = useState({
     creator: "",
     title: "",
     description: "",
-    active: "yes",
+    active: true,
+    status: "",
     selectedFile: "",
   });
-  const dispatch = useDispatch();
-
-  const history = useHistory();
-  const tasks = useSelector((state) => state.tasks);
 
   useEffect(() => {
-    (async () => {
-      await dispatch(getTasks()).then(tasks);
-    })();
-  }, [dispatch]);
-
-  let { taskId } = useParams();
-  let { projectId } = useParams();
-
-  const task = tasks.find((x) => x._id === taskId);
+    if (tasks.length) {
+      setTaskData({
+        creator: task.creator,
+        title: task.title,
+        description: task.description,
+        active: task.active,
+        status: task.status,
+        selectedFile: task.selectedFile,
+      });
+    }
+  }, [tasks.length]);
 
   const handleSubmit = () => {
     dispatch(updateTask(taskId, taskData));
     document.getElementById("taskForm").disabled = true;
-    document.getElementById("saveButton").classList.add("invisible");
+    document.getElementById("saveButton").classList.add("disabled");
+  };
+
+  const setNewStatus = (e) => {
+    setTaskData({ ...taskData, status: e.target.value });
+    dispatch(updateTask(taskId, { ...taskData, status: e.target.value }));
   };
 
   return (
@@ -54,7 +65,6 @@ const Task = () => {
                   type="text"
                   className="form-control form-control"
                   name="taskCreator"
-                  placeholder={task.creator}
                   value={taskData.creator}
                   onChange={(e) =>
                     setTaskData({ ...taskData, creator: e.target.value })
@@ -69,7 +79,6 @@ const Task = () => {
                   type="text"
                   className="form-control form-control"
                   name="taskTitle"
-                  placeholder={task.title}
                   value={taskData.title}
                   onChange={(e) =>
                     setTaskData({ ...taskData, title: e.target.value })
@@ -84,7 +93,6 @@ const Task = () => {
                   type="text"
                   className="form-control form-control"
                   name="taskDescription"
-                  placeholder={task.description}
                   value={taskData.description}
                   onChange={(e) =>
                     setTaskData({
@@ -112,14 +120,14 @@ const Task = () => {
             </fieldset>
           </form>
           <div className="d-flex justify-content-between mb-3">
-            <div>
+            <div className="d-flex justify-content-between mb-3">
               <button
                 className="btn btn-secondary"
                 onClick={() => {
                   document.getElementById("taskForm").disabled = false;
                   document
                     .getElementById("saveButton")
-                    .classList.remove("invisible");
+                    .classList.remove("disabled");
                 }}
               >
                 Edit
@@ -131,20 +139,51 @@ const Task = () => {
                 onClick={() => {
                   handleSubmit();
                 }}
-                className="btn btn-primary ms-3 invisible"
+                className="btn btn-primary ms-3 disabled"
               >
                 Save
               </button>
+              <div className="input-group ms-3">
+                <label
+                  className="input-group-text"
+                  htmlFor="inputGroupSelect01"
+                >
+                  status
+                </label>
+                <select
+                  className="form-select"
+                  id="inputGroupSelect01"
+                  onChange={(e) => setNewStatus(e)}
+                >
+                  <option value="default" selected>
+                    {taskData.status}
+                  </option>
+                  {taskData.status !== "To do" ? (
+                    <option value="To do">To do</option>
+                  ) : null}
+                  {taskData.status !== "In progress" ? (
+                    <option value="In progress">In progress</option>
+                  ) : null}
+                  {taskData.status !== "Blocked" ? (
+                    <option value="Blocked">Blocked</option>
+                  ) : null}
+                  {taskData.status !== "Done" ? (
+                    <option value="Done">Done</option>
+                  ) : null}
+                </select>
+              </div>
             </div>
-            <button
-              className="btn btn-danger"
-              onClick={() => {
-                dispatch(deleteTask(taskId));
-                history.push(`/view/project/${projectId}`);
-              }}
-            >
-              Delete Task
-            </button>
+            <div>
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  dispatch(deleteTask(taskId));
+                  history.push(`/view/project/${projectId}`);
+                }}
+              >
+                Delete Task
+              </button>
+            </div>
           </div>
         </div>
       )}

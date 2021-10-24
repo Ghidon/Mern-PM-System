@@ -4,7 +4,7 @@ import moment from "moment";
 
 import "./Styles.css";
 
-const Project = ({ project, setProjectId }) => {
+const Project = ({ project }) => {
   const history = useHistory();
   return (
     <div className="card" style={{ width: "22rem" }}>
@@ -25,7 +25,6 @@ const Project = ({ project, setProjectId }) => {
         <button
           className="btn btn-primary mt-auto align-self-start"
           onClick={() => {
-            setProjectId(project._id);
             let path = `/view/project/${project._id}`;
             history.push(path);
           }}

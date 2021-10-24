@@ -6,6 +6,7 @@ const taskSchema = mongoose.Schema({
   title: String,
   description: String,
   active: Boolean,
+  status: String,
   selectedFile: String,
   createdAt: {
     type: Date,

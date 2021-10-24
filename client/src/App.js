@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // We use Route in order to define the different routes of our application
 import { BrowserRouter, Switch, Route } from "react-router-dom";
@@ -15,8 +17,16 @@ import Login from "./components/users/Login";
 import Register from "./components/users/Register";
 import Task from "./components/Projects/Project/Tasks/Task/Task";
 
+import { getTasks } from "./actions/tasks";
+import { getProjects } from "./actions/projects";
+
 const App = () => {
   const [projectId, setProjectId] = useState(null);
+
+  const dispatch = useDispatch();
+  dispatch(getProjects());
+  dispatch(getTasks());
+
   return (
     <BrowserRouter>
       <div className="">
@@ -87,7 +97,7 @@ const App = () => {
                 <Task />
               </Route>
               <Route exact path="/read/projects">
-                <Projects setProjectId={setProjectId} />
+                <Projects />
               </Route>
               <Route exact path="/read/archived">
                 <ViewArchived />

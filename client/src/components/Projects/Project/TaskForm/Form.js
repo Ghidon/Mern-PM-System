@@ -9,6 +9,7 @@ const Form = ({ projectId }) => {
     title: "",
     description: "",
     active: true,
+    status: "To do",
     selectedFile: "",
   });
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Form = ({ projectId }) => {
       title: "",
       description: "",
       active: true,
+      status: "To do",
       selectedFile: "",
     });
   };

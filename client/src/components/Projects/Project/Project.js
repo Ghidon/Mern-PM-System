@@ -4,34 +4,36 @@ import { useParams, useHistory } from "react-router-dom";
 import FileBase from "react-file-base64";
 
 import Tasks from "./Tasks/Tasks.js";
-import {
-  getProjects,
-  deleteProject,
-  updateProject,
-} from "../../../actions/projects";
+import { deleteProject, updateProject } from "../../../actions/projects";
 
 const Project = () => {
+  let { projectId } = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const projects = useSelector((state) => state.projects);
+  const project = projects.find((x) => x._id === projectId);
+
   const [projectData, setProjectData] = useState({
     creator: "",
     title: "",
     description: "",
-    active: "yes",
+    active: true,
+    status: "",
     selectedFile: "",
   });
-  const dispatch = useDispatch();
-
-  const history = useHistory();
-  const projects = useSelector((state) => state.projects);
 
   useEffect(() => {
-    (async () => {
-      await dispatch(getProjects()).then(projects);
-    })();
-  }, [dispatch]);
-
-  let { projectId } = useParams();
-
-  const project = projects.find((x) => x._id === projectId);
+    if (projects.length) {
+      setProjectData({
+        creator: project.creator,
+        title: project.title,
+        description: project.description,
+        active: project.active,
+        status: project.status,
+        selectedFile: project.selectedFile,
+      });
+    }
+  }, [projects.length]);
 
   const handleSubmit = () => {
     dispatch(updateProject(projectId, projectData));
@@ -57,7 +59,6 @@ const Project = () => {
                   type="text"
                   className="form-control form-control"
                   name="projectCreator"
-                  placeholder={project.creator}
                   value={projectData.creator}
                   onChange={(e) =>
                     setProjectData({ ...projectData, creator: e.target.value })
@@ -72,7 +73,6 @@ const Project = () => {
                   type="text"
                   className="form-control form-control"
                   name="projectTitle"
-                  placeholder={project.title}
                   value={projectData.title}
                   onChange={(e) =>
                     setProjectData({ ...projectData, title: e.target.value })
@@ -87,7 +87,6 @@ const Project = () => {
                   type="text"
                   className="form-control form-control"
                   name="projectDescription"
-                  placeholder={project.description}
                   value={projectData.description}
                   onChange={(e) =>
                     setProjectData({
