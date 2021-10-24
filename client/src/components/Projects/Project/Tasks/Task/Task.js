@@ -119,30 +119,32 @@ const Task = () => {
               </div>
             </fieldset>
           </form>
-          <div className="d-flex justify-content-between mb-3">
-            <div className="d-flex justify-content-between mb-3">
-              <button
-                className="btn btn-secondary"
-                onClick={() => {
-                  document.getElementById("taskForm").disabled = false;
-                  document
-                    .getElementById("saveButton")
-                    .classList.remove("disabled");
-                }}
-              >
-                Edit
-              </button>
+          <div className="d-flex justify-content-between flex-wrap mb-3">
+            <div className="d-flex mb-3 col-lg-6 col-xl-5 col-xxl-4">
+              <div className="d-flex ">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    document.getElementById("taskForm").disabled = false;
+                    document
+                      .getElementById("saveButton")
+                      .classList.remove("disabled");
+                  }}
+                >
+                  Edit
+                </button>
 
-              <button
-                type="submit"
-                id="saveButton"
-                onClick={() => {
-                  handleSubmit();
-                }}
-                className="btn btn-primary ms-3 disabled"
-              >
-                Save
-              </button>
+                <button
+                  type="submit"
+                  id="saveButton"
+                  onClick={() => {
+                    handleSubmit();
+                  }}
+                  className="btn btn-primary ms-3 disabled"
+                >
+                  Save
+                </button>
+              </div>
               <div className="input-group ms-3">
                 <label
                   className="input-group-text"
