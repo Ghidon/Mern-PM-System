@@ -55,70 +55,94 @@ const Task = () => {
         </div>
       ) : (
         <div className="d-flex-column">
-          <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <fieldset disabled id="taskForm">
-              <div>
-                <label htmlFor="inputCreator" className="form-label-sm">
-                  Task Creator
-                </label>
-                <input
-                  type="text"
-                  className="form-control form-control"
-                  name="taskCreator"
-                  value={taskData.creator}
-                  onChange={(e) =>
-                    setTaskData({ ...taskData, creator: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="inputTitle" className="form-label-sm">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  className="form-control form-control"
-                  name="taskTitle"
-                  value={taskData.title}
-                  onChange={(e) =>
-                    setTaskData({ ...taskData, title: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="inputDescription" className="form-label-sm">
-                  Description
-                </label>
-                <textarea
-                  type="text"
-                  className="form-control form-control"
-                  name="taskDescription"
-                  value={taskData.description}
-                  onChange={(e) =>
-                    setTaskData({
-                      ...taskData,
-                      description: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="formFileSm" className="form-label-sm">
-                  Select Cover Image
-                </label>
-                <div className="form-control form-control-sm mb-3">
-                  <FileBase
-                    disabled
-                    type="file"
-                    multiple={false}
-                    onDone={({ base64 }) =>
-                      setTaskData({ ...taskData, selectedFile: base64 })
-                    }
-                  />
-                </div>
-              </div>
-            </fieldset>
-          </form>
+          <div className="d-flex justify-content-between flex-wrap">
+            <div className="col-12 me-3">
+              <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                <fieldset disabled id="taskForm">
+                  <div>
+                    <label htmlFor="inputCreator" className="form-label-sm">
+                      Task Creator
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control form-control"
+                      name="taskCreator"
+                      value={taskData.creator}
+                      onChange={(e) =>
+                        setTaskData({ ...taskData, creator: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="inputTitle" className="form-label-sm">
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control form-control"
+                      name="taskTitle"
+                      value={taskData.title}
+                      onChange={(e) =>
+                        setTaskData({ ...taskData, title: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="inputDescription" className="form-label-sm">
+                      Description
+                    </label>
+                    <textarea
+                      type="text"
+                      className="form-control form-control"
+                      name="taskDescription"
+                      value={taskData.description}
+                      onChange={(e) =>
+                        setTaskData({
+                          ...taskData,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="formFileSm" className="form-label-sm">
+                      Select Cover Image
+                    </label>
+                    <div className="form-control form-control-sm mb-3">
+                      <FileBase
+                        disabled
+                        type="file"
+                        multiple={false}
+                        onDone={({ base64 }) =>
+                          setTaskData({ ...taskData, selectedFile: base64 })
+                        }
+                      />
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+            <div className="ms-auto mb-3">
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  dispatch(deleteTask(taskId));
+                  history.push(`/view/project/${projectId}`);
+                }}
+              >
+                Delete Task
+              </button>
+              <button
+                className="btn btn-secondary ms-3"
+                onClick={() => {
+                  history.push(`/view/project/${projectId}`);
+                }}
+              >
+                Back
+              </button>
+            </div>
+          </div>
+
           <div className="d-flex justify-content-between flex-wrap mb-3">
             <div className="d-flex mb-3  col-12 col-sm-12 col-lg-6 col-xl-5 col-xxl-4">
               <div className="d-flex ">
@@ -174,17 +198,6 @@ const Task = () => {
                   ) : null}
                 </select>
               </div>
-            </div>
-            <div>
-              <button
-                className="btn btn-danger"
-                onClick={() => {
-                  dispatch(deleteTask(taskId));
-                  history.push(`/view/project/${projectId}`);
-                }}
-              >
-                Delete Task
-              </button>
             </div>
           </div>
         </div>
