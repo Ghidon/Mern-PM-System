@@ -120,7 +120,7 @@ const Task = () => {
             </fieldset>
           </form>
           <div className="d-flex justify-content-between flex-wrap mb-3">
-            <div className="d-flex mb-3 col-lg-6 col-xl-5 col-xxl-4">
+            <div className="d-flex mb-3  col-12 col-sm-12 col-lg-6 col-xl-5 col-xxl-4">
               <div className="d-flex ">
                 <button
                   className="btn btn-secondary"
