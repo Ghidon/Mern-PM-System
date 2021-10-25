@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -21,8 +21,6 @@ import { getTasks } from "./actions/tasks";
 import { getProjects } from "./actions/projects";
 
 const App = () => {
-  const [projectId, setProjectId] = useState(null);
-
   const dispatch = useDispatch();
   dispatch(getProjects());
   dispatch(getTasks());
@@ -33,7 +31,7 @@ const App = () => {
         <Navbar />
 
         <div className="container-fluid">
-          <div className="row">
+          <div className="row mt-3">
             <div className="col-12 col-sm-4 col-md-3 col-xl-2">
               <div
                 className="nav flex-column nav-pills"

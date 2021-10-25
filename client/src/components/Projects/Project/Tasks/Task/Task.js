@@ -122,29 +122,7 @@ const Task = () => {
                 </fieldset>
               </form>
             </div>
-            <div className="ms-auto mb-3">
-              <button
-                className="btn btn-danger"
-                onClick={() => {
-                  dispatch(deleteTask(taskId));
-                  history.push(`/view/project/${projectId}`);
-                }}
-              >
-                Delete Task
-              </button>
-              <button
-                className="btn btn-secondary ms-3"
-                onClick={() => {
-                  history.push(`/view/project/${projectId}`);
-                }}
-              >
-                Back
-              </button>
-            </div>
-          </div>
-
-          <div className="d-flex justify-content-between flex-wrap mb-3">
-            <div className="d-flex mb-3  col-12 col-sm-12 col-lg-6 col-xl-5 col-xxl-4">
+            <div className="d-flex justify-content-between flex-wrap mb-3 col-12 col-sm-12 col-lg-6 col-xl-5 col-xxl-4">
               <div className="d-flex ">
                 <button
                   className="btn btn-secondary"
@@ -168,36 +146,56 @@ const Task = () => {
                 >
                   Save
                 </button>
+                <div className="input-group ms-3">
+                  <label
+                    className="input-group-text"
+                    htmlFor="inputGroupSelect01"
+                  >
+                    status
+                  </label>
+                  <select
+                    className="form-select"
+                    id="inputGroupSelect01"
+                    onChange={(e) => setNewStatus(e)}
+                  >
+                    <option value="default" selected>
+                      {taskData.status}
+                    </option>
+                    {taskData.status !== "To do" ? (
+                      <option value="To do">To do</option>
+                    ) : null}
+                    {taskData.status !== "In progress" ? (
+                      <option value="In progress">In progress</option>
+                    ) : null}
+                    {taskData.status !== "Blocked" ? (
+                      <option value="Blocked">Blocked</option>
+                    ) : null}
+                    {taskData.status !== "Done" ? (
+                      <option value="Done">Done</option>
+                    ) : null}
+                  </select>
+                </div>
               </div>
-              <div className="input-group ms-3">
-                <label
-                  className="input-group-text"
-                  htmlFor="inputGroupSelect01"
-                >
-                  status
-                </label>
-                <select
-                  className="form-select"
-                  id="inputGroupSelect01"
-                  onChange={(e) => setNewStatus(e)}
-                >
-                  <option value="default" selected>
-                    {taskData.status}
-                  </option>
-                  {taskData.status !== "To do" ? (
-                    <option value="To do">To do</option>
-                  ) : null}
-                  {taskData.status !== "In progress" ? (
-                    <option value="In progress">In progress</option>
-                  ) : null}
-                  {taskData.status !== "Blocked" ? (
-                    <option value="Blocked">Blocked</option>
-                  ) : null}
-                  {taskData.status !== "Done" ? (
-                    <option value="Done">Done</option>
-                  ) : null}
-                </select>
-              </div>
+            </div>
+
+            <div className="ms-auto mb-3">
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  dispatch(deleteTask(taskId));
+                  history.push(`/view/project/${projectId}`);
+                }}
+              >
+                Delete Task
+              </button>
+              <button
+                className="btn btn-secondary ms-3"
+                onClick={() => {
+                  history.push(`/view/project/${projectId}`);
+                }}
+              >
+                Back
+              </button>
             </div>
           </div>
         </div>

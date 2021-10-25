@@ -18,10 +18,34 @@ const Tasks = ({ projectId }) => {
   const ProjectTasks = tasks.filter((task) => task.projectId === projectId);
 
   return (
-    <div className="d-flex flex-wrap d-flex justify-content-between">
-      <Form projectId={projectId} />
+    <div className="d-flex flex-column">
+      <div className="d-flex">
+        <button
+          type="button"
+          className="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Create a new Task
+        </button>
+      </div>
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-body">
+              <Form projectId={projectId} />
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div className="col col-sm-12 col-md-12 col-lg-7 col-xl-8 ps-2 pe-2">
+      <div className="">
         <table className="table table-light mt-4">
           <thead>
             <tr>
@@ -32,13 +56,6 @@ const Tasks = ({ projectId }) => {
               <th scope="col"></th>
             </tr>
           </thead>
-          {/* {!tasks.length ? (
-            <div className="col col-md-9">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          ) : ( */}
           <tbody>
             {ProjectTasks.map((task) => (
               <tr key={task._id}>
@@ -46,7 +63,6 @@ const Tasks = ({ projectId }) => {
               </tr>
             ))}
           </tbody>
-          {/* )} */}
         </table>
       </div>
     </div>

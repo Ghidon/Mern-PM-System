@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
 import { createTask } from "../../../../actions/tasks";
+
 const Form = ({ projectId }) => {
   const [taskData, setTaskData] = useState({
     projectId: projectId,
@@ -29,7 +30,7 @@ const Form = ({ projectId }) => {
   };
 
   return (
-    <div className="col col-sm-12 col-md-12 col-lg-5 col-xl-4 input-group-sm mb-3">
+    <div className="">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <div>
           <label htmlFor="inputCreator" className="form-label-sm">
@@ -90,9 +91,9 @@ const Form = ({ projectId }) => {
             />
           </div>
         </div>
-        <div>
-          <button type="submit" className="btn btn-primary">
-            Create New Task
+        <div className="d-flex">
+          <button type="submit" className="ms-auto btn btn-primary">
+            Add New Task
           </button>
         </div>
       </form>

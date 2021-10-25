@@ -15,7 +15,6 @@ const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     dispatch(createProject(projectData));
     setProjectData({
       creator: "",
@@ -27,7 +26,7 @@ const Form = () => {
   };
 
   return (
-    <div className="col col-sm-8 col-md-7 col-lg-5 col-xl-3 input-group-sm mb-3">
+    <div className="">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <div>
           <label htmlFor="inputCreator" className="form-label-sm">
@@ -88,9 +87,9 @@ const Form = () => {
             />
           </div>
         </div>
-        <div>
-          <button type="submit" className="btn btn-primary">
-            Create New Project
+        <div className="d-flex">
+          <button type="submit" className="ms-auto btn btn-primary">
+            Add New Project
           </button>
         </div>
       </form>

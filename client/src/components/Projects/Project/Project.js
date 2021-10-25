@@ -38,7 +38,7 @@ const Project = () => {
   const handleSubmit = () => {
     dispatch(updateProject(projectId, projectData));
     document.getElementById("projectForm").disabled = true;
-    document.getElementById("saveButton").classList.add("invisible");
+    document.getElementById("saveButton").classList.add("disabled");
   };
 
   return (
@@ -121,7 +121,7 @@ const Project = () => {
                   document.getElementById("projectForm").disabled = false;
                   document
                     .getElementById("saveButton")
-                    .classList.remove("invisible");
+                    .classList.remove("disabled");
                 }}
               >
                 Edit
@@ -133,7 +133,7 @@ const Project = () => {
                 onClick={() => {
                   handleSubmit();
                 }}
-                className="btn btn-primary ms-3 invisible"
+                className="btn btn-primary ms-3 disabled"
               >
                 Save
               </button>
