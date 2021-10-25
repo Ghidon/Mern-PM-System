@@ -1,10 +1,17 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Form from "../ProjectForm/Form";
 import ProjectPreview from "./ProjectPreview/ProjectPreview.js";
 
+import { getProjects } from "../../actions/projects";
+
 const Projects = () => {
+  const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects);
+
+  useEffect(() => {
+    dispatch(getProjects());
+  });
 
   return (
     <div>

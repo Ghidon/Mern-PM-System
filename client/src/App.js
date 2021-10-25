@@ -28,9 +28,9 @@ const App = () => {
     <BrowserRouter>
       <div className="">
         <Header />
-        <div className="container-fluid">
+        <div className="container">
           <div className="row mt-3">
-            <div className="col-12 col-sm-7 col-md-6 col-lg-9">
+            <div className="col-12">
               <Route exact path="/">
                 <Login />
               </Route>
