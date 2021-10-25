@@ -45,8 +45,9 @@ const Tasks = ({ projectId }) => {
         </div>
       </div>
 
-      <div className="">
-        <table className="table table-light mt-4">
+      <div className="mt-3">
+        <h5>Active Tasks</h5>
+        <table className="table table-light border-dark table-bordered">
           <thead>
             <tr>
               <th scope="col">Title</th>
@@ -57,11 +58,36 @@ const Tasks = ({ projectId }) => {
             </tr>
           </thead>
           <tbody>
-            {ProjectTasks.map((task) => (
-              <tr key={task._id}>
-                <TaskPreview task={task} projectId={projectId} />
-              </tr>
-            ))}
+            {ProjectTasks.filter((task) => task.status !== "Done").map(
+              (task) => (
+                <tr key={task._id}>
+                  <TaskPreview task={task} projectId={projectId} />
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+      </div>
+      <div className="mt-3">
+        <h5>Closed Tasks</h5>
+        <table className="table table-light border-dark table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Creator</th>
+              <th scope="col">Created</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {ProjectTasks.filter((task) => task.status === "Done").map(
+              (task) => (
+                <tr key={task._id}>
+                  <TaskPreview task={task} projectId={projectId} />
+                </tr>
+              )
+            )}
           </tbody>
         </table>
       </div>
