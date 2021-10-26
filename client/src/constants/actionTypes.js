@@ -9,3 +9,6 @@ export const CREATE_TASK = "CREATE_TASK";
 export const UPDATE_TASK = "UPDATE_TASK";
 export const FETCH_ONE_TASK = "FETCH_ONE_TASK";
 export const DELETE_ONE_TASK = "DELETE_ONE_TASK";
+
+export const AUTH = "AUTH";
+export const LOGOUT = "LOGOUT";
