@@ -11,7 +11,9 @@ const Project = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const projects = useSelector((state) => state.projects);
+  const tasks = useSelector((state) => state.tasks);
   const project = projects.find((x) => x._id === projectId);
+  const projectTasks = tasks.filter((task) => task.projectId === projectId);
 
   const [projectData, setProjectData] = useState({
     creator: "",
@@ -39,6 +41,15 @@ const Project = () => {
     dispatch(updateProject(projectId, projectData));
     document.getElementById("projectForm").disabled = true;
     document.getElementById("saveButton").classList.add("disabled");
+  };
+
+  const handleDelete = () => {
+    if (projectTasks.length) {
+      alert("Cannot delete a project with active tasks");
+    } else {
+      dispatch(deleteProject(projectId));
+      history.push("/read/projects");
+    }
   };
 
   return (
@@ -141,8 +152,7 @@ const Project = () => {
             <button
               className="btn btn-danger"
               onClick={() => {
-                dispatch(deleteProject(projectId));
-                history.push("/read/projects");
+                handleDelete();
               }}
             >
               Delete Project
@@ -150,7 +160,7 @@ const Project = () => {
           </div>
         </div>
       )}
-      <Tasks projectId={projectId} />
+      <Tasks projectId={projectId} projectTasks={projectTasks} />
     </div>
   );
 };

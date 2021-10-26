@@ -5,7 +5,7 @@ import TaskPreview from "./TaskPreview/TaskPreview.js";
 
 import Form from "../TaskForm/Form";
 
-const Tasks = ({ projectId }) => {
+const Tasks = ({ projectId, projectTasks }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -13,9 +13,6 @@ const Tasks = ({ projectId }) => {
       await dispatch(getTasks());
     })();
   }, [dispatch]);
-  const tasks = useSelector((state) => state.tasks);
-
-  const ProjectTasks = tasks.filter((task) => task.projectId === projectId);
 
   return (
     <div className="d-flex flex-column">
@@ -58,13 +55,13 @@ const Tasks = ({ projectId }) => {
             </tr>
           </thead>
           <tbody>
-            {ProjectTasks.filter((task) => task.status !== "Done").map(
-              (task) => (
+            {projectTasks
+              .filter((task) => task.status !== "Done")
+              .map((task) => (
                 <tr key={task._id}>
                   <TaskPreview task={task} projectId={projectId} />
                 </tr>
-              )
-            )}
+              ))}
           </tbody>
         </table>
       </div>
@@ -81,13 +78,13 @@ const Tasks = ({ projectId }) => {
             </tr>
           </thead>
           <tbody>
-            {ProjectTasks.filter((task) => task.status === "Done").map(
-              (task) => (
+            {projectTasks
+              .filter((task) => task.status === "Done")
+              .map((task) => (
                 <tr key={task._id}>
                   <TaskPreview task={task} projectId={projectId} />
                 </tr>
-              )
-            )}
+              ))}
           </tbody>
         </table>
       </div>

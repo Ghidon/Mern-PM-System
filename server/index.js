@@ -1,12 +1,14 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
 
 import taskRoutes from "./routes/tasks.js";
 import subTaskRoutes from "./routes/subTasks.js";
 import projectsRoutes from "./routes/projects.js";
 
 const app = express();
+dotenv.config();
 
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
@@ -16,12 +18,12 @@ app.use("/tasks", taskRoutes);
 app.use("/subTasks", subTaskRoutes);
 app.use("/projects", projectsRoutes);
 
-const CONNECTION_URL =
-  "mongodb+srv://ghidon:uMcjhucJdFaeuqID@cluster0.rnrjw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+// const CONNECTION_URL =
+//   "mongodb+srv://ghidon:uMcjhucJdFaeuqID@cluster0.rnrjw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 5000;
 
 mongoose
-  .connect(CONNECTION_URL, {
+  .connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

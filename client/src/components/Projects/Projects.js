@@ -46,7 +46,7 @@ const Projects = () => {
           <span className="visually-hidden">Loading...</span>
         </div>
       ) : (
-        <div className="d-flex flex-wrap">
+        <div className="d-flex flex-wrap justify-content-start">
           {projects.map((project) => (
             <div className="d-flex me-3 mb-3" key={project._id}>
               <ProjectPreview project={project} />
