@@ -14,7 +14,11 @@ export const getProjects = async (req, res) => {
 export const createProject = async (req, res) => {
   const project = req.body;
 
-  const newProject = new ProjectContent(project);
+  const newProject = new ProjectContent({
+    ...project,
+    creator: req.userId,
+    createdAt: new Date().toISOString(),
+  });
 
   try {
     await newProject.save();

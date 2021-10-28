@@ -14,7 +14,11 @@ export const getTasks = async (req, res) => {
 export const createTask = async (req, res) => {
   const task = req.body;
 
-  const newTask = new TaskContent(task);
+  const newTask = new TaskContent({
+    ...task,
+    creator: req.userId,
+    createdAt: new Date().toISOString(),
+  });
 
   try {
     await newTask.save();

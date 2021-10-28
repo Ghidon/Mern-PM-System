@@ -6,7 +6,6 @@ import { createTask } from "../../../../actions/tasks";
 const Form = ({ projectId }) => {
   const [taskData, setTaskData] = useState({
     projectId: projectId,
-    creator: "",
     title: "",
     description: "",
     active: true,
@@ -14,13 +13,13 @@ const Form = ({ projectId }) => {
     selectedFile: "",
   });
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createTask(taskData));
+    dispatch(createTask({ ...taskData, name: user?.result?.name }));
     setTaskData({
       projectId: projectId,
-      creator: "",
       title: "",
       description: "",
       active: true,
@@ -32,21 +31,6 @@ const Form = ({ projectId }) => {
   return (
     <div className="">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="inputCreator" className="form-label-sm">
-            Task Creator
-          </label>
-          <input
-            type="text"
-            className="form-control form-control-sm"
-            name="projectCreator"
-            placeholder="Creator"
-            value={taskData.creator}
-            onChange={(e) =>
-              setTaskData({ ...taskData, creator: e.target.value })
-            }
-          />
-        </div>
         <div>
           <label htmlFor="inputTitle" className="form-label-sm">
             Title

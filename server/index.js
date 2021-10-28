@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import taskRoutes from "./routes/tasks.js";
 import subTaskRoutes from "./routes/subTasks.js";
 import projectsRoutes from "./routes/projects.js";
+import userRoutes from "./routes/users.js";
 
 const app = express();
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(cors());
 app.use("/tasks", taskRoutes);
 app.use("/subTasks", subTaskRoutes);
 app.use("/projects", projectsRoutes);
+app.use("/user", userRoutes);
 
 // const CONNECTION_URL =
 //   "mongodb+srv://ghidon:uMcjhucJdFaeuqID@cluster0.rnrjw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";

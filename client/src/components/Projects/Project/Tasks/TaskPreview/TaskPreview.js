@@ -18,7 +18,7 @@ const TaskPreview = ({ task, projectId }) => {
     <>
       <td className="col-2">{task.title}</td>
       <td>{task.description}</td>
-      <td>{task.creator}</td>
+      <td>{task.name}</td>
       <td>{moment(task.createdAt).fromNow()}</td>
       <td className={statusColor()}>
         <Link to={{ pathname: `/view/project/${projectId}/task/${task._id}` }}>

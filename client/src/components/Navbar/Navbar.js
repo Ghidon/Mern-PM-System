@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
+import decode from "jwt-decode";
+
+import * as actionType from "../../constants/actionTypes";
 
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
@@ -9,13 +12,20 @@ const Navbar = () => {
   const location = useLocation();
 
   const logout = () => {
-    dispatch({ type: "LOGOUT" });
-    history.push("/");
+    dispatch({ type: actionType.LOGOUT });
+    history.push("/auth");
     setUser(null);
   };
 
   useEffect(() => {
     const token = user?.token;
+
+    if (token) {
+      const decodedToken = decode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
+
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
 
@@ -27,16 +37,24 @@ const Navbar = () => {
         </NavLink>
         <div className="d-flex">
           <div className="mx-3 d-flex">
-            {user ? (
+            {user?.result ? (
               <div className="d-flex align-items-center text-white">
                 <img
-                  className="rounded-circle mx-3"
-                  style={{ height: "35px" }}
-                  alt={user.result.name.charAt(0)}
-                  src={user.result.imageUrl}
+                  className="avatar avatar-32 bg-light rounded-circle text-white mx-3"
+                  style={{
+                    height: "40px",
+                    verticalAlign: "text-bottom",
+                    padding: "2px",
+                  }}
+                  alt={user?.result.name.charAt(0)}
+                  src={
+                    user?.result.imageUrl
+                      ? user?.result.imageUrl
+                      : "https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
+                  }
                 />
 
-                <h6>{user.result.name}</h6>
+                <h6>{user?.result.name}</h6>
                 <button className="btn btn-secondary ms-3" onClick={logout}>
                   Logout
                 </button>

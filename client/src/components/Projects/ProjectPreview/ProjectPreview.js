@@ -1,15 +1,20 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
+import MindBlowing from "../../../images/mind-blowing.jpg";
 
 import "./Styles.css";
 
-const Project = ({ project }) => {
+const ProjectPreview = ({ project }) => {
   const history = useHistory();
   return (
-    <div className="card" style={{ width: "15rem" }}>
+    <div className="card" style={{ maxWidth: "15rem" }}>
       {!project.selectedFile ? (
-        <div className="header">{project.creator[0]}</div>
+        <img
+          src={MindBlowing}
+          className="card-img-top"
+          alt={project.name?.charAt(0)}
+        />
       ) : (
         <img src={project.selectedFile} className="card-img-top" alt="..." />
       )}
@@ -18,7 +23,7 @@ const Project = ({ project }) => {
         <h5 className="card-title">{project.title}</h5>
         <p className="card-text">
           <small className="text-muted">
-            Created by: {project.creator} {moment(project.createdAt).fromNow()}
+            Created by: {project.name} {moment(project.createdAt).fromNow()}
           </small>
         </p>
         <p className="card-text">{project.description}</p>
@@ -36,4 +41,4 @@ const Project = ({ project }) => {
   );
 };
 
-export default Project;
+export default ProjectPreview;

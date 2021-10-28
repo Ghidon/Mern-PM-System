@@ -5,19 +5,18 @@ import { createProject } from "../../actions/projects";
 
 const Form = () => {
   const [projectData, setProjectData] = useState({
-    creator: "",
     title: "",
     description: "",
     active: true,
     selectedFile: "",
   });
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProject(projectData));
+    dispatch(createProject({ ...projectData, name: user?.result?.name }));
     setProjectData({
-      creator: "",
       title: "",
       description: "",
       active: true,
@@ -28,21 +27,6 @@ const Form = () => {
   return (
     <div className="">
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="inputCreator" className="form-label-sm">
-            Project Creator
-          </label>
-          <input
-            type="text"
-            className="form-control form-control-sm"
-            name="projectCreator"
-            placeholder="Creator"
-            value={projectData.creator}
-            onChange={(e) =>
-              setProjectData({ ...projectData, creator: e.target.value })
-            }
-          />
-        </div>
         <div>
           <label htmlFor="inputTitle" className="form-label-sm">
             Title

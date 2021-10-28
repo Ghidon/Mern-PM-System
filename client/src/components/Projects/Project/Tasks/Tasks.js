@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getTasks } from "../../../../actions/tasks.js";
 import TaskPreview from "./TaskPreview/TaskPreview.js";
 
@@ -9,9 +9,7 @@ const Tasks = ({ projectId, projectTasks }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      await dispatch(getTasks());
-    })();
+    dispatch(getTasks());
   }, [dispatch]);
 
   return (

@@ -1,21 +1,32 @@
 import axios from "axios";
 
-const projectsUrl = "http://localhost:5000/projects";
-const tasksUrl = "http://localhost:5000/tasks";
+const API = axios.create({ baseURL: "http://localhost:5000" });
+
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("profile")) {
+    req.headers.authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
+  }
+  return req;
+});
 
 //Projects requests
-export const fetchProjects = () => axios.get(projectsUrl);
-export const createProject = (newProject) =>
-  axios.post(projectsUrl, newProject);
+export const fetchProjects = () => API.get("/projects");
+export const createProject = (newProject) => API.post("/projects", newProject);
 export const updateProject = (id, updatedProject) =>
-  axios.patch(`${projectsUrl}/${id}`, updatedProject);
-export const getProject = (id) => axios.get(`${projectsUrl}/${id}`);
-export const deleteProject = (id) => axios.delete(`${projectsUrl}/${id}`);
+  API.patch(`/projects/${id}`, updatedProject);
+export const getProject = (id) => API.get(`/projects/${id}`);
+export const deleteProject = (id) => API.delete(`/projects/${id}`);
 
 //Tasks requests
-export const fetchTasks = () => axios.get(tasksUrl);
-export const createTask = (newTask) => axios.post(tasksUrl, newTask);
+export const fetchTasks = () => API.get("/tasks");
+export const createTask = (newTask) => API.post("/tasks", newTask);
 export const updateTask = (id, updatedTask) =>
-  axios.patch(`${tasksUrl}/${id}`, updatedTask);
-export const getTask = (id) => axios.get(`${tasksUrl}/${id}`);
-export const deleteTask = (id) => axios.delete(`${tasksUrl}/${id}`);
+  API.patch(`/tasks/${id}`, updatedTask);
+export const getTask = (id) => API.get(`/tasks/${id}`);
+export const deleteTask = (id) => API.delete(`/tasks/${id}`);
+
+//User requests
+export const signIn = (formData) => API.post("/user/signin", formData);
+export const signUp = (formData) => API.post("/user/signup", formData);

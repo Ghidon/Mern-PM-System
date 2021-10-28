@@ -8,12 +8,14 @@ import {
   deleteTask,
 } from "../controllers/tasks.js";
 
+import auth from "../middleware/auth.js";
+
 const router = express.Router();
 
-router.get("/", getTasks);
-router.post("/", createTask);
-router.patch("/:id", updateTask);
-router.get("/:id", getTask);
-router.delete("/:id", deleteTask);
+router.get("/", auth, getTasks);
+router.post("/", auth, createTask);
+router.patch("/:id", auth, updateTask);
+router.get("/:id", auth, getTask);
+router.delete("/:id", auth, deleteTask);
 
 export default router;

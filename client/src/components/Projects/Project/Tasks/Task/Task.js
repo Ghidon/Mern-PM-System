@@ -13,9 +13,11 @@ const Task = () => {
   const history = useHistory();
   const tasks = useSelector((state) => state.tasks);
   const task = tasks.find((x) => x._id === taskId);
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const [taskData, setTaskData] = useState({
     creator: "",
+    name: "",
     title: "",
     description: "",
     active: true,
@@ -27,6 +29,7 @@ const Task = () => {
     if (tasks.length) {
       setTaskData({
         creator: task.creator,
+        name: task.name,
         title: task.title,
         description: task.description,
         active: task.active,
@@ -37,7 +40,7 @@ const Task = () => {
   }, [tasks.length]);
 
   const handleSubmit = () => {
-    dispatch(updateTask(taskId, taskData));
+    dispatch(updateTask(taskId, { ...taskData, name: user?.result?.name }));
     document.getElementById("taskForm").disabled = true;
     document.getElementById("saveButton").classList.add("disabled");
   };
@@ -67,7 +70,7 @@ const Task = () => {
                       type="text"
                       className="form-control form-control"
                       name="taskCreator"
-                      value={taskData.creator}
+                      value={taskData.name}
                       onChange={(e) =>
                         setTaskData({ ...taskData, creator: e.target.value })
                       }

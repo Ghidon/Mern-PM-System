@@ -14,9 +14,11 @@ const Project = () => {
   const tasks = useSelector((state) => state.tasks);
   const project = projects.find((x) => x._id === projectId);
   const projectTasks = tasks.filter((task) => task.projectId === projectId);
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const [projectData, setProjectData] = useState({
     creator: "",
+    name: "",
     title: "",
     description: "",
     active: true,
@@ -28,6 +30,7 @@ const Project = () => {
     if (projects.length) {
       setProjectData({
         creator: project.creator,
+        name: project.name,
         title: project.title,
         description: project.description,
         active: project.active,
@@ -38,7 +41,9 @@ const Project = () => {
   }, [projects.length]);
 
   const handleSubmit = () => {
-    dispatch(updateProject(projectId, projectData));
+    dispatch(
+      updateProject(projectId, { ...projectData, name: user?.result?.name })
+    );
     document.getElementById("projectForm").disabled = true;
     document.getElementById("saveButton").classList.add("disabled");
   };
@@ -70,7 +75,7 @@ const Project = () => {
                   type="text"
                   className="form-control form-control"
                   name="projectCreator"
-                  value={projectData.creator}
+                  value={projectData.name}
                   onChange={(e) =>
                     setProjectData({ ...projectData, creator: e.target.value })
                   }
