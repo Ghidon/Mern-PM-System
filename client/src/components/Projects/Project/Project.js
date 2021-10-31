@@ -39,7 +39,7 @@ const Project = () => {
         selectedFile: project.selectedFile,
       });
     }
-  }, [projects.length]);
+  }, [projectData]);
 
   const handleSubmit = () => {
     dispatch(
@@ -173,6 +173,7 @@ const Project = () => {
             {projectData.selectedFile ? (
               <img
                 src={projectData.selectedFile}
+                style={{ maxHeight: "300px" }}
                 alt=""
                 className="card-img-top"
               />

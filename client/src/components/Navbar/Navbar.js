@@ -27,7 +27,7 @@ const Navbar = () => {
     }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location]);
+  }, [location, user?.token]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
