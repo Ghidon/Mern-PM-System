@@ -5,7 +5,7 @@ const Home = () => {
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [user]);
+  }, [setUser]);
 
   return (
     <div>

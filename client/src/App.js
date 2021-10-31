@@ -10,8 +10,6 @@ import Project from "./components/Projects/Project/Project";
 import NewUser from "./components/NewUser";
 import Projects from "./components/Projects/Projects";
 import ViewArchived from "./components/ViewArchived";
-import Login from "./components/users/Login";
-import Register from "./components/users/Register";
 import Task from "./components/Projects/Project/Tasks/Task/Task";
 
 import { getTasks } from "./actions/tasks";
