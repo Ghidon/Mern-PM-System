@@ -39,7 +39,7 @@ const Project = () => {
         selectedFile: project.selectedFile,
       });
     }
-  }, [projectData]);
+  }, [projects.length, projectData]);
 
   const handleSubmit = () => {
     dispatch(
