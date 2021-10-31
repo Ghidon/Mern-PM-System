@@ -4,6 +4,7 @@ import { useParams, useHistory } from "react-router-dom";
 import FileBase from "react-file-base64";
 
 import Tasks from "./Tasks/Tasks.js";
+import MindBlowing from "../../../images/mind-blowing.jpg";
 import { deleteProject, updateProject } from "../../../actions/projects";
 
 const Project = () => {
@@ -64,104 +65,124 @@ const Project = () => {
           <span className="visually-hidden">Loading...</span>
         </div>
       ) : (
-        <div className="d-flex-column">
-          <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <fieldset disabled id="projectForm">
-              <div>
-                <label htmlFor="inputCreator" className="form-label-sm">
-                  Project Creator
-                </label>
-                <input
-                  type="text"
-                  className="form-control form-control"
-                  name="projectCreator"
-                  value={projectData.name}
-                  onChange={(e) =>
-                    setProjectData({ ...projectData, creator: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="inputTitle" className="form-label-sm">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  className="form-control form-control"
-                  name="projectTitle"
-                  value={projectData.title}
-                  onChange={(e) =>
-                    setProjectData({ ...projectData, title: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="inputDescription" className="form-label-sm">
-                  Description
-                </label>
-                <textarea
-                  type="text"
-                  className="form-control form-control"
-                  name="projectDescription"
-                  value={projectData.description}
-                  onChange={(e) =>
-                    setProjectData({
-                      ...projectData,
-                      description: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="formFileSm" className="form-label-sm">
-                  Select Cover Image
-                </label>
-                <div className="form-control form-control-sm mb-3">
-                  <FileBase
-                    disabled
-                    type="file"
-                    multiple={false}
-                    onDone={({ base64 }) =>
-                      setProjectData({ ...projectData, selectedFile: base64 })
+        <div className="d-flex justify-content-between flex-wrap-reverse">
+          <div className="col-12 col-md-6 d-flex-column">
+            <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <fieldset disabled id="projectForm">
+                <div>
+                  <label htmlFor="inputCreator" className="form-label-sm">
+                    Project Creator
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control form-control"
+                    name="projectCreator"
+                    value={projectData.name}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        creator: e.target.value,
+                      })
                     }
                   />
                 </div>
-              </div>
-            </fieldset>
-          </form>
-          <div className="d-flex justify-content-between mb-3">
-            <div>
-              <button
-                className="btn btn-secondary"
-                onClick={() => {
-                  document.getElementById("projectForm").disabled = false;
-                  document
-                    .getElementById("saveButton")
-                    .classList.remove("disabled");
-                }}
-              >
-                Edit
-              </button>
+                <div>
+                  <label htmlFor="inputTitle" className="form-label-sm">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control form-control"
+                    name="projectTitle"
+                    value={projectData.title}
+                    onChange={(e) =>
+                      setProjectData({ ...projectData, title: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <label htmlFor="inputDescription" className="form-label-sm">
+                    Description
+                  </label>
+                  <textarea
+                    type="text"
+                    className="form-control form-control"
+                    name="projectDescription"
+                    value={projectData.description}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <label htmlFor="formFileSm" className="form-label-sm">
+                    Select Cover Image
+                  </label>
+                  <div className="form-control form-control-sm mb-3">
+                    <FileBase
+                      disabled
+                      type="file"
+                      multiple={false}
+                      onDone={({ base64 }) =>
+                        setProjectData({ ...projectData, selectedFile: base64 })
+                      }
+                    />
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+            <div className="d-flex justify-content-between mb-3">
+              <div>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    document.getElementById("projectForm").disabled = false;
+                    document
+                      .getElementById("saveButton")
+                      .classList.remove("disabled");
+                  }}
+                >
+                  Edit
+                </button>
 
+                <button
+                  type="submit"
+                  id="saveButton"
+                  onClick={() => {
+                    handleSubmit();
+                  }}
+                  className="btn btn-primary ms-3 disabled"
+                >
+                  Save
+                </button>
+              </div>
               <button
-                type="submit"
-                id="saveButton"
+                className="btn btn-danger"
                 onClick={() => {
-                  handleSubmit();
+                  handleDelete();
                 }}
-                className="btn btn-primary ms-3 disabled"
               >
-                Save
+                Delete Project
               </button>
             </div>
-            <button
-              className="btn btn-danger"
-              onClick={() => {
-                handleDelete();
-              }}
-            >
-              Delete Project
-            </button>
+          </div>
+          <div className="col-12 col-md-5 my-4">
+            {projectData.selectedFile ? (
+              <img
+                src={projectData.selectedFile}
+                alt=""
+                className="card-img-top"
+              />
+            ) : (
+              <img
+                src={MindBlowing}
+                className="card-img-top"
+                alt={project.name?.charAt(0)}
+              />
+            )}
           </div>
         </div>
       )}
