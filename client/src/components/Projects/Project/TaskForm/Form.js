@@ -3,29 +3,34 @@ import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
 import { createTask } from "../../../../actions/tasks";
 
+const initialState = {
+  title: "",
+  description: "",
+  active: true,
+  status: "To do",
+  attachedFiles: [],
+};
+
 const Form = ({ projectId }) => {
   const [taskData, setTaskData] = useState({
+    ...initialState,
     projectId: projectId,
-    title: "",
-    description: "",
-    active: true,
-    status: "To do",
-    selectedFile: "",
   });
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(taskData);
     dispatch(createTask({ ...taskData, name: user?.result?.name }));
-    setTaskData({
-      projectId: projectId,
-      title: "",
-      description: "",
-      active: true,
-      status: "To do",
-      selectedFile: "",
-    });
+    setTaskData({ ...initialState, projectId: projectId });
+  };
+
+  const addFile = (file) => {
+    const newFileList = [];
+    newFileList.push(file);
+    console.log(newFileList);
+    setTaskData({ ...taskData, attachedFiles: newFileList });
   };
 
   return (
@@ -66,13 +71,7 @@ const Form = ({ projectId }) => {
             Attach file
           </label>
           <div className="form-control form-control-sm mb-3">
-            <FileBase
-              type="file"
-              multiple={false}
-              onDone={({ base64 }) =>
-                setTaskData({ ...taskData, selectedFile: base64 })
-              }
-            />
+            <FileBase type="file" multiple={false} onDone={addFile} />
           </div>
         </div>
         <div className="d-flex">

@@ -22,7 +22,7 @@ const Task = () => {
     description: "",
     active: true,
     status: "",
-    selectedFile: "",
+    attachedFiles: [],
   });
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Task = () => {
         description: task.description,
         active: task.active,
         status: task.status,
-        selectedFile: task.selectedFile,
+        attachedFiles: task.attachedFiles,
       });
     }
   }, [tasks.length]);
@@ -50,6 +50,11 @@ const Task = () => {
     dispatch(updateTask(taskId, { ...taskData, status: e.target.value }));
   };
 
+  const addFile = (file) => {
+    //weird but it works... shouldn't work on with setTaskData??
+    taskData.attachedFiles.push(file);
+  };
+
   return (
     <div>
       {!tasks.length ? (
@@ -57,149 +62,163 @@ const Task = () => {
           <span className="visually-hidden">Loading...</span>
         </div>
       ) : (
-        <div className="d-flex-column">
-          <div className="d-flex justify-content-between flex-wrap">
-            <div className="col-12 me-3">
-              <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <fieldset disabled id="taskForm">
-                  <div>
-                    <label htmlFor="inputCreator" className="form-label-sm">
-                      Task Creator
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control form-control"
-                      name="taskCreator"
-                      value={taskData.name}
-                      onChange={(e) =>
-                        setTaskData({ ...taskData, creator: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="inputTitle" className="form-label-sm">
-                      Title
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control form-control"
-                      name="taskTitle"
-                      value={taskData.title}
-                      onChange={(e) =>
-                        setTaskData({ ...taskData, title: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="inputDescription" className="form-label-sm">
-                      Description
-                    </label>
-                    <textarea
-                      type="text"
-                      className="form-control form-control"
-                      name="taskDescription"
-                      value={taskData.description}
-                      onChange={(e) =>
-                        setTaskData({
-                          ...taskData,
-                          description: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="formFileSm" className="form-label-sm">
-                      Select Cover Image
-                    </label>
-                    <div className="form-control form-control-sm mb-3">
-                      <FileBase
-                        disabled
-                        type="file"
-                        multiple={false}
-                        onDone={({ base64 }) =>
-                          setTaskData({ ...taskData, selectedFile: base64 })
-                        }
-                      />
-                    </div>
-                  </div>
-                </fieldset>
-              </form>
-            </div>
-            <div className="d-flex justify-content-between flex-wrap mb-3 col-12 col-sm-12 col-lg-6 col-xl-5 col-xxl-4">
-              <div className="d-flex ">
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => {
-                    document.getElementById("taskForm").disabled = false;
-                    document
-                      .getElementById("saveButton")
-                      .classList.remove("disabled");
-                  }}
-                >
-                  Edit
-                </button>
-
-                <button
-                  type="submit"
-                  id="saveButton"
-                  onClick={() => {
-                    handleSubmit();
-                  }}
-                  className="btn btn-primary ms-3 disabled"
-                >
-                  Save
-                </button>
-                <div className="input-group ms-3">
-                  <label
-                    className="input-group-text"
-                    htmlFor="inputGroupSelect01"
-                  >
-                    status
+        <div className="d-flex justify-content-between flex-wrap">
+          <div className="col-12 col-md-6">
+            <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <fieldset disabled id="taskForm">
+                <div>
+                  <label htmlFor="inputCreator" className="form-label-sm">
+                    Task Creator
                   </label>
-                  <select
-                    className="form-select"
-                    id="inputGroupSelect01"
-                    onChange={(e) => setNewStatus(e)}
-                  >
-                    <option value="default" selected>
-                      {taskData.status}
-                    </option>
-                    {taskData.status !== "To do" ? (
-                      <option value="To do">To do</option>
-                    ) : null}
-                    {taskData.status !== "In progress" ? (
-                      <option value="In progress">In progress</option>
-                    ) : null}
-                    {taskData.status !== "Blocked" ? (
-                      <option value="Blocked">Blocked</option>
-                    ) : null}
-                    {taskData.status !== "Done" ? (
-                      <option value="Done">Done</option>
-                    ) : null}
-                  </select>
+                  <input
+                    type="text"
+                    className="form-control form-control"
+                    name="taskCreator"
+                    value={taskData.name}
+                    onChange={(e) =>
+                      setTaskData({ ...taskData, creator: e.target.value })
+                    }
+                  />
                 </div>
+                <div>
+                  <label htmlFor="inputTitle" className="form-label-sm">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control form-control"
+                    name="taskTitle"
+                    value={taskData.title}
+                    onChange={(e) =>
+                      setTaskData({ ...taskData, title: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <label htmlFor="inputDescription" className="form-label-sm">
+                    Description
+                  </label>
+                  <textarea
+                    type="text"
+                    className="form-control form-control"
+                    name="taskDescription"
+                    value={taskData.description}
+                    onChange={(e) =>
+                      setTaskData({
+                        ...taskData,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <label htmlFor="formFileSm" className="form-label-sm">
+                    Attach a file
+                  </label>
+                  <div className="form-control form-control-sm mb-3">
+                    <FileBase type="file" multiple={false} onDone={addFile} />
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+          <div className="col-12 col-md-5 mb-3">
+            <span>Attached files</span>
+            {taskData.attachedFiles.map((file) => (
+              <div className="card d-flex flex-row p-1 mb-1" key={file.base64}>
+                <span>{file.name}</span>
+                <span className="ms-auto">
+                  <a download={file.name} href={file.base64}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      fill="currentColor"
+                      className="bi bi-file-earmark-arrow-down"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
+                      <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                    </svg>
+                  </a>
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-3 col-12 col-sm-12 col-md-6 col-lg-5 col-xl-5 col-xxl-4">
+            <div className="d-flex ">
+              <button
+                className="btn btn-secondary"
+                onClick={() => {
+                  document.getElementById("taskForm").disabled = false;
+                  document
+                    .getElementById("saveButton")
+                    .classList.remove("disabled");
+                }}
+              >
+                Edit
+              </button>
+
+              <button
+                type="submit"
+                id="saveButton"
+                onClick={() => {
+                  handleSubmit();
+                }}
+                className="btn btn-primary ms-3 disabled"
+              >
+                Save
+              </button>
+              <div className="input-group ms-3">
+                <label
+                  className="input-group-text"
+                  htmlFor="inputGroupSelect01"
+                >
+                  status
+                </label>
+                <select
+                  className="form-select"
+                  id="inputGroupSelect01"
+                  onChange={(e) => setNewStatus(e)}
+                >
+                  <option value="default" defaultValue>
+                    {taskData.status}
+                  </option>
+                  {taskData.status !== "To do" ? (
+                    <option value="To do">To do</option>
+                  ) : null}
+                  {taskData.status !== "In progress" ? (
+                    <option value="In progress">In progress</option>
+                  ) : null}
+                  {taskData.status !== "Blocked" ? (
+                    <option value="Blocked">Blocked</option>
+                  ) : null}
+                  {taskData.status !== "Done" ? (
+                    <option value="Done">Done</option>
+                  ) : null}
+                </select>
               </div>
             </div>
-
-            <div className="ms-auto mb-3">
-              <button
-                className="btn btn-danger"
-                onClick={() => {
-                  dispatch(deleteTask(taskId));
-                  history.push(`/view/project/${projectId}`);
-                }}
-              >
-                Delete Task
-              </button>
-              <button
-                className="btn btn-secondary ms-3"
-                onClick={() => {
-                  history.push(`/view/project/${projectId}`);
-                }}
-              >
-                Back
-              </button>
-            </div>
+          </div>
+          <div className="ms-auto mb-3">
+            <button
+              className="btn btn-danger"
+              onClick={() => {
+                dispatch(deleteTask(taskId));
+                history.push(`/view/project/${projectId}`);
+              }}
+            >
+              Delete Task
+            </button>
+            <button
+              className="btn btn-secondary ms-3"
+              onClick={() => {
+                history.push(`/view/project/${projectId}`);
+              }}
+            >
+              Back
+            </button>
           </div>
         </div>
       )}

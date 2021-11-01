@@ -23,7 +23,7 @@ export const createTask = (task) => async (dispatch) => {
 
     dispatch({ type: CREATE_TASK, payload: data });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
