@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import FileBase from "react-file-base64";
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import moment from "moment";
+import "react-day-picker/lib/style.css";
+
+import { formatDate, parseDate } from "react-day-picker/moment";
 
 // import SubTasks from "./SubTasks/SubTasks.js";
 import { deleteTask, updateTask } from "../../../../../actions/tasks";
@@ -23,7 +28,11 @@ const Task = () => {
     active: true,
     status: "",
     attachedFiles: [],
+    dueDate: null,
   });
+
+  const [isEmpty, setIsEmpty] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     if (tasks.length) {
@@ -35,6 +44,7 @@ const Task = () => {
         active: task.active,
         status: task.status,
         attachedFiles: task.attachedFiles,
+        dueDate: task.dueDate,
       });
     }
   }, [tasks.length]);
@@ -51,8 +61,16 @@ const Task = () => {
   };
 
   const addFile = (file) => {
-    //weird but it works... shouldn't work on with setTaskData??
+    //weird but it works... shouldn't work only with setTaskData??
     taskData.attachedFiles.push(file);
+  };
+
+  const handleDayChange = (dueDate, modifiers, dayPickerInput) => {
+    const input = dayPickerInput.getInput();
+    setTaskData({ ...taskData, dueDate: dueDate });
+    dispatch(updateTask(taskId, { ...taskData, dueDate: dueDate }));
+    setIsEmpty(!input.value.trim());
+    setIsDisabled(modifiers.disabled === true);
   };
 
   return (
@@ -115,11 +133,55 @@ const Task = () => {
                   <label htmlFor="formFileSm" className="form-label-sm">
                     Attach a file
                   </label>
-                  <div className="form-control form-control-sm mb-3">
+                  <div className="form-control form-control-sm">
                     <FileBase type="file" multiple={false} onDone={addFile} />
                   </div>
                 </div>
               </fieldset>
+              <div className="mb-3">
+                <label htmlFor="formFileSm" className="form-label-sm">
+                  Due date
+                </label>
+                {taskData.name === user?.result?.name ? (
+                  <div className="d-flex justify-content-between">
+                    <DayPickerInput
+                      onDayChange={handleDayChange}
+                      formatDate={formatDate}
+                      parseDate={parseDate}
+                      placeholder={
+                        !taskData.dueDate
+                          ? " Set a Due Date"
+                          : `${formatDate(taskData.dueDate)}`
+                      }
+                      dayPickerProps={{
+                        selectedDays: taskData.dueDate,
+                        disabledDays: {
+                          before: new Date(),
+                        },
+                      }}
+                    />
+                    <span className="mx-2">
+                      {!isEmpty &&
+                        !taskData.dueDate &&
+                        "This is not a valid day"}
+                      {taskData.dueDate &&
+                        isDisabled &&
+                        "This day can't be selected"}
+                    </span>
+                    {taskData.dueDate && (
+                      <span>
+                        Expires is {moment(taskData.dueDate).fromNow()}
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <span>
+                    {taskData.dueDate
+                      ? ` is ${formatDate(taskData.dueDate)}`
+                      : " is not defined yet"}
+                  </span>
+                )}
+              </div>
             </form>
           </div>
           <div className="col-12 col-md-5 mb-3">

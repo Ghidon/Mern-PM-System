@@ -8,6 +8,7 @@ const taskSchema = mongoose.Schema({
   description: String,
   active: Boolean,
   status: String,
+  dueDate: Date,
   attachedFiles: Array,
   createdAt: {
     type: Date,

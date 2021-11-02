@@ -119,11 +119,10 @@ const Project = () => {
                 </div>
                 <div>
                   <label htmlFor="formFileSm" className="form-label-sm">
-                    Select Cover Image
+                    Change Cover Image
                   </label>
                   <div className="form-control form-control-sm mb-3">
                     <FileBase
-                      disabled
                       type="file"
                       multiple={false}
                       onDone={({ base64 }) =>

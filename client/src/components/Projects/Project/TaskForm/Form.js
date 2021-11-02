@@ -9,6 +9,7 @@ const initialState = {
   active: true,
   status: "To do",
   attachedFiles: [],
+  dueDate: null,
 };
 
 const Form = ({ projectId }) => {
