@@ -39,52 +39,31 @@ const Tasks = ({ projectId, projectTasks }) => {
           </div>
         </div>
       </div>
-
-      <div className="mt-3">
-        <h5>Active Tasks</h5>
-        <table className="table table-light border-dark table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Description</th>
-              <th scope="col">Creator</th>
-              <th scope="col">Created</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
+      <div className="d-flex justify-content-between flex-wrap">
+        <div className="mt-3 col-12 col-md-6">
+          <h5>Active Tasks</h5>
+          <div className="align-self-stretch">
             {projectTasks
               .filter((task) => task.status !== "Done")
               .map((task) => (
-                <tr key={task._id}>
+                <div className="d-flex mb-3" key={task._id}>
                   <TaskPreview task={task} projectId={projectId} />
-                </tr>
+                </div>
               ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="mt-3">
-        <h5>Closed Tasks</h5>
-        <table className="table table-light border-dark table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Description</th>
-              <th scope="col">Creator</th>
-              <th scope="col">Created</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
+          </div>
+        </div>
+        <div className="mt-3 col-12 col-md-4 col-lg-3">
+          <h5>Closed Tasks</h5>
+          <div className="">
             {projectTasks
               .filter((task) => task.status === "Done")
               .map((task) => (
-                <tr key={task._id}>
+                <div className="d-flex mb-3" key={task._id}>
                   <TaskPreview task={task} projectId={projectId} />
-                </tr>
+                </div>
               ))}
-          </tbody>
-        </table>
+          </div>
+        </div>
       </div>
     </div>
   );

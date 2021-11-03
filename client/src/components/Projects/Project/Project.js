@@ -71,7 +71,7 @@ const Project = () => {
               <fieldset disabled id="projectForm">
                 <div>
                   <label htmlFor="inputCreator" className="form-label-sm">
-                    Project Creator
+                    Project Author
                   </label>
                   <input
                     type="text"
