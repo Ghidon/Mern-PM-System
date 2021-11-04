@@ -1,13 +1,14 @@
+import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import User from "../models/user.js";
+import UserContent from "../models/userContent.js";
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await UserContent.findOne({ email });
 
     if (!existingUser)
       return res.status(404).json({ message: "User doesn't exist." });
@@ -36,7 +37,7 @@ export const signup = async (req, res) => {
   const { firstName, lastName, password, email, confirmPassword } = req.body;
 
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await UserContent.findOne({ email });
 
     if (existingUser)
       return res.status(400).json({ message: "User already exists." });
@@ -46,7 +47,7 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const result = await User.create({
+    const result = await UserContent.create({
       email,
       password: hashedPassword,
       name: `${firstName} ${lastName}`,
@@ -57,5 +58,47 @@ export const signup = async (req, res) => {
     res.status(200).json({ result, token });
   } catch (error) {
     res.status(500).json({ message: "something went wrong." });
+  }
+};
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await UserContent.find();
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  const { id: _id } = req.params;
+  const user = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(_id))
+    return res.status(404).send("No User with that id");
+
+  const updatedUser = await UserContent.findByIdAndUpdate(
+    _id,
+    { ...user, _id },
+    {
+      new: true,
+    }
+  );
+
+  res.json(updatedUser);
+};
+
+export const getUser = async (req, res) => {
+  const { id: _id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(_id))
+    return res.status(404).send("No User with that id");
+  try {
+    const getUser = await UserContent.findById(_id);
+
+    res.status(200).json(getUser);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
   }
 };

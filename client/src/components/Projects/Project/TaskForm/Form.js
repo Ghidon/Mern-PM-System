@@ -8,6 +8,7 @@ const initialState = {
   description: "",
   active: true,
   status: "To do",
+  assigned: "",
   attachedFiles: [],
   dueDate: null,
 };

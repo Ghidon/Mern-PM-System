@@ -12,3 +12,7 @@ export const DELETE_ONE_TASK = "DELETE_ONE_TASK";
 
 export const AUTH = "AUTH";
 export const LOGOUT = "LOGOUT";
+
+export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
+export const UPDATE_USER = "UPDATE_USER";
+export const FETCH_ONE_USER = "FETCH_ONE_USER";

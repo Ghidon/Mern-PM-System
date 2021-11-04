@@ -78,7 +78,13 @@ const Navbar = () => {
           </button>
         </div>
 
-        <div className="collapse navbar-collapse" id="navbarScroll">
+        <div
+          className="collapse navbar-collapse"
+          onMouseLeave={() => {
+            document.getElementById("navbarScroll").classList.remove("show");
+          }}
+          id="navbarScroll"
+        >
           <ul
             className="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll"
             // style={{ "--bs-scroll-height": "100px;" }}
@@ -111,17 +117,6 @@ const Navbar = () => {
               </NavLink>
             </li>
           </ul>
-          {/* <form class="d-flex">
-            <input
-              class="form-control mx-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form> */}
         </div>
       </div>
     </nav>

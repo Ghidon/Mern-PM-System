@@ -17,6 +17,8 @@ const Task = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const tasks = useSelector((state) => state.tasks);
+  const users = useSelector((state) => state.users);
+
   const task = tasks.find((x) => x._id === taskId);
   const user = JSON.parse(localStorage.getItem("profile"));
 
@@ -27,6 +29,7 @@ const Task = () => {
     description: "",
     active: true,
     status: "",
+    assigned: "",
     attachedFiles: [],
     dueDate: null,
   });
@@ -43,6 +46,7 @@ const Task = () => {
         description: task.description,
         active: task.active,
         status: task.status,
+        assigned: task.assigned,
         attachedFiles: task.attachedFiles,
         dueDate: task.dueDate,
       });
@@ -58,6 +62,11 @@ const Task = () => {
   const setNewStatus = (e) => {
     setTaskData({ ...taskData, status: e.target.value });
     dispatch(updateTask(taskId, { ...taskData, status: e.target.value }));
+  };
+
+  const setNewAssigned = (e) => {
+    setTaskData({ ...taskData, assigned: e.target.value });
+    dispatch(updateTask(taskId, { ...taskData, assigned: e.target.value }));
   };
 
   const addFile = (file) => {
@@ -184,29 +193,40 @@ const Task = () => {
               </div>
             </form>
           </div>
-          <div className="col-12 col-md-5 mb-3">
-            <span>Attached files</span>
-            {taskData.attachedFiles.map((file) => (
-              <div className="card d-flex flex-row p-1 mb-1" key={file.base64}>
-                <span>{file.name}</span>
-                <span className="ms-auto">
-                  <a download={file.name} href={file.base64}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      fill="currentColor"
-                      className="bi bi-file-earmark-arrow-down"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
-                      <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
-                    </svg>
-                  </a>
-                </span>
+          {taskData.attachedFiles.length ? (
+            <div className="col-12 col-md-5 mb-3">
+              <span>Attached files</span>
+              {taskData.attachedFiles.map((file) => (
+                <div
+                  className="card d-flex flex-row p-1 mb-1"
+                  key={file.base64}
+                >
+                  <span>{file.name}</span>
+                  <span className="ms-auto">
+                    <a download={file.name} href={file.base64}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        fill="currentColor"
+                        className="bi bi-file-earmark-arrow-down"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                      </svg>
+                    </a>
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="col-12 col-md-5 my-4">
+              <div className="card d-flex flex-row p-1 mb-1">
+                <span>No files attached</span>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
 
           <div className="mb-3 col-12 col-sm-12 col-md-6 col-lg-5 col-xl-5 col-xxl-4">
             <div className="d-flex ">
@@ -284,6 +304,29 @@ const Task = () => {
           </div>
         </div>
       )}
+
+      <div className="input-group mb-3">
+        <div className="input-group-prepend">
+          <label className="input-group-text" htmlFor="inputGroupSelect01">
+            Assign Task to:
+          </label>
+        </div>
+        <select
+          className="custom-select"
+          id="inputGroupSelect01"
+          onChange={(e) => setNewAssigned(e)}
+        >
+          <option defaultValue>
+            {taskData.assigned ? taskData.assigned : "Choose one..."}
+          </option>
+          {users
+            .filter((agent) => agent.name !== taskData.assigned)
+            .map((agent) => (
+              <option key={agent._id}>{agent.name}</option>
+            ))}
+        </select>
+      </div>
+
       {/* <SubTasks taskId={id} /> */}
     </div>
   );
