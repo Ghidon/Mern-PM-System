@@ -70,7 +70,7 @@ const TaskPreview = ({ task, projectId }) => {
   };
 
   const assignedIcon = () => {
-    if (task.assigned) {
+    if (task.assigned !== "Unassigned") {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"

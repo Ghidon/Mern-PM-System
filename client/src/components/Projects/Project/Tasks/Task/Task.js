@@ -29,7 +29,7 @@ const Task = () => {
     description: "",
     active: true,
     status: "",
-    assigned: "",
+    assigned: "Unassigned",
     attachedFiles: [],
     dueDate: null,
   });
@@ -317,8 +317,9 @@ const Task = () => {
           onChange={(e) => setNewAssigned(e)}
         >
           <option defaultValue>
-            {taskData.assigned ? taskData.assigned : "Choose one..."}
+            {taskData.assigned ? taskData.assigned : "Unassigned"}
           </option>
+          {taskData.assigned !== "Unassigned" && <option>Unassigned</option>}
           {users
             .filter((agent) => agent.name !== taskData.assigned)
             .map((agent) => (
