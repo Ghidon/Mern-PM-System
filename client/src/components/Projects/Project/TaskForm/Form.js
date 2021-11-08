@@ -23,7 +23,6 @@ const Form = ({ projectId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(taskData);
     dispatch(createTask({ ...taskData, name: user?.result?.name }));
     setTaskData({ ...initialState, projectId: projectId });
   };
@@ -31,7 +30,6 @@ const Form = ({ projectId }) => {
   const addFile = (file) => {
     const newFileList = [];
     newFileList.push(file);
-    console.log(newFileList);
     setTaskData({ ...taskData, attachedFiles: newFileList });
   };
 

@@ -3,6 +3,7 @@ import express from "express";
 import {
   signin,
   signup,
+  googleSignup,
   getUsers,
   getUser,
   updateUser,
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.post("/signin", signin);
 router.post("/signup", signup);
+router.post("/googlesignup", googleSignup);
 router.get("/", getUsers);
 router.patch("/:id", updateUser);
 router.get("/:id", getUser);

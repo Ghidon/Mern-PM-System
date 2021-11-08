@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import Icon from "./Icon";
-import { signin, signup } from "../../actions/auth";
+import { googleSignup, signin, signup } from "../../actions/auth";
 import { AUTH } from "../../constants/actionTypes";
 
 const initialState = {
@@ -46,6 +46,8 @@ function Auth() {
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
     const token = res?.tokenId;
+
+    dispatch(googleSignup(result, history));
 
     try {
       dispatch({ type: AUTH, data: { result, token } });

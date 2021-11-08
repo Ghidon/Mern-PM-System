@@ -24,3 +24,11 @@ export const signup = (formData, history) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const googleSignup = (result, history) => async (dispatch) => {
+  try {
+    await api.googleSignUp(result);
+  } catch (error) {
+    console.log(error);
+  }
+};

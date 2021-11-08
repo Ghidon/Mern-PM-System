@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import UserContent from "../models/userContent.js";
+import GoogleUserContent from "../models/googleUserContent.js";
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
@@ -61,9 +62,38 @@ export const signup = async (req, res) => {
   }
 };
 
+export const googleSignup = async (req, res) => {
+  const profile = req.body;
+
+  const newUser = {
+    googleId: profile.googleId,
+    name: profile.name,
+    firstName: profile.givenName,
+    lastName: profile.familyName,
+    avatar: profile.imageUrl,
+    email: profile.email,
+  };
+
+  try {
+    let user = await GoogleUserContent.findOne({ googleId: profile.googleId });
+
+    if (user) {
+      return res.status(400).json({ message: "User already exists." });
+    } else {
+      await GoogleUserContent.create(newUser);
+      res.status(200).json({ message: "User created." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "something went wrong." });
+  }
+};
+
 export const getUsers = async (req, res) => {
   try {
     const users = await UserContent.find();
+    const googleUsers = await GoogleUserContent.find();
+
+    googleUsers.map((user) => users.push(user));
 
     res.status(200).json(users);
   } catch (error) {
