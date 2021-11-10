@@ -6,6 +6,7 @@ import TaskPreview from "./TaskPreview/TaskPreview.js";
 import Form from "../TaskForm/Form";
 
 const Tasks = ({ projectId, projectTasks }) => {
+  const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const Tasks = ({ projectId, projectTasks }) => {
           <h5>Active Tasks</h5>
           <div className="align-self-stretch">
             {projectTasks
+              .filter((task) => task.allowedUsers.includes(user.result.name))
               .filter((task) => task.status !== "Done")
               .map((task) => (
                 <div className="d-flex mb-3" key={task._id}>
@@ -56,6 +58,7 @@ const Tasks = ({ projectId, projectTasks }) => {
           <h5>Closed Tasks</h5>
           <div className="">
             {projectTasks
+              .filter((task) => task.allowedUsers.includes(user.result.name))
               .filter((task) => task.status === "Done")
               .map((task) => (
                 <div className="d-flex mb-3" key={task._id}>
