@@ -108,7 +108,7 @@ const TaskPreview = ({ task, projectId }) => {
 
   const priorityBG = () => {
     if (task.priority === "Low") {
-      return "card-header d-flex justify-content-between align-items-center bg-success bg-opacity-25";
+      return "card-header d-flex justify-content-between align-items-center";
     } else if (task.priority === "Medium") {
       return "card-header d-flex justify-content-between align-items-center bg-warning bg-opacity-25";
     } else if (task.priority === "High") {
