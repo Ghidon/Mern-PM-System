@@ -32,10 +32,12 @@ const Task = () => {
     assigned: "Unassigned",
     attachedFiles: [],
     dueDate: null,
+    allowedUsers: [],
   });
 
   const [isEmpty, setIsEmpty] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [searchUser, setSearchUser] = useState(null);
 
   useEffect(() => {
     if (tasks.length) {
@@ -49,6 +51,7 @@ const Task = () => {
         assigned: task.assigned,
         attachedFiles: task.attachedFiles,
         dueDate: task.dueDate,
+        allowedUsers: task.allowedUsers,
       });
     }
   }, [tasks.length]);
@@ -64,9 +67,13 @@ const Task = () => {
     dispatch(updateTask(taskId, { ...taskData, status: e.target.value }));
   };
 
-  const setNewAssigned = (e) => {
-    setTaskData({ ...taskData, assigned: e.target.value });
-    dispatch(updateTask(taskId, { ...taskData, assigned: e.target.value }));
+  const setNewAssigned = (value) => {
+    if (!taskData.allowedUsers.includes(value) && value !== "Unassigned") {
+      taskData.allowedUsers.push(value);
+    }
+
+    setTaskData({ ...taskData, assigned: value });
+    dispatch(updateTask(taskId, { ...taskData, assigned: value }));
   };
 
   const addFile = (file) => {
@@ -80,6 +87,41 @@ const Task = () => {
     dispatch(updateTask(taskId, { ...taskData, dueDate: dueDate }));
     setIsEmpty(!input.value.trim());
     setIsDisabled(modifiers.disabled === true);
+  };
+
+  const setSearchParameter = (e) => {
+    const toLowerCase = e.target.value.toLowerCase();
+    setSearchUser(toLowerCase);
+  };
+
+  const addAlloweduser = (name) => {
+    const newList = taskData.allowedUsers;
+    newList.push(name);
+    setTaskData({ ...taskData, allowedUsers: newList });
+    dispatch(updateTask(taskId, { ...taskData, allowedUsers: newList }));
+  };
+
+  const removeAlloweduser = (name) => {
+    const list = taskData.allowedUsers;
+    const newList = list.filter((agent) => agent !== name);
+
+    if (taskData.assigned === name) {
+      setTaskData({
+        ...taskData,
+        assigned: "Unassigned",
+        allowedUsers: newList,
+      });
+      dispatch(
+        updateTask(taskId, {
+          ...taskData,
+          allowedUsers: newList,
+          assigned: "Unassigned",
+        })
+      );
+    } else {
+      setTaskData({ ...taskData, allowedUsers: newList });
+      dispatch(updateTask(taskId, { ...taskData, allowedUsers: newList }));
+    }
   };
 
   return (
@@ -304,30 +346,106 @@ const Task = () => {
           </div>
         </div>
       )}
-
-      <div className="input-group mb-3">
-        <div className="input-group-prepend">
-          <label className="input-group-text" htmlFor="inputGroupSelect01">
-            Assign Task to:
-          </label>
+      <div className="col-12 col-md-5">
+        <div className="input-group mb-3 ">
+          <div className="input-group-prepend">
+            <label className="input-group-text" htmlFor="inputGroupSelect01">
+              Assign Task to:
+            </label>
+          </div>
+          <select
+            className="form-select"
+            id="inputGroupSelect01"
+            onChange={(e) => setNewAssigned(e.target.value)}
+          >
+            <option defaultValue>
+              {taskData.assigned ? taskData.assigned : "Unassigned"}
+            </option>
+            {taskData.assigned !== "Unassigned" && <option>Unassigned</option>}
+            {users
+              .filter((agent) => agent.name !== taskData.assigned)
+              .map((agent) => (
+                <option key={agent._id}>{agent.name}</option>
+              ))}
+          </select>
         </div>
-        <select
-          className="custom-select"
-          id="inputGroupSelect01"
-          onChange={(e) => setNewAssigned(e)}
-        >
-          <option defaultValue>
-            {taskData.assigned ? taskData.assigned : "Unassigned"}
-          </option>
-          {taskData.assigned !== "Unassigned" && <option>Unassigned</option>}
-          {users
-            .filter((agent) => agent.name !== taskData.assigned)
-            .map((agent) => (
-              <option key={agent._id}>{agent.name}</option>
-            ))}
-        </select>
       </div>
-
+      <div className="d-flex justify-content-between flex-wrap">
+        <div className="col-12 col-md-5">
+          <h5>List of task viewers</h5>
+          {taskData.allowedUsers.length &&
+            taskData.allowedUsers.map((agent) => (
+              <div
+                key={agent}
+                className="card d-flex flex-row p-1 mb-1 justify-content-between align-items-center"
+              >
+                <span>{agent}</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  className="bi bi-person-x-fill text-danger"
+                  viewBox="0 0 16 16"
+                  onClick={() => {
+                    removeAlloweduser(agent);
+                  }}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"
+                  />
+                </svg>
+              </div>
+            ))}
+        </div>
+        <div className="d-flex flex-column col-12 col-md-5">
+          <h5>Search for users</h5>
+          <div className="input-group mb-1">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Add user"
+              aria-label="Add user"
+              aria-describedby="basic-addon1"
+              onChange={(e) => setSearchParameter(e)}
+            />
+          </div>
+          <div className="mb-3">
+            {searchUser !== "" &&
+              users
+                .filter((agent) => !taskData.allowedUsers.includes(agent.name))
+                .filter((agent) =>
+                  agent.name.toLowerCase().includes(searchUser)
+                )
+                .map((agent) => (
+                  <div
+                    key={agent._id}
+                    className="card d-flex flex-row p-1 mb-1 justify-content-between align-items-center"
+                  >
+                    <span>{agent.name}</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      fill="currentColor"
+                      className="bi bi-person-plus-fill text-success"
+                      viewBox="0 0 16 16"
+                      onClick={() => {
+                        addAlloweduser(agent.name);
+                      }}
+                    >
+                      <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                      <path
+                        fillRule="evenodd"
+                        d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"
+                      />
+                    </svg>
+                  </div>
+                ))}
+          </div>
+        </div>
+      </div>
       {/* <SubTasks taskId={id} /> */}
     </div>
   );

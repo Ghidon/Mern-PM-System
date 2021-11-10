@@ -11,6 +11,7 @@ const initialState = {
   assigned: "Unassigned",
   attachedFiles: [],
   dueDate: null,
+  allowedUsers: [],
 };
 
 const Form = ({ projectId }) => {
@@ -23,7 +24,13 @@ const Form = ({ projectId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createTask({ ...taskData, name: user?.result?.name }));
+    dispatch(
+      createTask({
+        ...taskData,
+        name: user?.result?.name,
+        allowedUsers: user?.result?.name,
+      })
+    );
     setTaskData({ ...initialState, projectId: projectId });
   };
 

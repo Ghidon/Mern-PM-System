@@ -66,7 +66,7 @@ export const googleSignup = async (req, res) => {
   const profile = req.body;
 
   const newUser = {
-    googleId: profile.googleId,
+    _id: profile.googleId,
     name: profile.name,
     firstName: profile.givenName,
     lastName: profile.familyName,
