@@ -12,6 +12,7 @@ const initialState = {
   attachedFiles: [],
   dueDate: null,
   allowedUsers: [],
+  priority: "Low",
 };
 
 const Form = ({ projectId }) => {

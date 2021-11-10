@@ -33,6 +33,7 @@ const Task = () => {
     attachedFiles: [],
     dueDate: null,
     allowedUsers: [],
+    priority: "Low",
   });
 
   const [isEmpty, setIsEmpty] = useState(true);
@@ -52,6 +53,7 @@ const Task = () => {
         attachedFiles: task.attachedFiles,
         dueDate: task.dueDate,
         allowedUsers: task.allowedUsers,
+        priority: task.priority,
       });
     }
   }, [tasks.length]);
@@ -74,6 +76,11 @@ const Task = () => {
 
     setTaskData({ ...taskData, assigned: value });
     dispatch(updateTask(taskId, { ...taskData, assigned: value }));
+  };
+
+  const setNewPriority = (value) => {
+    setTaskData({ ...taskData, priority: value });
+    dispatch(updateTask(taskId, { ...taskData, priority: value }));
   };
 
   const addFile = (file) => {
@@ -141,7 +148,7 @@ const Task = () => {
                   </label>
                   <input
                     type="text"
-                    className="form-control form-control"
+                    className="form-control form-control shadow"
                     name="taskCreator"
                     value={taskData.name}
                     onChange={(e) =>
@@ -155,7 +162,7 @@ const Task = () => {
                   </label>
                   <input
                     type="text"
-                    className="form-control form-control"
+                    className="form-control form-control shadow"
                     name="taskTitle"
                     value={taskData.title}
                     onChange={(e) =>
@@ -169,7 +176,7 @@ const Task = () => {
                   </label>
                   <textarea
                     type="text"
-                    className="form-control form-control"
+                    className="form-control form-control shadow"
                     name="taskDescription"
                     value={taskData.description}
                     onChange={(e) =>
@@ -184,7 +191,7 @@ const Task = () => {
                   <label htmlFor="formFileSm" className="form-label-sm">
                     Attach a file
                   </label>
-                  <div className="form-control form-control-sm">
+                  <div className="form-control form-control-sm shadow">
                     <FileBase type="file" multiple={false} onDone={addFile} />
                   </div>
                 </div>
@@ -240,7 +247,7 @@ const Task = () => {
               <span>Attached files</span>
               {taskData.attachedFiles.map((file) => (
                 <div
-                  className="card d-flex flex-row p-1 mb-1"
+                  className="card d-flex flex-row p-1 mb-1 shadow"
                   key={file.base64}
                 >
                   <span>{file.name}</span>
@@ -264,7 +271,7 @@ const Task = () => {
             </div>
           ) : (
             <div className="col-12 col-md-5 my-4">
-              <div className="card d-flex flex-row p-1 mb-1">
+              <div className="card d-flex flex-row p-1 mb-1 shadow">
                 <span>No files attached</span>
               </div>
             </div>
@@ -273,7 +280,7 @@ const Task = () => {
           <div className="mb-3 col-12 col-sm-12 col-md-6 col-lg-5 col-xl-5 col-xxl-4">
             <div className="d-flex ">
               <button
-                className="btn btn-secondary"
+                className="btn btn-secondary shadow"
                 onClick={() => {
                   document.getElementById("taskForm").disabled = false;
                   document
@@ -290,11 +297,11 @@ const Task = () => {
                 onClick={() => {
                   handleSubmit();
                 }}
-                className="btn btn-primary ms-3 disabled"
+                className="btn btn-primary ms-3 disabled shadow"
               >
                 Save
               </button>
-              <div className="input-group ms-3">
+              <div className="input-group ms-3 shadow">
                 <label
                   className="input-group-text"
                   htmlFor="inputGroupSelect01"
@@ -327,7 +334,7 @@ const Task = () => {
           </div>
           <div className="ms-auto mb-3">
             <button
-              className="btn btn-danger"
+              className="btn btn-danger shadow"
               onClick={() => {
                 dispatch(deleteTask(taskId));
                 history.push(`/view/project/${projectId}`);
@@ -336,7 +343,7 @@ const Task = () => {
               Delete Task
             </button>
             <button
-              className="btn btn-secondary ms-3"
+              className="btn btn-secondary ms-3 shadow"
               onClick={() => {
                 history.push(`/view/project/${projectId}`);
               }}
@@ -346,38 +353,61 @@ const Task = () => {
           </div>
         </div>
       )}
-      <div className="col-12 col-md-5">
-        <div className="input-group mb-3 ">
-          <div className="input-group-prepend">
-            <label className="input-group-text" htmlFor="inputGroupSelect01">
-              Assign Task to:
-            </label>
+      <div className="d-flex justify-content-between flex-wrap">
+        <div className="col-12 col-md-5">
+          <div className="input-group mb-3 shadow">
+            <div className="input-group-prepend">
+              <label className="input-group-text" htmlFor="inputGroupSelect01">
+                Assign Task to:
+              </label>
+            </div>
+            <select
+              className="form-select"
+              id="inputGroupSelect01"
+              onChange={(e) => setNewAssigned(e.target.value)}
+            >
+              <option defaultValue>
+                {taskData.assigned ? taskData.assigned : "Unassigned"}
+              </option>
+              {taskData.assigned !== "Unassigned" && (
+                <option>Unassigned</option>
+              )}
+              {users
+                .filter((agent) => agent.name !== taskData.assigned)
+                .map((agent) => (
+                  <option key={agent._id}>{agent.name}</option>
+                ))}
+            </select>
           </div>
-          <select
-            className="form-select"
-            id="inputGroupSelect01"
-            onChange={(e) => setNewAssigned(e.target.value)}
-          >
-            <option defaultValue>
-              {taskData.assigned ? taskData.assigned : "Unassigned"}
-            </option>
-            {taskData.assigned !== "Unassigned" && <option>Unassigned</option>}
-            {users
-              .filter((agent) => agent.name !== taskData.assigned)
-              .map((agent) => (
-                <option key={agent._id}>{agent.name}</option>
-              ))}
-          </select>
+        </div>
+        <div className="col-12 col-md-5">
+          <div className="input-group mb-3 shadow">
+            <div className="input-group-prepend">
+              <label className="input-group-text" htmlFor="inputGroupSelect01">
+                Priority:
+              </label>
+            </div>
+            <select
+              className="form-select"
+              id="inputGroupSelect02"
+              onChange={(e) => setNewPriority(e.target.value)}
+            >
+              <option defaultValue>{taskData.priority}</option>
+              {taskData.priority !== "Low" && <option>Low</option>}
+              {taskData.priority !== "Medium" && <option>Medium</option>}
+              {taskData.priority !== "High" && <option>High</option>}
+            </select>
+          </div>
         </div>
       </div>
       <div className="d-flex justify-content-between flex-wrap">
-        <div className="col-12 col-md-5">
+        <div className="col-md-5 col-12 col-md-5">
           <h5>List of task viewers</h5>
           {taskData.allowedUsers.length &&
             taskData.allowedUsers.map((agent) => (
               <div
                 key={agent}
-                className="card d-flex flex-row p-1 mb-1 justify-content-between align-items-center"
+                className="card d-flex flex-row p-1 mb-1 justify-content-between align-items-center shadow"
               >
                 <span>{agent}</span>
                 <svg
@@ -404,7 +434,7 @@ const Task = () => {
           <div className="input-group mb-1">
             <input
               type="text"
-              className="form-control"
+              className="form-control shadow"
               placeholder="Add user"
               aria-label="Add user"
               aria-describedby="basic-addon1"
@@ -421,7 +451,7 @@ const Task = () => {
                 .map((agent) => (
                   <div
                     key={agent._id}
-                    className="card d-flex flex-row p-1 mb-1 justify-content-between align-items-center"
+                    className="card d-flex flex-row p-1 mb-1 justify-content-between align-items-center shadow"
                   >
                     <span>{agent.name}</span>
                     <svg

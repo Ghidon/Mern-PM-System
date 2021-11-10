@@ -12,6 +12,7 @@ const taskSchema = mongoose.Schema({
   dueDate: Date,
   attachedFiles: Array,
   allowedUsers: Array,
+  priority: String,
   createdAt: {
     type: Date,
     default: new Date(),

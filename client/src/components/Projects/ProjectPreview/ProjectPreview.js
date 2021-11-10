@@ -3,12 +3,10 @@ import { useHistory } from "react-router-dom";
 import moment from "moment";
 import MindBlowing from "../../../images/mind-blowing.jpg";
 
-import "./Styles.css";
-
 const ProjectPreview = ({ project }) => {
   const history = useHistory();
   return (
-    <div className="card" style={{ maxWidth: "15rem" }}>
+    <div className="card shadow" style={{ maxWidth: "15rem" }}>
       {!project.selectedFile ? (
         <img
           src={MindBlowing}
@@ -28,7 +26,7 @@ const ProjectPreview = ({ project }) => {
         </p>
         <p className="card-text">{project.description}</p>
         <button
-          className="btn btn-primary mt-auto align-self-start"
+          className="btn btn-primary mt-auto align-self-start shadow"
           onClick={() => {
             let path = `/view/project/${project._id}`;
             history.push(path);

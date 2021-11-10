@@ -30,7 +30,7 @@ const Navbar = () => {
   }, [location, user?.token]);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow">
       <div className="d-flex container-fluid">
         <NavLink className="navbar-brand" to="/">
           PM System

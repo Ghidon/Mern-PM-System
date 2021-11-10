@@ -106,9 +106,19 @@ const TaskPreview = ({ task, projectId }) => {
     }
   };
 
+  const priorityBG = () => {
+    if (task.priority === "Low") {
+      return "card-header d-flex justify-content-between align-items-center bg-success bg-opacity-25";
+    } else if (task.priority === "Medium") {
+      return "card-header d-flex justify-content-between align-items-center bg-warning bg-opacity-25";
+    } else if (task.priority === "High") {
+      return "card-header d-flex justify-content-between align-items-center bg-danger bg-opacity-50";
+    }
+  };
+
   return (
-    <div className="card col-12">
-      <h5 className="card-header d-flex justify-content-between align-items-center">
+    <div className="card col-12 shadow">
+      <h5 className={priorityBG()}>
         {task.title}
         <span>
           {assignedIcon()}

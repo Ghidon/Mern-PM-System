@@ -75,7 +75,7 @@ const Project = () => {
                   </label>
                   <input
                     type="text"
-                    className="form-control form-control"
+                    className="form-control form-control shadow"
                     name="projectCreator"
                     value={projectData.name}
                     onChange={(e) =>
@@ -92,7 +92,7 @@ const Project = () => {
                   </label>
                   <input
                     type="text"
-                    className="form-control form-control"
+                    className="form-control form-control shadow"
                     name="projectTitle"
                     value={projectData.title}
                     onChange={(e) =>
@@ -106,7 +106,7 @@ const Project = () => {
                   </label>
                   <textarea
                     type="text"
-                    className="form-control form-control"
+                    className="form-control form-control shadow"
                     name="projectDescription"
                     value={projectData.description}
                     onChange={(e) =>
@@ -121,7 +121,7 @@ const Project = () => {
                   <label htmlFor="formFileSm" className="form-label-sm">
                     Change Cover Image
                   </label>
-                  <div className="form-control form-control-sm mb-3">
+                  <div className="form-control form-control-sm mb-3 shadow">
                     <FileBase
                       type="file"
                       multiple={false}
@@ -136,7 +136,7 @@ const Project = () => {
             <div className="d-flex justify-content-between mb-3">
               <div>
                 <button
-                  className="btn btn-secondary"
+                  className="btn btn-secondary shadow"
                   onClick={() => {
                     document.getElementById("projectForm").disabled = false;
                     document
@@ -153,13 +153,13 @@ const Project = () => {
                   onClick={() => {
                     handleSubmit();
                   }}
-                  className="btn btn-primary ms-3 disabled"
+                  className="btn btn-primary ms-3 disabled shadow"
                 >
                   Save
                 </button>
               </div>
               <button
-                className="btn btn-danger"
+                className="btn btn-danger shadow"
                 onClick={() => {
                   handleDelete();
                 }}
@@ -174,12 +174,12 @@ const Project = () => {
                 src={projectData.selectedFile}
                 style={{ maxHeight: "300px" }}
                 alt=""
-                className="card-img-top"
+                className="card-img-top shadow"
               />
             ) : (
               <img
                 src={MindBlowing}
-                className="card-img-top"
+                className="card-img-top shadow"
                 alt={project.name?.charAt(0)}
               />
             )}
