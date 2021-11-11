@@ -202,22 +202,24 @@ const Task = () => {
                 </label>
                 {taskData.name === user?.result?.name ? (
                   <div className="d-flex justify-content-between">
-                    <DayPickerInput
-                      onDayChange={handleDayChange}
-                      formatDate={formatDate}
-                      parseDate={parseDate}
-                      placeholder={
-                        !taskData.dueDate
-                          ? " Set a Due Date"
-                          : `${formatDate(taskData.dueDate)}`
-                      }
-                      dayPickerProps={{
-                        selectedDays: taskData.dueDate,
-                        disabledDays: {
-                          before: new Date(),
-                        },
-                      }}
-                    />
+                    <div className="shadow">
+                      <DayPickerInput
+                        onDayChange={handleDayChange}
+                        formatDate={formatDate}
+                        parseDate={parseDate}
+                        placeholder={
+                          !taskData.dueDate
+                            ? " Set a Due Date"
+                            : `${formatDate(taskData.dueDate)}`
+                        }
+                        dayPickerProps={{
+                          selectedDays: taskData.dueDate,
+                          disabledDays: {
+                            before: new Date(),
+                          },
+                        }}
+                      />
+                    </div>
                     <span className="mx-2">
                       {!isEmpty &&
                         !taskData.dueDate &&
