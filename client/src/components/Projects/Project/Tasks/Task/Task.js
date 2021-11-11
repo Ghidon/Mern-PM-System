@@ -397,7 +397,8 @@ const Task = () => {
                 ))}
               </div>
             ) : (
-              <div className="col-12 col-md-5 my-4">
+              <div className="col-12 mb-3">
+                <span>Attached files</span>
                 <div className="card d-flex flex-row p-1 mb-1 shadow">
                   <span>No files attached</span>
                 </div>
