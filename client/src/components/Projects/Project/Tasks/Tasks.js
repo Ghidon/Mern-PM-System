@@ -49,105 +49,101 @@ const Tasks = ({ projectId, projectTasks }) => {
 
   return (
     <div>
-      <div className="d-flex flex-row flex-wrap justify-content-between">
-        <div>
-          <div className="d-flex">
-            <button
-              type="button"
-              className="btn btn-primary shadow mb-3"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-            >
-              Create a new Task
-            </button>
-          </div>
-          <div
-            className="modal fade"
-            id="exampleModal"
-            tabIndex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
+      <div>
+        <div className="d-flex">
+          <button
+            type="button"
+            className="btn btn-primary shadow mb-3"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
           >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-body">
-                  <Form projectId={projectId} />
-                </div>
+            Create a new Task
+          </button>
+        </div>
+        <div
+          className="modal fade"
+          id="exampleModal"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-body">
+                <Form projectId={projectId} />
               </div>
             </div>
           </div>
         </div>
-        <div className="d-flex flex-wrap">
-          <div>
-            <div className="input-group shadow">
-              <label className="input-group-text" htmlFor="inputGroupSelect01">
-                status
-              </label>
-              <select
-                className="form-select"
-                id="inputGroupSelect01"
-                onChange={(e) => filterStatus(e.target.value)}
-              >
-                <option value="All" defaultValue>
-                  All
-                </option>
-                <option value="To do">To do</option>
-                <option value="In progress">In progress</option>
-                <option value="Blocked">Blocked</option>
-                <option value="Done">Done</option>
-              </select>
-            </div>
+      </div>
+      <div className="d-flex flex-wrap mt-3">
+        <div className="col-7 col-lg-3 me-3 mb-3">
+          <div className="input-group shadow">
+            <label className="input-group-text" htmlFor="inputGroupSelect01">
+              status
+            </label>
+            <select
+              className="form-select"
+              id="inputGroupSelect01"
+              onChange={(e) => filterStatus(e.target.value)}
+            >
+              <option value="All" defaultValue>
+                All
+              </option>
+              <option value="To do">To do</option>
+              <option value="In progress">In progress</option>
+              <option value="Blocked">Blocked</option>
+              <option value="Done">Done</option>
+            </select>
           </div>
-          <div>
-            <div className="input-group shadow">
-              <label className="input-group-text" htmlFor="inputGroupSelect01">
-                Priority
-              </label>
-              <select
-                className="form-select"
-                id="inputGroupSelect01"
-                onChange={(e) => filterPriority(e.target.value)}
-              >
-                <option value="All" defaultValue>
-                  All
-                </option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-              </select>
-            </div>
+        </div>
+        <div className="col-7 col-lg-3 me-3 mb-3">
+          <div className="input-group shadow">
+            <label className="input-group-text" htmlFor="inputGroupSelect01">
+              Priority
+            </label>
+            <select
+              className="form-select"
+              id="inputGroupSelect01"
+              onChange={(e) => filterPriority(e.target.value)}
+            >
+              <option value="All" defaultValue>
+                All
+              </option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
           </div>
-          <div>
-            <div className="input-group shadow">
-              <label className="input-group-text" htmlFor="inputGroupSelect01">
-                Is
-              </label>
-              <select
-                className="form-select"
-                id="inputGroupSelect01"
-                onChange={(e) => filterAssigned(e.target.value)}
-              >
-                <option value="All" defaultValue>
-                  All
-                </option>
-                <option value={false}>Unassigned</option>
-                <option value={true}>Assigned</option>
-              </select>
-            </div>
+        </div>
+        <div className="col-7 col-lg-3 mr-3 mb-3">
+          <div className="input-group shadow">
+            <label className="input-group-text" htmlFor="inputGroupSelect01">
+              Is
+            </label>
+            <select
+              className="form-select"
+              id="inputGroupSelect01"
+              onChange={(e) => filterAssigned(e.target.value)}
+            >
+              <option value="All" defaultValue>
+                All
+              </option>
+              <option value={false}>Unassigned</option>
+              <option value={true}>Assigned</option>
+            </select>
           </div>
         </div>
       </div>
+
       <div className="d-flex flex-column">
-        <div className="d-flex justify-content-between flex-wrap">
-          <div className="mt-3 col-12 col-md-6">
-            <h5>Active Tasks</h5>
-            <div className="align-self-stretch">
-              {assignedFilteredList.map((task) => (
-                <div className="d-flex mb-3" key={task._id}>
-                  <TaskPreview task={task} projectId={projectId} />
-                </div>
-              ))}
-            </div>
+        <div className="mt-3">
+          <div className="align-self-stretch">
+            {assignedFilteredList.map((task) => (
+              <div className="d-flex mb-3" key={task._id}>
+                <TaskPreview task={task} projectId={projectId} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
