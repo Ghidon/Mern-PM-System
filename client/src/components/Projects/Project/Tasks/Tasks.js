@@ -1,31 +1,51 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { getTasks } from "../../../../actions/tasks.js";
+import React, { useState } from "react";
+
 import TaskPreview from "./TaskPreview/TaskPreview.js";
 
 import Form from "../TaskForm/Form";
 
 const Tasks = ({ projectId, projectTasks }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
-  const dispatch = useDispatch();
 
-  const [statusFilter, setStatusFilter] = useState("To do");
-  const [priorityFilter, setPriorityFilter] = useState("Low");
-  const [assignedFilter, setAssignedFilter] = useState(false);
-  const [filtersOn, setFiltersOn] = useState(true);
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [priorityFilter, setPriorityFilter] = useState("All");
+  const [assignedFilter, setAssignedFilter] = useState("All");
 
-  useEffect(() => {
-    dispatch(getTasks());
-  }, [dispatch]);
-
-  const switchAssignedFilter = (value) => {
-    console.log(value);
-    value === "true" ? setAssignedFilter(true) : setAssignedFilter(false);
+  const filterAssigned = (value) => {
+    value === "All"
+      ? setAssignedFilter("All")
+      : value === "true"
+      ? setAssignedFilter(true)
+      : setAssignedFilter(false);
   };
 
-  const switchFilters = () => {
-    setFiltersOn(!filtersOn);
+  const filterStatus = (value) => {
+    setStatusFilter(value);
   };
+
+  const filterPriority = (value) => {
+    setPriorityFilter(value);
+  };
+
+  const viewersFilteredlist = projectTasks.filter((task) =>
+    task.allowedUsers.includes(user.result.name)
+  );
+  const statusFilteredList =
+    statusFilter === "All"
+      ? viewersFilteredlist
+      : viewersFilteredlist.filter((task) => task.status === statusFilter);
+  const priorityFilteredList =
+    priorityFilter === "All"
+      ? statusFilteredList
+      : statusFilteredList.filter((task) => task.priority === priorityFilter);
+  const assignedFilteredList =
+    assignedFilter === "All"
+      ? priorityFilteredList
+      : priorityFilteredList.filter((task) =>
+          assignedFilter
+            ? task.assigned !== "Unassigned"
+            : task.assigned === "Unassigned"
+        );
 
   return (
     <div>
@@ -57,23 +77,7 @@ const Tasks = ({ projectId, projectTasks }) => {
             </div>
           </div>
         </div>
-        <div className="d-flex flex-wrap filters">
-          <div className="form-check form-switch">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              role="switch"
-              id="flexSwitchCheckDefault"
-              onChange={switchFilters}
-              defaultChecked
-            />
-            <label
-              className="form-check-label"
-              htmlFor="flexSwitchCheckDefault"
-            >
-              Enable filters
-            </label>
-          </div>
+        <div className="d-flex flex-wrap">
           <div>
             <div className="input-group shadow">
               <label className="input-group-text" htmlFor="inputGroupSelect01">
@@ -82,11 +86,12 @@ const Tasks = ({ projectId, projectTasks }) => {
               <select
                 className="form-select"
                 id="inputGroupSelect01"
-                onChange={(e) => setStatusFilter(e.target.value)}
+                onChange={(e) => filterStatus(e.target.value)}
               >
-                <option value="To do" defaultValue>
-                  To do
+                <option value="All" defaultValue>
+                  All
                 </option>
+                <option value="To do">To do</option>
                 <option value="In progress">In progress</option>
                 <option value="Blocked">Blocked</option>
                 <option value="Done">Done</option>
@@ -101,11 +106,12 @@ const Tasks = ({ projectId, projectTasks }) => {
               <select
                 className="form-select"
                 id="inputGroupSelect01"
-                onChange={(e) => setPriorityFilter(e.target.value)}
+                onChange={(e) => filterPriority(e.target.value)}
               >
-                <option value="Low" defaultValue>
-                  Low
+                <option value="All" defaultValue>
+                  All
                 </option>
+                <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
               </select>
@@ -119,11 +125,12 @@ const Tasks = ({ projectId, projectTasks }) => {
               <select
                 className="form-select"
                 id="inputGroupSelect01"
-                onChange={(e) => switchAssignedFilter(e.target.value)}
+                onChange={(e) => filterAssigned(e.target.value)}
               >
-                <option value={false} defaultValue>
-                  Unassigned
+                <option value="All" defaultValue>
+                  All
                 </option>
+                <option value={false}>Unassigned</option>
                 <option value={true}>Assigned</option>
               </select>
             </div>
@@ -135,32 +142,11 @@ const Tasks = ({ projectId, projectTasks }) => {
           <div className="mt-3 col-12 col-md-6">
             <h5>Active Tasks</h5>
             <div className="align-self-stretch">
-              {filtersOn
-                ? projectTasks
-                    .filter((task) =>
-                      task.allowedUsers.includes(user.result.name)
-                    )
-                    .filter((task) => task.status === statusFilter)
-                    .filter((task) => task.priority === priorityFilter)
-                    .filter((task) =>
-                      assignedFilter
-                        ? task.assigned !== "Unassigned"
-                        : task.assigned === "Unassigned"
-                    )
-                    .map((task) => (
-                      <div className="d-flex mb-3" key={task._id}>
-                        <TaskPreview task={task} projectId={projectId} />
-                      </div>
-                    ))
-                : projectTasks
-                    .filter((task) =>
-                      task.allowedUsers.includes(user.result.name)
-                    )
-                    .map((task) => (
-                      <div className="d-flex mb-3" key={task._id}>
-                        <TaskPreview task={task} projectId={projectId} />
-                      </div>
-                    ))}
+              {assignedFilteredList.map((task) => (
+                <div className="d-flex mb-3" key={task._id}>
+                  <TaskPreview task={task} projectId={projectId} />
+                </div>
+              ))}
             </div>
           </div>
         </div>
