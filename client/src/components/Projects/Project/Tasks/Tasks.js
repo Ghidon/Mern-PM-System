@@ -1,15 +1,21 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { getTasks } from "../../../../actions/tasks.js";
 import TaskPreview from "./TaskPreview/TaskPreview.js";
 
 import Form from "../TaskForm/Form";
 
 const Tasks = ({ projectId, projectTasks }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
+  const dispatch = useDispatch();
 
   const [statusFilter, setStatusFilter] = useState("All");
   const [priorityFilter, setPriorityFilter] = useState("All");
   const [assignedFilter, setAssignedFilter] = useState("All");
+
+  useEffect(() => {
+    dispatch(getTasks());
+  }, [dispatch]);
 
   const filterAssigned = (value) => {
     value === "All"

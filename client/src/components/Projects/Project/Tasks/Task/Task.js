@@ -211,7 +211,7 @@ const Task = () => {
                   Due date
                 </label>
                 {taskData.name === user?.result?.name ? (
-                  <div className="d-flex justify-content-between">
+                  <div className="d-flex flex-wrap justify-content-between">
                     <div className="shadow">
                       <DayPickerInput
                         onDayChange={handleDayChange}
@@ -239,9 +239,7 @@ const Task = () => {
                         "This day can't be selected"}
                     </span>
                     {taskData.dueDate && (
-                      <span>
-                        Expires is {moment(taskData.dueDate).fromNow()}
-                      </span>
+                      <span>Expires {moment(taskData.dueDate).fromNow()}</span>
                     )}
                   </div>
                 ) : (

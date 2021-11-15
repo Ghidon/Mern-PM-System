@@ -9,7 +9,6 @@ import Auth from "./components/Auth/Auth";
 import Project from "./components/Projects/Project/Project";
 import NewUser from "./components/NewUser";
 import Projects from "./components/Projects/Projects";
-import ViewArchived from "./components/ViewArchived";
 import Task from "./components/Projects/Project/Tasks/Task/Task";
 
 import { getTasks } from "./actions/tasks";
@@ -30,12 +29,6 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <Route exact path="/auth" component={Auth} />
         </Switch>
-
-        {/* <Login /> */}
-        {/* <Route exact path="/register">
-          <Register />
-        </Route> */}
-
         <Route exact path="/create/user">
           <NewUser />
         </Route>
@@ -47,10 +40,6 @@ const App = () => {
         </Route>
         <Route exact path="/view/project/:projectId/task/:taskId">
           <Task />
-        </Route>
-
-        <Route exact path="/read/archived">
-          <ViewArchived />
         </Route>
       </div>
     </BrowserRouter>
