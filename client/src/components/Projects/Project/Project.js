@@ -6,6 +6,7 @@ import FileBase from "react-file-base64";
 import Tasks from "./Tasks/Tasks.js";
 import MindBlowing from "../../../images/mind-blowing.jpg";
 import { deleteProject, updateProject } from "../../../actions/projects";
+import { getTasks } from "../../../actions/tasks.js";
 
 const Project = () => {
   let { projectId } = useParams();
@@ -14,7 +15,11 @@ const Project = () => {
   const projects = useSelector((state) => state.projects);
   const tasks = useSelector((state) => state.tasks);
   const project = projects.find((x) => x._id === projectId);
-  const projectTasks = tasks.filter((task) => task.projectId === projectId);
+  // give time to the component to rerender and get back the tasks from useEffect
+  const projectTasks = tasks.length
+    ? tasks.filter((task) => task.projectId === projectId)
+    : [];
+  ///
   const user = JSON.parse(localStorage.getItem("profile"));
 
   const [projectData, setProjectData] = useState({
@@ -28,6 +33,7 @@ const Project = () => {
   });
 
   useEffect(() => {
+    dispatch(getTasks);
     if (projects.length) {
       setProjectData({
         creator: project.creator,
