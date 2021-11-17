@@ -10,6 +10,12 @@ export const UPDATE_TASK = "UPDATE_TASK";
 export const FETCH_ONE_TASK = "FETCH_ONE_TASK";
 export const DELETE_ONE_TASK = "DELETE_ONE_TASK";
 
+export const FETCH_ALL_SUBTASKS = "FETCH_ALL_SUBTASKS";
+export const CREATE_SUBTASK = "CREATE_SUBTASK";
+export const UPDATE_SUBTASK = "UPDATE_SUBTASK";
+export const FETCH_ONE_SUBTASK = "FETCH_ONE_SUBTASK";
+export const DELETE_ONE_SUBTASK = "DELETE_ONE_SUBTASK";
+
 export const AUTH = "AUTH";
 export const LOGOUT = "LOGOUT";
 

@@ -16,7 +16,7 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/tasks", taskRoutes);
-app.use("/subTasks", subTaskRoutes);
+app.use("/subtasks", subTaskRoutes);
 app.use("/projects", projectsRoutes);
 app.use("/user", userRoutes);
 

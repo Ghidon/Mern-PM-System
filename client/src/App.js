@@ -14,12 +14,14 @@ import Task from "./components/Projects/Project/Tasks/Task/Task";
 import { getTasks } from "./actions/tasks";
 import { getProjects } from "./actions/projects";
 import { getUsers } from "./actions/users";
+import { getSubTasks } from "./actions/subtasks";
 
 const App = () => {
   const dispatch = useDispatch();
   dispatch(getProjects());
   dispatch(getTasks());
   dispatch(getUsers());
+  dispatch(getSubTasks);
 
   return (
     <BrowserRouter>

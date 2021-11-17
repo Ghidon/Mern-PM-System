@@ -8,8 +8,9 @@ import "react-day-picker/lib/style.css";
 
 import { formatDate, parseDate } from "react-day-picker/moment";
 
-// import SubTasks from "./SubTasks/SubTasks.js";
+import SubTasks from "./SubTasks/SubTasks.js";
 import { deleteTask, updateTask } from "../../../../../actions/tasks";
+import { getSubTasks } from "../../../../../actions/subtasks.js";
 
 const Task = () => {
   let { taskId } = useParams();
@@ -17,9 +18,15 @@ const Task = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const tasks = useSelector((state) => state.tasks);
+  const subtasks = useSelector((state) => state.subtasks);
   const users = useSelector((state) => state.users);
 
   const task = tasks.find((x) => x._id === taskId);
+
+  const taskSubtasks = subtasks.length
+    ? subtasks.filter((subtask) => subtask.taskId === taskId)
+    : [];
+
   const user = JSON.parse(localStorage.getItem("profile"));
 
   const [taskData, setTaskData] = useState({
@@ -41,6 +48,7 @@ const Task = () => {
   const [searchUser, setSearchUser] = useState(null);
 
   useEffect(() => {
+    dispatch(getSubTasks);
     if (tasks.length) {
       setTaskData({
         creator: task.creator,
@@ -62,6 +70,15 @@ const Task = () => {
     dispatch(updateTask(taskId, { ...taskData, name: user?.result?.name }));
     document.getElementById("taskForm").disabled = true;
     document.getElementById("saveButton").classList.add("disabled");
+  };
+
+  const handleDelete = () => {
+    if (taskSubtasks.length) {
+      alert("Cannot delete a Task with active subtasks");
+    } else {
+      dispatch(deleteTask(taskId));
+      history.push(`/view/project/${projectId}`);
+    }
   };
 
   const setNewStatus = (e) => {
@@ -311,8 +328,7 @@ const Task = () => {
                 <button
                   className="btn btn-danger shadow"
                   onClick={() => {
-                    dispatch(deleteTask(taskId));
-                    history.push(`/view/project/${projectId}`);
+                    handleDelete();
                   }}
                 >
                   Delete Task
@@ -511,7 +527,7 @@ const Task = () => {
         </div>
       )}
 
-      {/* <SubTasks taskId={id} /> */}
+      <SubTasks taskId={taskId} taskSubtasks={taskSubtasks} />
     </div>
   );
 };

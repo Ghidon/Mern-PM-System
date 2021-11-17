@@ -42,7 +42,7 @@ const Form = ({ projectId }) => {
   };
 
   return (
-    <div className="">
+    <div>
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <div>
           <label htmlFor="inputTitle" className="form-label-sm">

@@ -27,6 +27,14 @@ export const updateTask = (id, updatedTask) =>
 export const getTask = (id) => API.get(`/tasks/${id}`);
 export const deleteTask = (id) => API.delete(`/tasks/${id}`);
 
+//Subtasks requests
+export const fetchSubTasks = () => API.get("/subtasks");
+export const createSubTask = (newSubTask) => API.post("/subtasks", newSubTask);
+export const updateSubTask = (id, updatedSubTask) =>
+  API.patch(`/subtasks/${id}`, updatedSubTask);
+export const getSubTask = (id) => API.get(`/subtasks/${id}`);
+export const deleteSubTask = (id) => API.delete(`/subtasks/${id}`);
+
 //User requests
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
