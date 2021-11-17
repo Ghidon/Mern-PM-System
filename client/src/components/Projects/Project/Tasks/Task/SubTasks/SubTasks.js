@@ -5,7 +5,7 @@ import Subtask from "./SubTask/Subtask.js";
 
 import Form from "../SubTaskForm/Form";
 
-const SubTasks = ({ taskId, taskSubtasks }) => {
+const SubTasks = ({ taskId, taskSubtasks, taskAssigned }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
 
@@ -40,7 +40,7 @@ const SubTasks = ({ taskId, taskSubtasks }) => {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-body">
-                <Form taskId={taskId} />
+                <Form taskId={taskId} taskAssigned={taskAssigned} />
               </div>
             </div>
           </div>

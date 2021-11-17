@@ -317,9 +317,13 @@ const Task = () => {
                       {taskData.status !== "Blocked" && (
                         <option value="Blocked">Blocked</option>
                       )}
-                      {taskData.status !== "Done" && (
-                        <option value="Done">Done</option>
-                      )}
+                      {/* If every subtask is done and the Task Status is not already "Done", show the option "Done" */}
+                      {taskSubtasks.every(
+                        (subtask) => subtask.status === "Done"
+                      ) &&
+                        taskData.status !== "Done" && (
+                          <option value="Done">Done</option>
+                        )}
                     </select>
                   </div>
                 </div>
@@ -527,7 +531,11 @@ const Task = () => {
         </div>
       )}
 
-      <SubTasks taskId={taskId} taskSubtasks={taskSubtasks} />
+      <SubTasks
+        taskId={taskId}
+        taskSubtasks={taskSubtasks}
+        taskAssigned={taskData.assigned}
+      />
     </div>
   );
 };

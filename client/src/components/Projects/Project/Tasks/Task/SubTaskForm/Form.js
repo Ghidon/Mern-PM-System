@@ -15,10 +15,11 @@ const initialState = {
   priority: "Low",
 };
 
-const Form = ({ taskId }) => {
+const Form = ({ taskId, taskAssigned }) => {
   const [subTaskData, setSubTaskData] = useState({
     ...initialState,
     taskId: taskId,
+    assigned: taskAssigned,
   });
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -32,7 +33,7 @@ const Form = ({ taskId }) => {
         allowedUsers: user?.result?.name,
       })
     );
-    setSubTaskData({ ...initialState, taskId: taskId });
+    setSubTaskData({ ...initialState, taskId: taskId, assigned: taskAssigned });
   };
 
   const addFile = (file) => {

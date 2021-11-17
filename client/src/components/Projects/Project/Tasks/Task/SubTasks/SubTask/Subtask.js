@@ -2,11 +2,32 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
 
-import { deleteSubTask } from "../../../../../../../actions/subtasks";
+import {
+  deleteSubTask,
+  updateSubTask,
+} from "../../../../../../../actions/subtasks";
 
 const Subtask = ({ subtask }) => {
-  const [trashActive, setTrashActive] = useState(false);
+  const [trashLight, setTrashLight] = useState(false);
+
+  const [editMode, setEditMode] = useState(false);
+  const [description, setDescription] = useState(subtask.description);
+
   const dispatch = useDispatch();
+
+  const setNewStatus = (e) => {
+    dispatch(
+      updateSubTask(subtask._id, { ...subtask, status: e.target.innerText })
+    );
+  };
+
+  const saveNewDescription = () => {
+    editMode &&
+      dispatch(
+        updateSubTask(subtask._id, { ...subtask, description: description })
+      );
+    setEditMode(!editMode);
+  };
 
   const statusIcon = () => {
     if (subtask.status === "To do") {
@@ -87,42 +108,104 @@ const Subtask = ({ subtask }) => {
     <div className="card col-12 shadow">
       <h5 className={priorityBG()}>
         {subtask.title}
-        <span>{statusIcon()}</span>
+
+        <div className="btn-group dropstart">
+          <span
+            className=" dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {statusIcon()}
+          </span>
+          <ul className="dropdown-menu">
+            <li className="dropdown-item" onClick={(e) => setNewStatus(e)}>
+              To do
+            </li>
+            <li className="dropdown-item" onClick={(e) => setNewStatus(e)}>
+              In progress
+            </li>
+            <li className="dropdown-item" onClick={(e) => setNewStatus(e)}>
+              Blocked
+            </li>
+            <li className="dropdown-item" onClick={(e) => setNewStatus(e)}>
+              Done
+            </li>
+          </ul>
+        </div>
       </h5>
       <div className="card-body">
-        <p className="card-text">{subtask.description}</p>
-        <div className="d-flex justify-content-between align-items-center">
+        {!editMode ? (
+          <p className="card-text">{subtask.description}</p>
+        ) : (
+          <div class="input-group mb-3">
+            <textarea
+              type="text"
+              className="form-control"
+              value={description}
+              aria-describedby="basic-addon1"
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+        )}
+
+        {/* <div className="d-flex justify-content-between align-items-center">
           <p style={{ fontWeight: "bold", color: "blue" }}>
             {subtask.dueDate && (
               <small>Expires {moment(subtask.dueDate).fromNow()}</small>
             )}
           </p>
-        </div>
+        </div> */}
+
         <div className="d-flex justify-content-between">
           <small className="text-muted">
             Created by: {subtask.name}, {moment(subtask.createdAt).fromNow()}
           </small>
-          <span
-            onMouseEnter={() => setTrashActive(!trashActive)}
-            onMouseLeave={() => setTrashActive(!trashActive)}
-            style={{ cursor: "pointer" }}
-            onClick={() => dispatch(deleteSubTask(subtask._id))}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              fill="currentColor"
-              className={
-                trashActive
-                  ? "bi bi-trash-fill text-danger"
-                  : "bi bi-trash-fill text-secondary"
-              }
-              viewBox="0 0 16 16"
+          <div>
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={() => saveNewDescription()}
             >
-              <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-            </svg>
-          </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                className={
+                  editMode
+                    ? "bi bi-pencil-square text-primary me-2"
+                    : "bi bi-pencil-square text-secondary me-2"
+                }
+                viewBox="0 0 16 16"
+              >
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                <path
+                  fill-rule="evenodd"
+                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                />
+              </svg>
+            </span>
+            <span
+              onMouseEnter={() => setTrashLight(!trashLight)}
+              onMouseLeave={() => setTrashLight(!trashLight)}
+              style={{ cursor: "pointer" }}
+              onClick={() => dispatch(deleteSubTask(subtask._id))}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                className={
+                  trashLight
+                    ? "bi bi-trash-fill text-danger"
+                    : "bi bi-trash-fill text-secondary"
+                }
+                viewBox="0 0 16 16"
+              >
+                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+              </svg>
+            </span>
+          </div>
         </div>
       </div>
     </div>

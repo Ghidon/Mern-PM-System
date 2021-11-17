@@ -83,7 +83,7 @@ const Tasks = ({ projectId, projectTasks }) => {
         </div>
       </div>
       <div className="d-flex flex-wrap mt-3">
-        <div className="col-7 col-lg-3 me-3 mb-3">
+        <div className="col-7 col-md-3 me-3 mb-3">
           <div className="input-group shadow">
             <label className="input-group-text" htmlFor="inputGroupSelect01">
               status
@@ -103,7 +103,7 @@ const Tasks = ({ projectId, projectTasks }) => {
             </select>
           </div>
         </div>
-        <div className="col-7 col-lg-3 me-3 mb-3">
+        <div className="col-7 col-md-3 me-3 mb-3">
           <div className="input-group shadow">
             <label className="input-group-text" htmlFor="inputGroupSelect01">
               Priority
@@ -122,7 +122,7 @@ const Tasks = ({ projectId, projectTasks }) => {
             </select>
           </div>
         </div>
-        <div className="col-7 col-lg-3 mr-3 mb-3">
+        <div className="col-7 col-md-3 mr-3 mb-3">
           <div className="input-group shadow">
             <label className="input-group-text" htmlFor="inputGroupSelect01">
               Is
