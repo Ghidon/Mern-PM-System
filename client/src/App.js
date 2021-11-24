@@ -11,17 +11,11 @@ import NewUser from "./components/NewUser";
 import Projects from "./components/Projects/Projects";
 import Task from "./components/Projects/Project/Tasks/Task/Task";
 
-import { getTasks } from "./actions/tasks";
-import { getProjects } from "./actions/projects";
 import { getUsers } from "./actions/users";
-import { getSubTasks } from "./actions/subtasks";
 
 const App = () => {
   const dispatch = useDispatch();
-  dispatch(getProjects());
-  dispatch(getTasks());
   dispatch(getUsers());
-  dispatch(getSubTasks);
 
   return (
     <BrowserRouter>
@@ -37,12 +31,16 @@ const App = () => {
         <Route exact path="/read/projects">
           <Projects />
         </Route>
-        <Route exact path="/view/project/:projectId">
-          <Project />
-        </Route>
-        <Route exact path="/view/project/:projectId/task/:taskId">
-          <Task />
-        </Route>
+        <Route
+          exact
+          path="/view/project/:projectId"
+          render={(props) => <Project {...props} />}
+        ></Route>
+        <Route
+          exact
+          path="/view/project/:projectId/task/:taskId"
+          render={(props) => <Task {...props} />}
+        ></Route>
       </div>
     </BrowserRouter>
   );

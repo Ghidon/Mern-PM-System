@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import moment from "moment";
 
-const TaskPreview = ({ task, projectId }) => {
+const TaskPreview = ({ task, project }) => {
+  const history = useHistory();
   const [doorOpen, setDoorOpen] = useState(false);
 
   const statusIcon = () => {
@@ -133,10 +135,15 @@ const TaskPreview = ({ task, projectId }) => {
               <small>Expires {moment(task.dueDate).fromNow()}</small>
             )}
           </p>
-          <a
+          <span
             onMouseEnter={() => setDoorOpen(!doorOpen)}
             onMouseLeave={() => setDoorOpen(!doorOpen)}
-            href={`/view/project/${projectId}/task/${task._id}`}
+            onClick={() => {
+              history.push({
+                pathname: `/view/project/${project._id}/task/${task._id}`,
+                state: { task: task, project: project },
+              });
+            }}
           >
             {doorOpen ? (
               <svg
@@ -161,7 +168,7 @@ const TaskPreview = ({ task, projectId }) => {
                 <path d="M12 1a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2a1 1 0 0 1 1-1h8zm-2 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
               </svg>
             )}
-          </a>
+          </span>
         </div>
         <div>
           <small className="text-muted">

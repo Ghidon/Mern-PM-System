@@ -9,10 +9,8 @@ import {
 
 const Subtask = ({ subtask }) => {
   const [trashLight, setTrashLight] = useState(false);
-
   const [editMode, setEditMode] = useState(false);
   const [description, setDescription] = useState(subtask.description);
-
   const dispatch = useDispatch();
 
   const setNewStatus = (e) => {
@@ -94,19 +92,20 @@ const Subtask = ({ subtask }) => {
     }
   };
 
-  const priorityBG = () => {
-    if (subtask.priority === "Low") {
-      return "card-header d-flex justify-content-between align-items-center";
-    } else if (subtask.priority === "Medium") {
-      return "card-header d-flex justify-content-between align-items-center bg-warning bg-opacity-25";
-    } else if (subtask.priority === "High") {
-      return "card-header d-flex justify-content-between align-items-center bg-danger bg-opacity-50";
-    }
-  };
+  // const priorityBG = () => {
+  //   if (subtask.priority === "Low") {
+  //     return "card-header d-flex justify-content-between align-items-center";
+  //   } else if (subtask.priority === "Medium") {
+  //     return "card-header d-flex justify-content-between align-items-center bg-warning bg-opacity-25";
+  //   } else if (subtask.priority === "High") {
+  //     return "card-header d-flex justify-content-between align-items-center bg-danger bg-opacity-50";
+  //   }
+  // };
 
   return (
     <div className="card col-12 shadow">
-      <h5 className={priorityBG()}>
+      {/* <h5 className={priorityBG()}> */}
+      <h5 className="card-header d-flex justify-content-between align-items-center">
         {subtask.title}
 
         <div className="btn-group dropstart">
@@ -179,7 +178,7 @@ const Subtask = ({ subtask }) => {
               >
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
                 />
               </svg>
@@ -187,7 +186,6 @@ const Subtask = ({ subtask }) => {
             <span
               onMouseEnter={() => setTrashLight(!trashLight)}
               onMouseLeave={() => setTrashLight(!trashLight)}
-              style={{ cursor: "pointer" }}
               onClick={() => dispatch(deleteSubTask(subtask._id))}
             >
               <svg

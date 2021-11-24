@@ -28,8 +28,10 @@ const ProjectPreview = ({ project }) => {
         <button
           className="btn btn-primary mt-auto align-self-start shadow"
           onClick={() => {
-            let path = `/view/project/${project._id}`;
-            history.push(path);
+            history.push({
+              pathname: `/view/project/${project._id}`,
+              state: { project: project },
+            });
           }}
         >
           View Project

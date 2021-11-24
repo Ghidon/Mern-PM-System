@@ -5,17 +5,14 @@ import Subtask from "./SubTask/Subtask.js";
 
 import Form from "../SubTaskForm/Form";
 
-const SubTasks = ({ taskId, taskSubtasks, taskAssigned }) => {
+const SubTasks = ({ taskId, taskAssigned }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
+  const subtasks = JSON.parse(localStorage.getItem("taskSubtasks"));
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getSubTasks());
   }, [dispatch]);
-
-  const viewersFilteredlist = taskSubtasks.filter((task) =>
-    task.allowedUsers.includes(user.result.name)
-  );
 
   return (
     <div>
@@ -49,7 +46,7 @@ const SubTasks = ({ taskId, taskSubtasks, taskAssigned }) => {
       <div className="d-flex flex-column">
         <div className="mt-3">
           <div className="align-self-stretch">
-            {viewersFilteredlist.map((subtask) => (
+            {subtasks.map((subtask) => (
               <div className="d-flex mb-3" key={subtask._id}>
                 <Subtask subtask={subtask} />
               </div>

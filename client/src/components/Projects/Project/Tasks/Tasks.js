@@ -5,7 +5,7 @@ import TaskPreview from "./TaskPreview/TaskPreview.js";
 
 import Form from "../TaskForm/Form";
 
-const Tasks = ({ projectId, projectTasks }) => {
+const Tasks = ({ project, projectTasks }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
 
@@ -76,7 +76,7 @@ const Tasks = ({ projectId, projectTasks }) => {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-body">
-                <Form projectId={projectId} />
+                <Form projectId={project._id} />
               </div>
             </div>
           </div>
@@ -147,7 +147,7 @@ const Tasks = ({ projectId, projectTasks }) => {
           <div className="align-self-stretch">
             {assignedFilteredList.map((task) => (
               <div className="d-flex mb-3" key={task._id}>
-                <TaskPreview task={task} projectId={projectId} />
+                <TaskPreview task={task} project={project} />
               </div>
             ))}
           </div>

@@ -30,6 +30,7 @@ const Form = ({ projectId }) => {
         ...taskData,
         name: user?.result?.name,
         allowedUsers: user?.result?.name,
+        projectId: projectId,
       })
     );
     setTaskData({ ...initialState, projectId: projectId });

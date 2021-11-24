@@ -14,16 +14,15 @@ export default (subtasks = [], action) => {
       return action.payload;
     case CREATE_SUBTASK:
       return [...subtasks, action.payload];
-    default:
-      return subtasks;
     case DELETE_ONE_SUBTASK:
-      return subtasks.filter((subtask) => subtask.id === action.payload);
+      return subtasks.filter((subtask) => subtask._id !== action.payload);
     case UPDATE_SUBTASK:
       return subtasks.map((subtask) =>
         subtask._id === action.payload._id ? action.payload : subtask
       );
-
     case FETCH_ONE_SUBTASK:
       return action.payload;
+    default:
+      return subtasks;
   }
 };
