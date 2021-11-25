@@ -13,6 +13,8 @@ const Tasks = ({ project, projectTasks }) => {
   const [priorityFilter, setPriorityFilter] = useState("All");
   const [assignedFilter, setAssignedFilter] = useState("All");
 
+  const [searchTask, setSearchTask] = useState("");
+
   useEffect(() => {
     dispatch(getTasks());
   }, [dispatch]);
@@ -31,6 +33,11 @@ const Tasks = ({ project, projectTasks }) => {
 
   const filterPriority = (value) => {
     setPriorityFilter(value);
+  };
+
+  const setSearchParameter = (e) => {
+    const toLowerCase = e.target.value.toLowerCase();
+    setSearchTask(toLowerCase);
   };
 
   const viewersFilteredlist = projectTasks.filter((task) =>
@@ -53,18 +60,37 @@ const Tasks = ({ project, projectTasks }) => {
             : task.assigned === "Unassigned"
         );
 
+  const finalTaskList =
+    searchTask !== ""
+      ? assignedFilteredList.filter((task) =>
+          task.title.toLowerCase().includes(searchTask)
+        )
+      : assignedFilteredList;
+
   return (
     <div>
       <div>
-        <div className="d-flex">
-          <button
-            type="button"
-            className="btn btn-primary shadow mb-3"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
-            Create a new Task
-          </button>
+        <div className="d-flex flex-wrap">
+          <div className="col-6 col-md-3 col-lg-2">
+            <button
+              type="button"
+              className="btn btn-primary shadow mb-3"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Create a new Task
+            </button>
+          </div>
+          <div className="col-6 col-md-3">
+            <input
+              type="text"
+              className="form-control shadow"
+              placeholder="Search Task by title.."
+              aria-label="Search.."
+              aria-describedby="basic-addon1"
+              onChange={(e) => setSearchParameter(e)}
+            />
+          </div>
         </div>
         <div
           className="modal fade"
@@ -145,7 +171,7 @@ const Tasks = ({ project, projectTasks }) => {
       <div className="d-flex flex-column">
         <div className="mt-3">
           <div className="align-self-stretch">
-            {assignedFilteredList.map((task) => (
+            {finalTaskList.map((task) => (
               <div className="d-flex mb-3" key={task._id}>
                 <TaskPreview task={task} project={project} />
               </div>
