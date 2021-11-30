@@ -56,24 +56,24 @@ const Project = () => {
       <div className="d-flex justify-content-between flex-wrap-reverse">
         <div className="col-12 col-md-6 d-flex-column">
           <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <fieldset disabled>
+              <label htmlFor="inputCreator" className="form-label-sm">
+                Project Author
+              </label>
+              <input
+                type="text"
+                className="form-control form-control shadow"
+                name="projectCreator"
+                value={projectData.name}
+                onChange={(e) =>
+                  setProjectData({
+                    ...projectData,
+                    creator: e.target.value,
+                  })
+                }
+              />
+            </fieldset>
             <fieldset disabled id="projectForm">
-              <div>
-                <label htmlFor="inputCreator" className="form-label-sm">
-                  Project Author
-                </label>
-                <input
-                  type="text"
-                  className="form-control form-control shadow"
-                  name="projectCreator"
-                  value={projectData.name}
-                  onChange={(e) =>
-                    setProjectData({
-                      ...projectData,
-                      creator: e.target.value,
-                    })
-                  }
-                />
-              </div>
               <div>
                 <label htmlFor="inputTitle" className="form-label-sm">
                   Title

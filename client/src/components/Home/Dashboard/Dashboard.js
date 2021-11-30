@@ -50,18 +50,18 @@ function Dashboard({ project }) {
         <div className="progress">
           {bar("bg-success", taskDone, resultDone, "Done")}
           {bar(
+            "bg-danger progress-bar-striped",
+            taskBlocked,
+            resultBlocked,
+            "Blocked"
+          )}
+          {bar(
             "bg-warning progress-bar-striped progress-bar-animated",
             taskInProgress,
             resultInProgress,
             "In progress"
           )}
           {bar("bg-secondary", taskToDo, resultToDo, "To do")}
-          {bar(
-            "bg-danger progress-bar-striped",
-            taskBlocked,
-            resultBlocked,
-            "Blocked"
-          )}
         </div>
       ) : (
         <div className="progress">
