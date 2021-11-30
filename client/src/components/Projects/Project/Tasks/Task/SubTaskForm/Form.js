@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
 import { createSubTask } from "../../../../../../actions/subtasks";
 
@@ -75,15 +74,7 @@ const Form = ({ taskId, taskAssigned }) => {
             }
           />
         </div>
-        <div>
-          <label htmlFor="formFileSm" className="form-label-sm">
-            Attach file
-          </label>
-          <div className="form-control form-control-sm mb-3">
-            <FileBase type="file" multiple={false} onDone={addFile} />
-          </div>
-        </div>
-        <div className="d-flex">
+        <div className="d-flex mt-3">
           <button type="submit" className="ms-auto btn btn-primary">
             Add New SubTask
           </button>

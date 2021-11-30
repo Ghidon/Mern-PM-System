@@ -1,6 +1,6 @@
 import React from "react";
 
-const NewUser = () => {
+const Users = () => {
   return (
     <div>
       Create user (Admin Only).
@@ -10,4 +10,4 @@ const NewUser = () => {
   );
 };
 
-export default NewUser;
+export default Users;

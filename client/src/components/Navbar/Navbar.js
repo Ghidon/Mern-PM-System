@@ -102,9 +102,9 @@ const Navbar = () => {
               <NavLink
                 className="nav-link"
                 aria-current="page"
-                to="/create/user"
+                to="/manage/users"
               >
-                Add new User
+                Users
               </NavLink>
             </li>
             <li className="nav-item">

@@ -85,7 +85,7 @@ const Tasks = ({ project, projectTasks }) => {
             <input
               type="text"
               className="form-control shadow"
-              placeholder="Search Task by title.."
+              placeholder="Search Task by title..."
               aria-label="Search.."
               aria-describedby="basic-addon1"
               onChange={(e) => setSearchParameter(e)}

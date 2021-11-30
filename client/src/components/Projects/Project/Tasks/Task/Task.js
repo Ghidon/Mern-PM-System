@@ -200,13 +200,13 @@ const Task = () => {
                   }
                 />
               </div>
-              <div>
-                <label htmlFor="formFileSm" className="form-label-sm">
-                  Attach a file
-                </label>
-                <div className="form-control form-control-sm shadow">
-                  <FileBase type="file" multiple={false} onDone={addFile} />
-                </div>
+            </fieldset>
+            <fieldset>
+              <label htmlFor="formFileSm" className="form-label-sm">
+                Attach a file
+              </label>
+              <div className="form-control form-control-sm shadow">
+                <FileBase type="file" multiple={false} onDone={addFile} />
               </div>
             </fieldset>
             <div className="mb-3">
