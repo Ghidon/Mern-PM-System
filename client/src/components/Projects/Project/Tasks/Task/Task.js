@@ -11,6 +11,7 @@ import { formatDate, parseDate } from "react-day-picker/moment";
 import SubTasks from "./SubTasks/SubTasks.js";
 import { deleteTask, updateTask } from "../../../../../actions/tasks";
 import { getSubTasks } from "../../../../../actions/subtasks.js";
+import { updateProject } from "../../../../../actions/projects.js";
 
 const Task = () => {
   let { taskId } = useParams();
@@ -28,6 +29,8 @@ const Task = () => {
   );
 
   localStorage.setItem("taskSubtasks", JSON.stringify(viewersFilteredlist));
+
+  const [projectData, setProjectData] = useState({});
 
   const [taskData, setTaskData] = useState({
     creator: "",
@@ -49,8 +52,10 @@ const Task = () => {
 
   useEffect(() => {
     const task = location.state.task;
+    const project = location.state.project;
     dispatch(getSubTasks);
     setTaskData(task);
+    setProjectData(project);
   }, [location]);
 
   const handleSubmit = () => {
@@ -119,11 +124,14 @@ const Task = () => {
     setSearchUser(toLowerCase);
   };
 
-  const addAlloweduser = (name) => {
+  const addAllowedUser = (name) => {
     const newList = taskData.allowedUsers;
     newList.push(name);
     setTaskData({ ...taskData, allowedUsers: newList });
     dispatch(updateTask(taskId, { ...taskData, allowedUsers: newList }));
+    dispatch(
+      updateProject(projectId, { ...projectData, allowedUsers: newList })
+    );
   };
 
   const removeAlloweduser = (name) => {
@@ -494,7 +502,7 @@ const Task = () => {
                           className="bi bi-person-plus-fill text-success"
                           viewBox="0 0 16 16"
                           onClick={() => {
-                            addAlloweduser(agent.name);
+                            addAllowedUser(agent.name);
                           }}
                         >
                           <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />

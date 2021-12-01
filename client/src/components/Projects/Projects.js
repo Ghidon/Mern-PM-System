@@ -17,6 +17,10 @@ const Projects = () => {
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [dispatch]);
 
+  const viewersFilteredlist = projects.filter((project) =>
+    project.allowedUsers.includes(user.result.name)
+  );
+
   return (
     <div>
       {user?.result ? (
@@ -53,7 +57,7 @@ const Projects = () => {
             </div>
           ) : (
             <div className="d-flex flex-wrap justify-content-start">
-              {projects.map((project) => (
+              {viewersFilteredlist.map((project) => (
                 <div className="d-flex me-3 mb-3" key={project._id}>
                   <ProjectPreview project={project} />
                 </div>

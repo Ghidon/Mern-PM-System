@@ -7,6 +7,7 @@ const projectSchema = mongoose.Schema({
   description: String,
   active: Boolean,
   selectedFile: String,
+  allowedUsers: Array,
   createdAt: {
     type: Date,
     default: new Date(),

@@ -4,23 +4,31 @@ import { useDispatch } from "react-redux";
 import { createProject } from "../../actions/projects";
 
 const Form = () => {
+  const user = JSON.parse(localStorage.getItem("profile"));
+
   const [projectData, setProjectData] = useState({
     title: "",
     description: "",
     active: true,
     selectedFile: "",
+    allowedUsers: [user?.result?.name],
   });
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProject({ ...projectData, name: user?.result?.name }));
+    dispatch(
+      createProject({
+        ...projectData,
+        name: user?.result?.name,
+      })
+    );
     setProjectData({
       title: "",
       description: "",
       active: true,
       selectedFile: "",
+      allowedUsers: [],
     });
   };
 

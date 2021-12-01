@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const auth = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
-    // if the token has is less than 500 will be out custom token
+    // if the token has less than 500 will be our custom token
     // otherwise (!isCustomAuth) will be Google token
     const isCustomAuth = token.length < 500;
 
