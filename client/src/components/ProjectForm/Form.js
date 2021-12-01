@@ -11,7 +11,9 @@ const Form = () => {
     description: "",
     active: true,
     selectedFile: "",
-    allowedUsers: [user?.result?.name],
+    admins: [user?.result?.email],
+    managers: [],
+    users: [],
   });
   const dispatch = useDispatch();
 
@@ -28,7 +30,9 @@ const Form = () => {
       description: "",
       active: true,
       selectedFile: "",
-      allowedUsers: [],
+      admins: [user?.result?.email],
+      managers: [],
+      users: [],
     });
   };
 

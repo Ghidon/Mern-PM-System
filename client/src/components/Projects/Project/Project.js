@@ -13,25 +13,26 @@ const Project = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const tasks = useSelector((state) => state.tasks);
 
+  const tasks = useSelector((state) => state.tasks);
   const projectTasks = tasks.filter((task) => task.projectId === projectId);
+
   const user = JSON.parse(localStorage.getItem("profile"));
 
-  const [projectData, setProjectData] = useState({
-    creator: "",
-    name: "",
-    title: "",
-    description: "",
-    active: true,
-    status: "",
-    selectedFile: "",
-  });
+  const [userRole, setUserRole] = useState([]);
+  const [projectData, setProjectData] = useState(location.state.project);
+
+  const Admin = ["Admin", "Manager", "User"];
+  const Manager = ["Manager", "User"];
+  const User = ["User"];
 
   useEffect(() => {
     dispatch(getTasks);
-    const project = location.state.project;
-    setProjectData(project);
+    // const project = location.state.project;
+    // setProjectData(project);
+    projectData.admins.includes(user.result.email) && setUserRole(Admin);
+    projectData.managers.includes(user.result.email) && setUserRole(Manager);
+    projectData.users.includes(user.result.email) && setUserRole([User]);
   }, [dispatch]);
 
   const handleSubmit = () => {

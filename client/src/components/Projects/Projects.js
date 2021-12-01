@@ -17,8 +17,11 @@ const Projects = () => {
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [dispatch]);
 
-  const viewersFilteredlist = projects.filter((project) =>
-    project.allowedUsers.includes(user.result.name)
+  const viewersFilteredlist = projects.filter(
+    (project) =>
+      project.admins.includes(user.result.email) ||
+      project.managers.includes(user.result.email) ||
+      project.users.includes(user.result.email)
   );
 
   return (
