@@ -162,21 +162,21 @@ const Task = () => {
       <div className="d-flex justify-content-between flex-wrap">
         <div className="col-12 col-md-6">
           <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <fieldset disabled>
+              <label htmlFor="inputCreator" className="form-label-sm">
+                Task Creator
+              </label>
+              <input
+                type="text"
+                className="form-control form-control shadow"
+                name="taskCreator"
+                value={taskData.name}
+                onChange={(e) =>
+                  setTaskData({ ...taskData, creator: e.target.value })
+                }
+              />
+            </fieldset>
             <fieldset disabled id="taskForm">
-              <div>
-                <label htmlFor="inputCreator" className="form-label-sm">
-                  Task Creator
-                </label>
-                <input
-                  type="text"
-                  className="form-control form-control shadow"
-                  name="taskCreator"
-                  value={taskData.name}
-                  onChange={(e) =>
-                    setTaskData({ ...taskData, creator: e.target.value })
-                  }
-                />
-              </div>
               <div>
                 <label htmlFor="inputTitle" className="form-label-sm">
                   Title
