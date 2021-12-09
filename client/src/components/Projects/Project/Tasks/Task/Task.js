@@ -124,21 +124,19 @@ const Task = () => {
     setSearchUser(toLowerCase);
   };
 
-  const addAllowedUser = (name) => {
+  const addAllowedUser = (email) => {
     const newList = taskData.allowedUsers;
-    newList.push(name);
+    newList.push(email);
     setTaskData({ ...taskData, allowedUsers: newList });
     dispatch(updateTask(taskId, { ...taskData, allowedUsers: newList }));
-    dispatch(
-      updateProject(projectId, { ...projectData, allowedUsers: newList })
-    );
+    dispatch(updateProject(projectId, { ...projectData, users: email }));
   };
 
-  const removeAlloweduser = (name) => {
+  const removeAlloweduser = (email) => {
     const list = taskData.allowedUsers;
-    const newList = list.filter((agent) => agent !== name);
+    const newList = list.filter((agent) => agent !== email);
 
-    if (taskData.assigned === name) {
+    if (taskData.assigned === email) {
       setTaskData({
         ...taskData,
         assigned: "Unassigned",
@@ -363,9 +361,9 @@ const Task = () => {
                 <option>Unassigned</option>
               )}
               {users
-                .filter((agent) => agent.name !== taskData.assigned)
+                .filter((agent) => agent.email !== taskData.assigned)
                 .map((agent) => (
-                  <option key={agent._id}>{agent.name}</option>
+                  <option key={agent._id}>{agent.email}</option>
                 ))}
             </select>
           </div>
@@ -483,7 +481,7 @@ const Task = () => {
                 {searchUser !== "" &&
                   users
                     .filter(
-                      (agent) => !taskData.allowedUsers.includes(agent.name)
+                      (agent) => !taskData.allowedUsers.includes(agent.email)
                     )
                     .filter((agent) =>
                       agent.name.toLowerCase().includes(searchUser)
@@ -502,7 +500,7 @@ const Task = () => {
                           className="bi bi-person-plus-fill text-success"
                           viewBox="0 0 16 16"
                           onClick={() => {
-                            addAllowedUser(agent.name);
+                            addAllowedUser(agent.email);
                           }}
                         >
                           <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />

@@ -65,7 +65,7 @@ function Auth() {
 
   return (
     <div className=" d-flex justify-content-center">
-      <div className="card col col-sm-10 col-md-8 col-lg-6 col-xl-4">
+      <div className="card col col-sm-10 col-md-8 col-lg-6 col-xl-4 shadow">
         <div className="card-body d-flex flex-column align-items-center">
           <h4>{isSignup ? "Sign Up" : "Sign In"}</h4>
           <form className="row g-2" onSubmit={handleSubmit}>

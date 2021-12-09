@@ -29,7 +29,7 @@ const Form = ({ projectId }) => {
       createTask({
         ...taskData,
         name: user?.result?.name,
-        allowedUsers: user?.result?.name,
+        allowedUsers: user?.result?.email,
         projectId: projectId,
       })
     );

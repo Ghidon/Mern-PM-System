@@ -30,9 +30,13 @@ const Project = () => {
     dispatch(getTasks);
     // const project = location.state.project;
     // setProjectData(project);
-    projectData.admins.includes(user.result.email) && setUserRole(Admin);
-    projectData.managers.includes(user.result.email) && setUserRole(Manager);
-    projectData.users.includes(user.result.email) && setUserRole([User]);
+    if (projectData.admins.includes(user.result.email)) {
+      setUserRole(Admin);
+    } else if (projectData.managers.includes(user.result.email)) {
+      setUserRole(Manager);
+    } else if (projectData.users.includes(user.result.email)) {
+      setUserRole([User]);
+    }
   }, [dispatch]);
 
   const handleSubmit = () => {

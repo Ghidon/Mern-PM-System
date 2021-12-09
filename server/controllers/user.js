@@ -24,8 +24,8 @@ export const signin = async (req, res) => {
 
     const token = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
-      "test",
-      { expiresIn: "1h" }
+      process.env.JWT_KEY,
+      { expiresIn: "3h" }
     );
 
     res.status(200).json({ result: existingUser, token });
@@ -41,7 +41,7 @@ export const signup = async (req, res) => {
     const existingUser = await UserContent.findOne({ email });
 
     if (existingUser)
-      return res.status(400).json({ message: "User already exists." });
+      return res.status(400).json({ message: "Email already registered." });
 
     if (password !== confirmPassword)
       return res.status(400).json({ message: "Passwords don't match." });
@@ -53,9 +53,13 @@ export const signup = async (req, res) => {
       password: hashedPassword,
       name: `${firstName} ${lastName}`,
     });
-    const token = jwt.sign({ email: result.email, id: result._id }, "test", {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { email: result.email, id: result._id },
+      process.env.JWT_KEY,
+      {
+        expiresIn: "3h",
+      }
+    );
     res.status(200).json({ result, token });
   } catch (error) {
     res.status(500).json({ message: "something went wrong." });
@@ -75,13 +79,15 @@ export const googleSignup = async (req, res) => {
   };
 
   try {
-    let user = await GoogleUserContent.findOne({ googleId: profile.googleId });
+    const existingUser = await GoogleUserContent.findOne({
+      googleId: profile.googleId,
+    });
 
-    if (user) {
-      return res.status(400).json({ message: "User already exists." });
-    } else {
+    if (!existingUser) {
       await GoogleUserContent.create(newUser);
-      res.status(200).json({ message: "User created." });
+      res.status(200).json({ message: "Google user created." });
+    } else {
+      res.status(200).json({ message: "Google user authenticated." });
     }
   } catch (error) {
     res.status(500).json({ message: "something went wrong." });

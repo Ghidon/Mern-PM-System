@@ -41,7 +41,7 @@ const Tasks = ({ project, projectTasks }) => {
   };
 
   const viewersFilteredlist = projectTasks.filter((task) =>
-    task.allowedUsers.includes(user.result.name)
+    task.allowedUsers.includes(user.result.email)
   );
   const statusFilteredList =
     statusFilter === "All"
