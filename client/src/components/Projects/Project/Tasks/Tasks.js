@@ -76,7 +76,7 @@ const Tasks = ({ project, projectTasks }) => {
               type="button"
               className="btn btn-primary shadow mb-3"
               data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
+              data-bs-target="#CreateTaskModal"
             >
               Create a new Task
             </button>
@@ -94,7 +94,7 @@ const Tasks = ({ project, projectTasks }) => {
         </div>
         <div
           className="modal fade"
-          id="exampleModal"
+          id="CreateTaskModal"
           tabIndex="-1"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"

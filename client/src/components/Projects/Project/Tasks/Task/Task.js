@@ -62,7 +62,7 @@ const Task = () => {
     dispatch(updateTask(taskId, { ...taskData, name: user?.result?.name }));
     document.getElementById("taskForm").disabled = true;
     document.getElementById("saveButton").classList.add("disabled");
-    history.replace({ state: { task: taskData } });
+    history.replace({ state: { task: taskData, project: projectData } });
   };
 
   const handleDelete = () => {

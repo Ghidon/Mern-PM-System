@@ -17,12 +17,13 @@ const Projects = () => {
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [dispatch]);
 
-  const viewersFilteredlist = projects.filter(
-    (project) =>
-      project.admins.includes(user.result.email) ||
-      project.managers.includes(user.result.email) ||
-      project.users.includes(user.result.email)
-  );
+  // PERMISSIONS FILTER BY ROLE ATTEMPT
+  // const viewersFilteredlist = projects.filter(
+  //   (project) =>
+  //     project.admins.includes(user.result.email) ||
+  //     project.managers.includes(user.result.email) ||
+  //     project.users.includes(user.result.email)
+  // );
 
   return (
     <div>
@@ -60,11 +61,18 @@ const Projects = () => {
             </div>
           ) : (
             <div className="d-flex flex-wrap justify-content-start">
-              {viewersFilteredlist.map((project) => (
+              {projects.map((project) => (
                 <div className="d-flex me-3 mb-3" key={project._id}>
                   <ProjectPreview project={project} />
                 </div>
               ))}
+
+              {/*// PERMISSIONS FILTER BY ROLE ATTEMPT  */}
+              {/* {viewersFilteredlist.map((project) => (
+                <div className="d-flex me-3 mb-3" key={project._id}>
+                  <ProjectPreview project={project} />
+                </div>
+              ))} */}
             </div>
           )}
         </div>

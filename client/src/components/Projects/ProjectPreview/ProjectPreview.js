@@ -21,12 +21,12 @@ const ProjectPreview = ({ project }) => {
         <h5 className="card-title">{project.title}</h5>
         <p className="card-text">
           <small className="text-muted">
-            Created by: {project.name} {moment(project.createdAt).fromNow()}
+            Created by: {project.name}, {moment(project.createdAt).fromNow()}
           </small>
         </p>
         <p className="card-text">{project.description}</p>
         <button
-          className="btn btn-primary mt-auto align-self-start shadow"
+          className="btn btn-primary mt-auto align-self-center shadow"
           onClick={() => {
             history.push({
               pathname: `/view/project/${project._id}`,
