@@ -14,7 +14,17 @@ const ProjectPreview = ({ project }) => {
           alt={project.name?.charAt(0)}
         />
       ) : (
-        <img src={project.selectedFile} className="card-img-top" alt="..." />
+        <img
+          src={project.selectedFile}
+          className="card-img-top"
+          alt="..."
+          style={{
+            maxHeight: "118px",
+            width: "100%",
+            objectFit: "cover",
+            objectPosition: "0% 0%",
+          }}
+        />
       )}
 
       <div className="card-body d-flex flex-column">

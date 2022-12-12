@@ -165,7 +165,7 @@ const Project = () => {
           {projectData.selectedFile ? (
             <img
               src={projectData.selectedFile}
-              style={{ maxHeight: "300px" }}
+              style={{ maxHeight: "300px", width: "auto" }}
               alt=""
               className="card-img-top shadow"
             />

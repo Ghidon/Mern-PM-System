@@ -20,6 +20,10 @@ app.use("/subtasks", subTaskRoutes);
 app.use("/projects", projectsRoutes);
 app.use("/user", userRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Hello to PM system API");
+});
+
 // const CONNECTION_URL =
 //   "mongodb+srv://ghidon:uMcjhucJdFaeuqID@cluster0.rnrjw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 5000;
