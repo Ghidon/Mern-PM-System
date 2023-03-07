@@ -25,11 +25,8 @@ const Home = () => {
     <div>
       {user?.result ? (
         <div>
-          <h1>Home page / Dashboard</h1>
-          <p>
-            Questa Pagina deve mostrare la dashboard se esiste un utente logged
-            in, altrimenti ridireziona a "/" component Login
-          </p>
+          <h1>Dashboard</h1>
+          <p>You can see here how your projects are progressing.</p>
           {projects &&
             projects.map((project) => (
               <Dashboard key={project._id} project={project} />
