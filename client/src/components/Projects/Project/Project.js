@@ -28,8 +28,6 @@ const Project = () => {
 
   useEffect(() => {
     dispatch(getTasks);
-    // const project = location.state.project;
-    // setProjectData(project);
     if (projectData.admins.includes(user.result.email)) {
       setUserRole(Admin);
     } else if (projectData.managers.includes(user.result.email)) {
@@ -37,6 +35,8 @@ const Project = () => {
     } else if (projectData.users.includes(user.result.email)) {
       setUserRole([User]);
     }
+    // const project = location.state.project;
+    // setProjectData(project);
   }, [dispatch]);
 
   const handleSubmit = () => {
@@ -165,7 +165,7 @@ const Project = () => {
           {projectData.selectedFile ? (
             <img
               src={projectData.selectedFile}
-              style={{ maxHeight: "300px", width: "auto" }}
+              style={{ maxHeight: "300px", width: "100%" }}
               alt=""
               className="card-img-top shadow"
             />

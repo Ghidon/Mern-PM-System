@@ -1,24 +1,29 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
-import MindBlowing from "../../../images/mind-blowing.jpg";
+import mindBlowImage from "../../../images/mind-blowing.jpg";
 
 const ProjectPreview = ({ project }) => {
   const history = useHistory();
+
+  const initials = project.name
+    ?.split(" ")
+    .map((n) => n[0])
+    .join("");
+
   return (
     <div className="card shadow" style={{ maxWidth: "15rem" }}>
       {!project.selectedFile ? (
-        <img
-          src={MindBlowing}
-          className="card-img-top"
-          alt={project.name?.charAt(0)}
-        />
+        <img src={mindBlowImage} className="card-img-top" alt={initials} />
       ) : (
         <img
           src={project.selectedFile}
           className="card-img-top"
-          alt="..."
+          alt={initials}
           style={{
+            borderBottom: "1px solid black",
+            backgroundColor: "lightyellow",
+            height: "118px",
             maxHeight: "118px",
             width: "100%",
             objectFit: "cover",
