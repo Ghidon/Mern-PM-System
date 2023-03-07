@@ -60,9 +60,9 @@ const Projects = () => {
               <span className="visually-hidden">Loading...</span>
             </div>
           ) : (
-            <div className="d-flex flex-wrap justify-content-start">
+            <div className="">
               {projects.map((project) => (
-                <div className="d-flex me-3 mb-3" key={project._id}>
+                <div className="" key={project._id}>
                   <ProjectPreview project={project} />
                 </div>
               ))}

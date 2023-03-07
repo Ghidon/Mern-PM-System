@@ -34,7 +34,7 @@ const Home = () => {
         </div>
       ) : (
         <div>
-          <h1>Some Mock Up Dashboard page</h1>
+          <h1>Mock Up Dashboard page</h1>
         </div>
       )}
     </div>

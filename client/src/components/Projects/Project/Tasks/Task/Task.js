@@ -134,24 +134,30 @@ const Task = () => {
 
   const removeAlloweduser = (email) => {
     const list = taskData.allowedUsers;
-    const newList = list.filter((agent) => agent !== email);
-
-    if (taskData.assigned === email) {
-      setTaskData({
-        ...taskData,
-        assigned: "Unassigned",
-        allowedUsers: newList,
-      });
-      dispatch(
-        updateTask(taskId, {
-          ...taskData,
-          allowedUsers: newList,
-          assigned: "Unassigned",
-        })
+    console.log(list.length);
+    if (list.length === 1) {
+      alert(
+        "Cannot remove last user, there must always be at least one user invited"
       );
     } else {
-      setTaskData({ ...taskData, allowedUsers: newList });
-      dispatch(updateTask(taskId, { ...taskData, allowedUsers: newList }));
+      const newList = list.filter((agent) => agent !== email);
+      if (taskData.assigned === email) {
+        setTaskData({
+          ...taskData,
+          assigned: "Unassigned",
+          allowedUsers: newList,
+        });
+        dispatch(
+          updateTask(taskId, {
+            ...taskData,
+            allowedUsers: newList,
+            assigned: "Unassigned",
+          })
+        );
+      } else {
+        setTaskData({ ...taskData, allowedUsers: newList });
+        dispatch(updateTask(taskId, { ...taskData, allowedUsers: newList }));
+      }
     }
   };
 

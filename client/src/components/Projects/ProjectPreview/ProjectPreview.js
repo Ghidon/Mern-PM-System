@@ -12,36 +12,47 @@ const ProjectPreview = ({ project }) => {
     .join("");
 
   return (
-    <div className="card shadow" style={{ maxWidth: "15rem" }}>
-      {!project.selectedFile ? (
-        <img src={mindBlowImage} className="card-img-top" alt={initials} />
-      ) : (
-        <img
-          src={project.selectedFile}
-          className="card-img-top"
-          alt={initials}
-          style={{
-            borderBottom: "1px solid black",
-            backgroundColor: "lightyellow",
-            height: "118px",
-            maxHeight: "118px",
-            width: "100%",
-            objectFit: "cover",
-            objectPosition: "0% 0%",
-          }}
-        />
-      )}
-
-      <div className="card-body d-flex flex-column">
-        <h5 className="card-title">{project.title}</h5>
-        <p className="card-text">
+    <div className="d-flex align-items-center justify-content-between flex-wrap mb-3">
+      <div
+        className="col-sm-3 col-xs-12"
+        style={{
+          maxHeight: "150px",
+          overflow: "hidden",
+        }}
+      >
+        {!project.selectedFile ? (
+          <img
+            src={mindBlowImage}
+            alt={initials}
+            style={{
+              width: "100%",
+            }}
+          />
+        ) : (
+          <img
+            src={project.selectedFile}
+            alt={initials}
+            style={{
+              backgroundColor: "lightyellow",
+              width: "100%",
+              objectFit: "cover",
+              objectPosition: "0% 0%",
+            }}
+          />
+        )}
+      </div>
+      <div className="col-sm-6 col-xs-12 d-flex flex-column">
+        <h5 className="">{project.title}</h5>
+        <p className="">
           <small className="text-muted">
             Created by: {project.name}, {moment(project.createdAt).fromNow()}
           </small>
         </p>
-        <p className="card-text">{project.description}</p>
+        <p className="">{project.description}</p>
+      </div>
+      <div className="col-sm-2 col-xs-12 d-flex flex-row justify-content-end">
         <button
-          className="btn btn-primary mt-auto align-self-center shadow"
+          className="btn btn-primary shadow"
           onClick={() => {
             history.push({
               pathname: `/view/project/${project._id}`,
