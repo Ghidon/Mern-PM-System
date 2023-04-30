@@ -1,29 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Form from "../ProjectForm/Form";
 import ProjectPreview from "./ProjectPreview/ProjectPreview.js";
-
 import { getProjects } from "../../actions/projects";
 import MockupProjectPreview from "./MockupProjectPreview/MockupProjectPreview";
 
 const Projects = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-
+  const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects);
 
   useEffect(() => {
     dispatch(getProjects());
-    setUser(JSON.parse(localStorage.getItem("profile")));
   }, [dispatch]);
-
-  // PERMISSIONS FILTER BY ROLE ATTEMPT
-  // const viewersFilteredlist = projects.filter(
-  //   (project) =>
-  //     project.admins.includes(user.result.email) ||
-  //     project.managers.includes(user.result.email) ||
-  //     project.users.includes(user.result.email)
-  // );
 
   return (
     <div>
@@ -55,24 +44,17 @@ const Projects = () => {
             </div>
           </div>
 
-          {!projects.length ? (
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          ) : (
+          {projects.length ? (
             <div className="">
               {projects.map((project) => (
                 <div className="" key={project._id}>
                   <ProjectPreview project={project} />
                 </div>
               ))}
-
-              {/*// PERMISSIONS FILTER BY ROLE ATTEMPT  */}
-              {/* {viewersFilteredlist.map((project) => (
-                <div className="d-flex me-3 mb-3" key={project._id}>
-                  <ProjectPreview project={project} />
-                </div>
-              ))} */}
+            </div>
+          ) : (
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           )}
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
@@ -6,16 +6,18 @@ import decode from "jwt-decode";
 import * as actionType from "../../constants/actionTypes";
 
 const Navbar = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [user, setUser] = useState(() =>
+    JSON.parse(localStorage.getItem("profile"))
+  );
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
 
-  const logout = () => {
+  const handleLogout = useCallback(() => {
     dispatch({ type: actionType.LOGOUT });
     history.push("/auth");
     setUser(null);
-  };
+  }, [dispatch, history]);
 
   useEffect(() => {
     const token = user?.token;
@@ -23,11 +25,13 @@ const Navbar = () => {
     if (token) {
       const decodedToken = decode(token);
 
-      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+      if (decodedToken.exp * 1000 < Date.now()) {
+        handleLogout();
+      }
     }
 
-    setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location, user?.token]);
+    setUser(() => JSON.parse(localStorage.getItem("profile")));
+  }, [location, user?.token, handleLogout]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow">
@@ -48,14 +52,16 @@ const Navbar = () => {
                   }}
                   alt={user?.result.name.charAt(0)}
                   src={
-                    user?.result.imageUrl
-                      ? user?.result.imageUrl
-                      : "https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
+                    user?.result.imageUrl ||
+                    "https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
                   }
                 />
 
                 <h6>{user?.result.name}</h6>
-                <button className="btn btn-secondary ms-3" onClick={logout}>
+                <button
+                  className="btn btn-secondary ms-3"
+                  onClick={handleLogout}
+                >
                   Logout
                 </button>
               </div>
@@ -85,10 +91,7 @@ const Navbar = () => {
           }}
           id="navbarScroll"
         >
-          <ul
-            className="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll"
-            // style={{ "--bs-scroll-height": "100px;" }}
-          >
+          <ul className="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll">
             <li className="nav-item">
               <NavLink
                 className="nav-link"

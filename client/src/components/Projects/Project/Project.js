@@ -9,7 +9,7 @@ import { deleteProject, updateProject } from "../../../actions/projects";
 import { getTasks } from "../../../actions/tasks.js";
 
 const Project = () => {
-  let { projectId } = useParams();
+  const { projectId } = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
@@ -27,17 +27,15 @@ const Project = () => {
   const User = ["User"];
 
   useEffect(() => {
-    dispatch(getTasks);
+    dispatch(getTasks());
     if (projectData.admins.includes(user.result.email)) {
       setUserRole(Admin);
     } else if (projectData.managers.includes(user.result.email)) {
       setUserRole(Manager);
     } else if (projectData.users.includes(user.result.email)) {
-      setUserRole([User]);
+      setUserRole(User);
     }
-    // const project = location.state.project;
-    // setProjectData(project);
-  }, [dispatch]);
+  }, [dispatch, projectData, user.result.email]);
 
   const handleSubmit = () => {
     dispatch(
@@ -54,6 +52,11 @@ const Project = () => {
       dispatch(deleteProject(projectId));
       history.push("/read/projects");
     }
+  };
+
+  const handleEdit = () => {
+    document.getElementById("projectForm").disabled = false;
+    document.getElementById("saveButton").classList.remove("disabled");
   };
 
   return (
@@ -161,11 +164,14 @@ const Project = () => {
             </button>
           </div>
         </div>
-        <div className="col-12 col-md-5 my-4">
+        <div
+          style={{ display: "flex", justifyContent: "flex-end" }}
+          className="col-12 col-md-5 my-4"
+        >
           {projectData.selectedFile ? (
             <img
               src={projectData.selectedFile}
-              style={{ maxHeight: "300px", width: "100%" }}
+              style={{ maxHeight: "300px", width: "auto" }}
               alt=""
               className="card-img-top shadow"
             />

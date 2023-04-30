@@ -3,32 +3,26 @@ import { useSelector } from "react-redux";
 
 function Dashboard({ project }) {
   const tasks = useSelector((state) => state.tasks);
-  // const subtasks = useSelector((state) => state.subtasks);
 
   const projectTasks = tasks.filter((task) => task.projectId === project._id);
 
-  const taskDone = projectTasks.filter((task) => task.status === "Done").length;
-  const taskInProgress = projectTasks.filter(
-    (task) => task.status === "In progress"
-  ).length;
-  const taskBlocked = projectTasks.filter(
-    (task) => task.status === "Blocked"
-  ).length;
-  const taskToDo = projectTasks.filter(
-    (task) => task.status === "To do"
-  ).length;
+  const taskStatusCount = projectTasks.reduce((acc, task) => {
+    acc[task.status] = (acc[task.status] || 0) + 1;
+    return acc;
+  }, {});
 
-  const total = taskDone + taskInProgress + taskBlocked + taskToDo;
+  const total = projectTasks.length;
 
-  const resultDone = Math.round((taskDone / total) * 100);
-  const resultInProgress = Math.round((taskInProgress / total) * 100);
-  const resultBlocked = Math.round((taskBlocked / total) * 100);
-  const resultToDo = Math.round((taskToDo / total) * 100);
+  const result = {};
+
+  Object.entries(taskStatusCount).forEach(([status, count]) => {
+    result[status] = Math.round((count / total) * 100);
+  });
 
   const bar = (bg, valueNow, result, status) => {
     return (
       <div
-        className={`progress-bar  ${bg}`}
+        className={`progress-bar ${bg}`}
         data-bs-toggle="tooltip"
         data-bs-placement="top"
         title={status}
@@ -48,20 +42,25 @@ function Dashboard({ project }) {
       <h5>{project.title}</h5>
       {projectTasks.length ? (
         <div className="progress">
-          {bar("bg-success", taskDone, resultDone, "Done")}
+          {bar("bg-success", taskStatusCount["Done"], result["Done"], "Done")}
           {bar(
             "bg-danger progress-bar-striped",
-            taskBlocked,
-            resultBlocked,
+            taskStatusCount["Blocked"],
+            result["Blocked"],
             "Blocked"
           )}
           {bar(
             "bg-warning progress-bar-striped progress-bar-animated",
-            taskInProgress,
-            resultInProgress,
+            taskStatusCount["In progress"],
+            result["In progress"],
             "In progress"
           )}
-          {bar("bg-secondary", taskToDo, resultToDo, "To do")}
+          {bar(
+            "bg-secondary",
+            taskStatusCount["To do"],
+            result["To do"],
+            "To do"
+          )}
         </div>
       ) : (
         <div className="progress">

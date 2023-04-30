@@ -16,12 +16,12 @@ const initialState = {
 };
 
 const Form = ({ projectId }) => {
-  const [taskData, setTaskData] = useState({
-    ...initialState,
-    projectId: projectId,
-  });
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
+  const [taskData, setTaskData] = useState(() => ({
+    ...initialState,
+    projectId: projectId,
+  }));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,63 +33,70 @@ const Form = ({ projectId }) => {
         projectId: projectId,
       })
     );
-    setTaskData({ ...initialState, projectId: projectId });
+    setTaskData((prevState) => ({
+      ...prevState,
+      ...initialState,
+      projectId: projectId,
+    }));
   };
 
   const addFile = (file) => {
-    const newFileList = [];
-    newFileList.push(file);
-    setTaskData({ ...taskData, attachedFiles: newFileList });
+    setTaskData((prevState) => ({
+      ...prevState,
+      attachedFiles: [file],
+    }));
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setTaskData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   return (
-    <div>
-      <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="inputTitle" className="form-label-sm">
-            Title
-          </label>
-          <input
-            type="text"
-            className="form-control form-control-sm"
-            name="projectTitle"
-            placeholder="Title"
-            value={taskData.title}
-            onChange={(e) =>
-              setTaskData({ ...taskData, title: e.target.value })
-            }
-          />
+    <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="inputTitle" className="form-label-sm">
+          Title
+        </label>
+        <input
+          type="text"
+          className="form-control form-control-sm"
+          name="title"
+          placeholder="Title"
+          value={taskData.title}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="inputDescription" className="form-label-sm">
+          Description
+        </label>
+        <textarea
+          type="text"
+          className="form-control form-control-sm"
+          name="description"
+          placeholder="Description"
+          value={taskData.description}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="formFileSm" className="form-label-sm">
+          Attach file
+        </label>
+        <div className="form-control form-control-sm mb-3">
+          <FileBase type="file" multiple={false} onDone={addFile} />
         </div>
-        <div>
-          <label htmlFor="inputDescription" className="form-label-sm">
-            Description
-          </label>
-          <textarea
-            type="text"
-            className="form-control form-control-sm"
-            name="projectDescription"
-            placeholder="Description"
-            value={taskData.description}
-            onChange={(e) =>
-              setTaskData({ ...taskData, description: e.target.value })
-            }
-          />
-        </div>
-        <div>
-          <label htmlFor="formFileSm" className="form-label-sm">
-            Attach file
-          </label>
-          <div className="form-control form-control-sm mb-3">
-            <FileBase type="file" multiple={false} onDone={addFile} />
-          </div>
-        </div>
-        <div className="d-flex">
-          <button type="submit" className="ms-auto btn btn-primary">
-            Add New Task
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+      <div className="d-flex">
+        <button type="submit" className="ms-auto btn btn-primary">
+          Add New Task
+        </button>
+      </div>
+    </form>
   );
 };
 

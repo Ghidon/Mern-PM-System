@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
 import { createProject } from "../../actions/projects";
 
 const Form = () => {
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const user = useMemo(() => JSON.parse(localStorage.getItem("profile")), []);
 
-  const [projectData, setProjectData] = useState({
+  const [projectData, setProjectData] = useState(() => ({
     title: "",
     description: "",
     active: true,
@@ -14,8 +14,17 @@ const Form = () => {
     admins: [user?.result?.email],
     managers: [],
     users: [],
-  });
+  }));
   const dispatch = useDispatch();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProjectData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleFileUpload = (base64) => {
+    setProjectData((prevData) => ({ ...prevData, selectedFile: base64 }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,15 +34,13 @@ const Form = () => {
         name: user?.result?.name,
       })
     );
-    setProjectData({
+    setProjectData((prevData) => ({
+      ...prevData,
       title: "",
       description: "",
       active: true,
       selectedFile: "",
-      admins: [user?.result?.email],
-      managers: [],
-      users: [],
-    });
+    }));
   };
 
   return (
@@ -46,12 +53,10 @@ const Form = () => {
           <input
             type="text"
             className="form-control form-control-sm"
-            name="projectTitle"
+            name="title"
             placeholder="Title"
             value={projectData.title}
-            onChange={(e) =>
-              setProjectData({ ...projectData, title: e.target.value })
-            }
+            onChange={handleInputChange}
           />
         </div>
         <div>
@@ -61,12 +66,10 @@ const Form = () => {
           <textarea
             type="text"
             className="form-control form-control-sm"
-            name="projectDescription"
+            name="description"
             placeholder="Description"
             value={projectData.description}
-            onChange={(e) =>
-              setProjectData({ ...projectData, description: e.target.value })
-            }
+            onChange={handleInputChange}
           />
         </div>
         <div>
@@ -77,9 +80,7 @@ const Form = () => {
             <FileBase
               type="file"
               multiple={false}
-              onDone={({ base64 }) =>
-                setProjectData({ ...projectData, selectedFile: base64 })
-              }
+              onDone={({ base64 }) => handleFileUpload(base64)}
             />
           </div>
         </div>

@@ -11,6 +11,13 @@ const ProjectPreview = ({ project }) => {
     .map((n) => n[0])
     .join("");
 
+  const imageStyle = {
+    width: "100%",
+    objectFit: project.selectedFile ? "cover" : "none",
+    objectPosition: "0% 0%",
+    backgroundColor: project.selectedFile ? "lightyellow" : "transparent",
+  };
+
   return (
     <div className="d-flex align-items-center justify-content-between flex-wrap mb-3">
       <div
@@ -20,35 +27,20 @@ const ProjectPreview = ({ project }) => {
           overflow: "hidden",
         }}
       >
-        {!project.selectedFile ? (
-          <img
-            src={mindBlowImage}
-            alt={initials}
-            style={{
-              width: "100%",
-            }}
-          />
-        ) : (
-          <img
-            src={project.selectedFile}
-            alt={initials}
-            style={{
-              backgroundColor: "lightyellow",
-              width: "100%",
-              objectFit: "cover",
-              objectPosition: "0% 0%",
-            }}
-          />
-        )}
+        <img
+          src={project.selectedFile || mindBlowImage}
+          alt={initials}
+          style={imageStyle}
+        />
       </div>
       <div className="col-sm-6 col-xs-12 d-flex flex-column">
-        <h5 className="">{project.title}</h5>
-        <p className="">
+        <h5>{project.title}</h5>
+        <p>
           <small className="text-muted">
             Created by: {project.name}, {moment(project.createdAt).fromNow()}
           </small>
         </p>
-        <p className="">{project.description}</p>
+        <p>{project.description}</p>
       </div>
       <div className="col-sm-2 col-xs-12 d-flex flex-row justify-content-end">
         <button
@@ -56,7 +48,7 @@ const ProjectPreview = ({ project }) => {
           onClick={() => {
             history.push({
               pathname: `/view/project/${project._id}`,
-              state: { project: project },
+              state: { project },
             });
           }}
         >
