@@ -134,10 +134,7 @@ const Project = () => {
               <button
                 className="btn btn-secondary shadow"
                 onClick={() => {
-                  document.getElementById("projectForm").disabled = false;
-                  document
-                    .getElementById("saveButton")
-                    .classList.remove("disabled");
+                  handleEdit();
                 }}
               >
                 Edit
