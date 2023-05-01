@@ -35,12 +35,6 @@ const Form = ({ taskId, taskAssigned }) => {
     setSubTaskData({ ...initialState, taskId: taskId, assigned: taskAssigned });
   };
 
-  const addFile = (file) => {
-    const newFileList = [];
-    newFileList.push(file);
-    setSubTaskData({ ...subTaskData, attachedFiles: newFileList });
-  };
-
   return (
     <div>
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>

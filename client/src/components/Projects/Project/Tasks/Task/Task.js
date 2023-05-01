@@ -53,10 +53,10 @@ const Task = () => {
   useEffect(() => {
     const task = location.state.task;
     const project = location.state.project;
-    dispatch(getSubTasks);
+    dispatch(getSubTasks());
     setTaskData(task);
     setProjectData(project);
-  }, [location]);
+  }, [location, dispatch]);
 
   const handleSubmit = () => {
     dispatch(updateTask(taskId, { ...taskData, name: user?.result?.name }));

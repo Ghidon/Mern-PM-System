@@ -6,7 +6,7 @@ import Subtask from "./SubTask/Subtask.js";
 import Form from "../SubTaskForm/Form";
 
 const SubTasks = ({ taskId, taskAssigned }) => {
-  const user = JSON.parse(localStorage.getItem("profile"));
+  // const user = JSON.parse(localStorage.getItem("profile"));
   const subtasks = JSON.parse(localStorage.getItem("taskSubtasks"));
   const dispatch = useDispatch();
 

@@ -19,22 +19,22 @@ const Project = () => {
 
   const user = JSON.parse(localStorage.getItem("profile"));
 
-  const [userRole, setUserRole] = useState([]);
+  // const [userRole, setUserRole] = useState([]);
   const [projectData, setProjectData] = useState(location.state.project);
 
-  const Admin = ["Admin", "Manager", "User"];
-  const Manager = ["Manager", "User"];
-  const User = ["User"];
+  // const Admin = ["Admin", "Manager", "User"];
+  // const Manager = ["Manager", "User"];
+  // const User = ["User"];
 
   useEffect(() => {
     dispatch(getTasks());
-    if (projectData.admins.includes(user.result.email)) {
-      setUserRole(Admin);
-    } else if (projectData.managers.includes(user.result.email)) {
-      setUserRole(Manager);
-    } else if (projectData.users.includes(user.result.email)) {
-      setUserRole(User);
-    }
+    // if (projectData.admins.includes(user.result.email)) {
+    //   setUserRole(Admin);
+    // } else if (projectData.managers.includes(user.result.email)) {
+    //   setUserRole(Manager);
+    // } else if (projectData.users.includes(user.result.email)) {
+    //   setUserRole(User);
+    // }
   }, [dispatch, projectData, user.result.email]);
 
   const handleSubmit = () => {
