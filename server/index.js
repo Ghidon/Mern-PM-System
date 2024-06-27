@@ -11,6 +11,9 @@ import userRoutes from "./routes/users.js";
 const app = express();
 dotenv.config();
 
+// Configure Mongoose to use strictQuery
+mongoose.set("strictQuery", true); // Enforce strict querying
+
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
