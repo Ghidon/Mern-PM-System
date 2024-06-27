@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-
-import Icon from "./Icon";
-import { googleSignup, signin, signup } from "../../actions/auth";
-import { AUTH } from "../../constants/actionTypes";
+import { useNavigate } from "react-router-dom";
+import { signin, signup } from "../../actions/auth";
 
 const initialState = {
   firstName: "",
@@ -21,7 +17,7 @@ function Auth() {
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -37,34 +33,20 @@ function Auth() {
     e.preventDefault();
 
     if (isSignup) {
-      dispatch(signup(formData, history));
+      dispatch(signup(formData, navigate));
     } else {
-      dispatch(signin(formData, history));
+      dispatch(signin(formData, navigate));
     }
   };
-
-  const googleSuccess = async (res) => {
-    const result = res?.profileObj;
-    const token = res?.tokenId;
-
-    dispatch(googleSignup(result, history));
-
-    try {
-      dispatch({ type: AUTH, data: { result, token } });
-      history.push("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const googleError = () =>
-    alert("Google Sign In was Unsuccessfull, Try again");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  console.log("Google Client ID:", process.env.REACT_APP_GOOGLE_CLIENT_ID);
+
   return (
-    <div className=" d-flex justify-content-center">
+    <div className="d-flex justify-content-center">
       <div className="card col col-sm-10 col-md-8 col-lg-6 col-xl-4 shadow">
         <div className="card-body d-flex flex-column align-items-center">
           <h4>{isSignup ? "Sign Up" : "Sign In"}</h4>
@@ -154,7 +136,7 @@ function Auth() {
               </button>
             </div>
             {isSignup && (
-              <div className="col-12  form-floating">
+              <div className="col-12 form-floating">
                 <input
                   name="confirmPassword"
                   type="password"
@@ -166,25 +148,9 @@ function Auth() {
                 <label htmlFor="floatingRepeatPassword">Repeat Password</label>
               </div>
             )}
-            <button type="submit" className="btn btn-primary ">
+            <button type="submit" className="btn btn-primary">
               {isSignup ? "Sign Up" : "Sign in"}
             </button>
-            <GoogleLogin
-              clientId="158755587504-l4re63s92abqpp4agiqkrmjv81l6612t.apps.googleusercontent.com"
-              render={(renderProps) => (
-                <button
-                  className="btn btn-primary"
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                >
-                  <Icon />
-                  Google Sign In
-                </button>
-              )}
-              onSuccess={googleSuccess}
-              onFailure={googleError}
-              cookiePolicy="single_host_origin"
-            />
           </form>
           <button onClick={switchMode} className="ms-auto btn">
             {isSignup

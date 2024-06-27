@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
 
 const TaskPreview = ({ task, project }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [doorOpen, setDoorOpen] = useState(false);
 
   const statusIcon = () => {
@@ -132,16 +132,20 @@ const TaskPreview = ({ task, project }) => {
         <div className="d-flex justify-content-between align-items-center">
           <p style={{ fontWeight: "bold", color: "blue" }}>
             {task.dueDate && (
-              <small>Expires {moment(task.dueDate).fromNow()}</small>
+              <small>
+                Expires{" "}
+                {formatDistanceToNow(new Date(task.dueDate), {
+                  addSuffix: true,
+                })}
+              </small>
             )}
           </p>
           <span
             onMouseEnter={() => setDoorOpen(!doorOpen)}
             onMouseLeave={() => setDoorOpen(!doorOpen)}
             onClick={() => {
-              history.push({
-                pathname: `/view/project/${project._id}/task/${task._id}`,
-                state: { task: task, project: project },
+              navigate(`/view/project/${project._id}/task/${task._id}`, {
+                state: { task, project },
               });
             }}
           >
@@ -172,7 +176,8 @@ const TaskPreview = ({ task, project }) => {
         </div>
         <div>
           <small className="text-muted">
-            Created by: {task.name}, {moment(task.createdAt).fromNow()}
+            Created by: {task.name},{" "}
+            {formatDistanceToNow(new Date(task.createdAt), { addSuffix: true })}
           </small>
         </div>
       </div>

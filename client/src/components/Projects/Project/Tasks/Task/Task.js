@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import FileBase from "react-file-base64";
-import DayPickerInput from "react-day-picker/DayPickerInput";
-import moment from "moment";
-import "react-day-picker/lib/style.css";
-
-import { formatDate, parseDate } from "react-day-picker/moment";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format, formatDistanceToNow } from "date-fns";
 
 import SubTasks from "./SubTasks/SubTasks.js";
 import { deleteTask, updateTask } from "../../../../../actions/tasks";
@@ -18,7 +16,7 @@ const Task = () => {
   let { projectId } = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const subtasks = useSelector((state) => state.subtasks);
   const users = useSelector((state) => state.users);
 
@@ -62,7 +60,9 @@ const Task = () => {
     dispatch(updateTask(taskId, { ...taskData, name: user?.result?.name }));
     document.getElementById("taskForm").disabled = true;
     document.getElementById("saveButton").classList.add("disabled");
-    history.replace({ state: { task: taskData, project: projectData } });
+    navigate(`/view/project/${projectId}`, {
+      state: { task: taskData, project: projectData },
+    });
   };
 
   const handleDelete = () => {
@@ -70,8 +70,7 @@ const Task = () => {
       alert("Cannot delete a Task with active subtasks");
     } else {
       dispatch(deleteTask(taskId));
-      history.push({
-        pathname: `/view/project/${projectId}`,
+      navigate(`/view/project/${projectId}`, {
         state: { project: location.state.project },
       });
     }
@@ -97,7 +96,6 @@ const Task = () => {
   };
 
   const addFile = (file) => {
-    //weird but it works... shouldn't work only with setTaskData??
     taskData.attachedFiles.push(file);
   };
 
@@ -111,12 +109,11 @@ const Task = () => {
     );
   };
 
-  const handleDayChange = (dueDate, modifiers, dayPickerInput) => {
-    const input = dayPickerInput.getInput();
-    setTaskData({ ...taskData, dueDate: dueDate });
-    dispatch(updateTask(taskId, { ...taskData, dueDate: dueDate }));
-    setIsEmpty(!input.value.trim());
-    setIsDisabled(modifiers.disabled === true);
+  const handleDateChange = (date) => {
+    setTaskData({ ...taskData, dueDate: date });
+    dispatch(updateTask(taskId, { ...taskData, dueDate: date }));
+    setIsEmpty(!date);
+    setIsDisabled(date && date < new Date());
   };
 
   const setSearchParameter = (e) => {
@@ -132,9 +129,8 @@ const Task = () => {
     dispatch(updateProject(projectId, { ...projectData, users: email }));
   };
 
-  const removeAlloweduser = (email) => {
+  const removeAllowedUser = (email) => {
     const list = taskData.allowedUsers;
-    console.log(list.length);
     if (list.length === 1) {
       alert(
         "Cannot remove last user, there must always be at least one user invited"
@@ -228,21 +224,12 @@ const Task = () => {
               {taskData.name === user?.result?.name ? (
                 <div className="d-flex flex-wrap justify-content-between">
                   <div className="shadow">
-                    <DayPickerInput
-                      onDayChange={handleDayChange}
-                      formatDate={formatDate}
-                      parseDate={parseDate}
-                      placeholder={
-                        !taskData.dueDate
-                          ? " Set a Due Date"
-                          : `${formatDate(taskData.dueDate)}`
-                      }
-                      dayPickerProps={{
-                        selectedDays: taskData.dueDate,
-                        disabledDays: {
-                          before: new Date(),
-                        },
-                      }}
+                    <DatePicker
+                      selected={taskData.dueDate}
+                      onChange={handleDateChange}
+                      dateFormat="MM/dd/yyyy"
+                      placeholderText="Set a Due Date"
+                      minDate={new Date()}
                     />
                   </div>
                   <span className="mx-2">
@@ -252,13 +239,18 @@ const Task = () => {
                       "This day can't be selected"}
                   </span>
                   {taskData.dueDate && (
-                    <span>Expires {moment(taskData.dueDate).fromNow()}</span>
+                    <span>
+                      Expires{" "}
+                      {formatDistanceToNow(new Date(taskData.dueDate), {
+                        addSuffix: true,
+                      })}
+                    </span>
                   )}
                 </div>
               ) : (
                 <span>
                   {taskData.dueDate
-                    ? ` is ${formatDate(taskData.dueDate)}`
+                    ? ` is ${format(new Date(taskData.dueDate), "MM/dd/yyyy")}`
                     : " is not defined yet"}
                 </span>
               )}
@@ -337,8 +329,7 @@ const Task = () => {
               <button
                 className="btn btn-secondary shadow ms-3"
                 onClick={() => {
-                  history.push({
-                    pathname: `/view/project/${projectId}`,
+                  navigate(`/view/project/${projectId}`, {
                     state: { project: location.state.project },
                   });
                 }}
@@ -458,7 +449,7 @@ const Task = () => {
                       className="bi bi-person-x-fill text-danger"
                       viewBox="0 0 16 16"
                       onClick={() => {
-                        removeAlloweduser(agent);
+                        removeAllowedUser(agent);
                       }}
                     >
                       <path

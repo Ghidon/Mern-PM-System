@@ -1,10 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
 import mindBlowImage from "../../../images/mind-blowing.jpg";
 
 const ProjectPreview = ({ project }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const initials = project.name
     ?.split(" ")
@@ -37,7 +37,10 @@ const ProjectPreview = ({ project }) => {
         <h5>{project.title}</h5>
         <p>
           <small className="text-muted">
-            Created by: {project.name}, {moment(project.createdAt).fromNow()}
+            Created by: {project.name},{" "}
+            {formatDistanceToNow(new Date(project.createdAt), {
+              addSuffix: true,
+            })}
           </small>
         </p>
         <p>{project.description}</p>
@@ -46,10 +49,7 @@ const ProjectPreview = ({ project }) => {
         <button
           className="btn btn-primary shadow"
           onClick={() => {
-            history.push({
-              pathname: `/view/project/${project._id}`,
-              state: { project },
-            });
+            navigate(`/view/project/${project._id}`, { state: { project } });
           }}
         >
           View Project

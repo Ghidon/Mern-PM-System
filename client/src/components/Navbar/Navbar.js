@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
-import decode from "jwt-decode";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 import * as actionType from "../../constants/actionTypes";
 
@@ -10,20 +10,20 @@ const Navbar = () => {
     JSON.parse(localStorage.getItem("profile"))
   );
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = useCallback(() => {
     dispatch({ type: actionType.LOGOUT });
-    history.push("/auth");
+    navigate("/auth");
     setUser(null);
-  }, [dispatch, history]);
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     const token = user?.token;
 
     if (token) {
-      const decodedToken = decode(token);
+      const decodedToken = jwtDecode(token);
 
       if (decodedToken.exp * 1000 < Date.now()) {
         handleLogout();

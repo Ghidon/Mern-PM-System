@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import FileBase from "react-file-base64";
 
 import Tasks from "./Tasks/Tasks.js";
@@ -12,7 +12,7 @@ const Project = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useHistory();
+  const history = useNavigate();
 
   const tasks = useSelector((state) => state.tasks);
   const projectTasks = tasks.filter((task) => task.projectId === projectId);

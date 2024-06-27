@@ -1,9 +1,9 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MindBlowing from "../../../images/mind-blowing.jpg";
 
 function MockupProjectPreview() {
-  const { push } = useHistory();
+  const { push } = useNavigate();
 
   return (
     <div className="card" style={{ width: "15rem" }}>

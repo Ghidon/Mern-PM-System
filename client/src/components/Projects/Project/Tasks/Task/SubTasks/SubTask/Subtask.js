@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import moment from "moment";
+import { formatDistanceToNow } from "date-fns";
 
 import {
   deleteSubTask,
@@ -20,10 +20,9 @@ const Subtask = ({ subtask }) => {
   };
 
   const saveNewDescription = () => {
-    editMode &&
-      dispatch(
-        updateSubTask(subtask._id, { ...subtask, description: description })
-      );
+    if (editMode) {
+      dispatch(updateSubTask(subtask._id, { ...subtask, description }));
+    }
     setEditMode(!editMode);
   };
 
@@ -92,19 +91,8 @@ const Subtask = ({ subtask }) => {
     }
   };
 
-  // const priorityBG = () => {
-  //   if (subtask.priority === "Low") {
-  //     return "card-header d-flex justify-content-between align-items-center";
-  //   } else if (subtask.priority === "Medium") {
-  //     return "card-header d-flex justify-content-between align-items-center bg-warning bg-opacity-25";
-  //   } else if (subtask.priority === "High") {
-  //     return "card-header d-flex justify-content-between align-items-center bg-danger bg-opacity-50";
-  //   }
-  // };
-
   return (
     <div className="card col-12 shadow">
-      {/* <h5 className={priorityBG()}> */}
       <h5 className="card-header d-flex justify-content-between align-items-center">
         {subtask.title}
 
@@ -136,7 +124,7 @@ const Subtask = ({ subtask }) => {
         {!editMode ? (
           <p className="card-text">{subtask.description}</p>
         ) : (
-          <div class="input-group mb-3">
+          <div className="input-group mb-3">
             <textarea
               type="text"
               className="form-control"
@@ -147,17 +135,12 @@ const Subtask = ({ subtask }) => {
           </div>
         )}
 
-        {/* <div className="d-flex justify-content-between align-items-center">
-          <p style={{ fontWeight: "bold", color: "blue" }}>
-            {subtask.dueDate && (
-              <small>Expires {moment(subtask.dueDate).fromNow()}</small>
-            )}
-          </p>
-        </div> */}
-
         <div className="d-flex justify-content-between">
           <small className="text-muted">
-            Created by: {subtask.name}, {moment(subtask.createdAt).fromNow()}
+            Created by: {subtask.name},{" "}
+            {formatDistanceToNow(new Date(subtask.createdAt), {
+              addSuffix: true,
+            })}
           </small>
           <div>
             <span

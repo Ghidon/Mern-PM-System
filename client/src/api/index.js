@@ -12,7 +12,7 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-//Projects requests
+// Projects requests
 export const fetchProjects = () => API.get("/projects");
 export const createProject = (newProject) => API.post("/projects", newProject);
 export const updateProject = (id, updatedProject) =>
@@ -20,7 +20,7 @@ export const updateProject = (id, updatedProject) =>
 export const getProject = (id) => API.get(`/projects/${id}`);
 export const deleteProject = (id) => API.delete(`/projects/${id}`);
 
-//Tasks requests
+// Tasks requests
 export const fetchTasks = () => API.get("/tasks");
 export const createTask = (newTask) => API.post("/tasks", newTask);
 export const updateTask = (id, updatedTask) =>
@@ -28,7 +28,7 @@ export const updateTask = (id, updatedTask) =>
 export const getTask = (id) => API.get(`/tasks/${id}`);
 export const deleteTask = (id) => API.delete(`/tasks/${id}`);
 
-//Subtasks requests
+// Subtasks requests
 export const fetchSubTasks = () => API.get("/subtasks");
 export const createSubTask = (newSubTask) => API.post("/subtasks", newSubTask);
 export const updateSubTask = (id, updatedSubTask) =>
@@ -36,11 +36,12 @@ export const updateSubTask = (id, updatedSubTask) =>
 export const getSubTask = (id) => API.get(`/subtasks/${id}`);
 export const deleteSubTask = (id) => API.delete(`/subtasks/${id}`);
 
-//User requests
+// User requests
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
 
-export const googleSignUp = (result) => API.post("/user/googlesignup", result);
+export const googleSignUp = (token) =>
+  API.post("/user/googleSignIn", { token });
 
 export const fetchUsers = () => API.get("/user");
 export const updateUser = (id, updatedUser) =>
